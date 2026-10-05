@@ -1,0 +1,4579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Shift The Stay</title>
+
+<style>
+:root{
+  --green:#3d5630;
+  --green2:#2e4126;
+  --dark:#182217;
+  --mint:#c7dc9e;
+  --cream:#f6f3e9;
+  --card:#d6e0e8;
+  --ink:#111;
+}
+
+*{
+  box-sizing:border-box
+}
+
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:var(--green);
+  color:#fff
+}
+
+button,
+input,
+select{
+  font:inherit
+}
+
+.hidden{
+  display:none!important
+}
+
+/* =========================
+   HERO
+========================= */
+
+.hero{
+  min-height:100vh;
+  display:grid;
+  grid-template-columns:1.03fr .97fr;
+  background:var(--green)
+}
+
+.hero-left{
+  padding:52px 6%;
+  position:relative;
+  min-height:100vh
+}
+
+.title{
+  font:400 clamp(55px,7vw,105px)/.95 Georgia,serif;
+  margin:0
+}
+
+.green-word{
+  color:#b4cd8c
+}
+
+.search-position{
+  margin-top:80px;
+  position:relative;
+  width:min(720px,100%)
+}
+
+.search-wrap{
+  display:flex;
+  background:#fff;
+  border-radius:50px;
+  overflow:hidden;
+  height:62px
+}
+
+.search-wrap input{
+  flex:1;
+  border:0;
+  outline:0;
+  padding:0 18px;
+  font-size:18px
+}
+
+.search-btn{
+  border:0;
+  background:var(--dark);
+  color:#fff;
+  padding:0 25px;
+  cursor:pointer
+}
+
+.search-icon-box{
+  width:62px;
+  display:grid;
+  place-items:center
+}
+
+.search-icon{
+  width:19px;
+  height:19px;
+  border:3px solid #222;
+  border-radius:50%;
+  position:relative
+}
+
+.search-icon:after{
+  content:"";
+  position:absolute;
+  width:9px;
+  height:3px;
+  background:#222;
+  right:-7px;
+  bottom:-4px;
+  transform:rotate(45deg)
+}
+
+.suggestions{
+  position:absolute;
+  top:70px;
+  left:0;
+  right:0;
+  background:#fff;
+  color:#111;
+  border-radius:18px;
+  overflow:hidden;
+  z-index:20;
+  box-shadow:0 15px 35px #0005
+}
+
+.suggestion{
+  display:block;
+  width:100%;
+  padding:14px 18px;
+  border:0;
+  background:#fff;
+  text-align:left;
+  cursor:pointer
+}
+
+.suggestion:hover{
+  background:#eef3e5
+}
+
+.brand-block{
+  position:absolute;
+  left:6%;
+  right:6%;
+  bottom:55px;
+  display:flex;
+  align-items:flex-end;
+  gap:28px
+}
+
+.hero-logo{
+  width:125px;
+  height:137px;
+  object-fit:cover;
+  border-radius:28px
+}
+
+.tagline{
+  font-size:22px;
+  line-height:1.4;
+  font-weight:600;
+  margin:0
+}
+
+.finder-btn,
+.back,
+.bag-btn{
+  border:1px solid var(--mint);
+  background:transparent;
+  color:var(--mint);
+  border-radius:28px;
+  padding:11px 19px;
+  cursor:pointer
+}
+
+.finder-btn{
+  margin-top:15px
+}
+
+.hero-photo{
+  margin:26px 26px 26px 0;
+  border-radius:24px;
+  background:none;
+  min-height:calc(100vh - 52px)
+}
+
+/* =========================
+   COMMON VIEWS
+========================= */
+
+.view{
+  min-height:100vh;
+  padding:32px 5% 80px;
+  background:var(--green)
+}
+
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:18px;
+  margin-bottom:28px
+}
+
+.topbar-right{
+  display:flex;
+  gap:10px;
+  align-items:center
+}
+
+.view-title{
+  margin:0;
+  font:400 clamp(42px,5vw,72px)/1 Georgia,serif
+}
+
+/* =========================
+   FILTERS
+========================= */
+
+.filters{
+  background:var(--green2);
+  border:1px solid #7f9663;
+  border-radius:22px;
+  padding:16px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  align-items:center;
+  margin-bottom:28px
+}
+
+.filter-label{
+  font-weight:700
+}
+
+.seg{
+  display:flex;
+  background:#1f2b1a;
+  border-radius:30px;
+  padding:4px;
+  gap:4px
+}
+
+.seg button{
+  border:0;
+  background:transparent;
+  color:#fff;
+  padding:9px 15px;
+  border-radius:22px;
+  cursor:pointer
+}
+
+.seg button.active{
+  background:var(--mint);
+  color:#16200f;
+  font-weight:700
+}
+
+/* =========================
+   SORT CONTROL
+========================= */
+
+.sort-control{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-left:auto
+}
+
+.sort-control select{
+  border:1px solid #94ab78;
+  border-radius:24px;
+  padding:10px 38px 10px 15px;
+  background:#f5f5ef;
+  color:#16200f;
+  cursor:pointer;
+  outline:none;
+  font-weight:600
+}
+
+/* =========================
+   LISTING CARDS
+========================= */
+
+.listing-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:28px
+}
+
+.card{
+  background:var(--mint);
+  color:#111;
+  border-radius:24px;
+  overflow:hidden;
+  box-shadow:0 12px 25px #0003;
+  transition:.2s;
+  cursor:pointer
+}
+
+.card:hover{
+  transform:translateY(-5px)
+}
+
+.card-image{
+  height:220px;
+  width:100%;
+  object-fit:cover;
+  display:block
+}
+
+.card-body{
+  padding:18px
+}
+
+.badge,
+.distance{
+  display:inline-block;
+  background:#e3e3e3;
+  border-radius:20px;
+  padding:7px 12px;
+  font-size:12px
+}
+
+.card h3{
+  font:400 29px/1 Georgia,serif;
+  margin:10px 0
+}
+
+.address{
+  margin:12px 0;
+  font:17px/1.35 Georgia,serif
+}
+
+.chips{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px
+}
+
+.chip{
+  background:#b7c8aa;
+  border-radius:20px;
+  padding:7px 11px;
+  font-size:12px
+}
+
+/* =========================
+   PRICE
+========================= */
+
+.price-box{
+  margin-top:18px;
+  padding-top:14px;
+  border-top:1px solid #8fa67b;
+  display:block;
+}
+
+.price-label{
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:.8px;
+  opacity:.75;
+}
+
+.price{
+  font-size:24px;
+  font-weight:800;
+  margin-top:4px;
+}
+
+.price span{
+  font-size:13px;
+  font-weight:500;
+}
+
+.availability{
+  margin-top:10px;
+  font-size:13px;
+  font-weight:700;
+}
+
+.price-label{
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:.8px;
+  opacity:.75
+}
+
+.price{
+  font-size:24px;
+  font-weight:800;
+  margin-top:3px
+}
+
+.price span{
+  font-size:13px;
+  font-weight:500
+}
+
+.availability{
+  margin-top:10px;
+  font-size:13px;
+  font-weight:700
+}
+
+/* =========================
+   FULLY BOOKED
+========================= */
+
+.booked-card{
+  opacity:.86;
+  position:relative
+}
+
+.booked-card:hover{
+  transform:translateY(-3px)
+}
+
+.booked-banner{
+  background:#6b332f;
+  color:#fff;
+  padding:11px 14px;
+  font-size:13px;
+  font-weight:700;
+  text-align:center
+}
+
+.booked-card .price-box{
+  border-top-color:#9b9b9b
+}
+
+/* =========================
+   EMPTY / LOADER
+========================= */
+
+.empty{
+  padding:45px;
+  text-align:center;
+  border:1px dashed #a9c18a;
+  border-radius:20px
+}
+
+.loader{
+  text-align:center;
+  padding:35px
+}
+
+/* =========================
+   ROOMMATE
+========================= */
+
+.roommate{
+  min-height:100vh;
+  padding:32px 6% 80px;
+  background:var(--green)
+}
+
+.form-shell{
+  max-width:980px;
+  background:#2f4227;
+  border:1px solid #78915b;
+  border-radius:26px;
+  padding:28px
+}
+
+.form-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:18px
+}
+
+.field{
+  display:flex;
+  flex-direction:column;
+  gap:7px
+}
+
+.field.full{
+  grid-column:1/-1
+}
+
+.field input,
+.field select{
+  border:1px solid #94ab78;
+  border-radius:12px;
+  padding:12px;
+  background:#f5f5ef;
+  color:#111
+}
+
+.submit{
+  border:0;
+  background:var(--mint);
+  color:#16200f;
+  border-radius:25px;
+  padding:13px 22px;
+  font-weight:700;
+  cursor:pointer
+}
+
+.match-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+  margin-top:20px
+}
+
+.match-card{
+  background:var(--mint);
+  color:#111;
+  border-radius:20px;
+  padding:20px
+}
+
+.score{
+  font-size:30px;
+  font-weight:800
+}
+
+.match-meta{
+  line-height:1.55;
+  margin-top:8px
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+.footer{
+  background:#111;
+  color:#fff;
+  padding:55px 6% 35px
+}
+
+.footer-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:45px
+}
+
+.footer h3{
+  font:600 20px Georgia,serif
+}
+
+.about{
+  line-height:1.6
+}
+
+.socials{
+  display:flex;
+  gap:14px
+}
+
+.social-link img{
+  width:55px;
+  height:55px
+}
+
+.accommodation{
+  display:flex;
+  flex-direction:column;
+  gap:18px
+}
+
+.accommodation a{
+  color:#fff;
+  text-decoration:none
+}
+
+.coming-soon{
+  display:block;
+  color:var(--mint);
+  font-size:11px;
+  margin-top:4px
+}
+
+.copyright{
+  text-align:center;
+  margin-top:35px;
+  font-size:13px
+}
+
+.brand{
+  display:flex;
+  justify-content:center;
+  gap:8px;
+  align-items:center;
+  margin-bottom:5px
+}
+
+.brand img{
+  width:26px;
+  height:26px;
+  border-radius:50%
+}
+
+/* =========================
+   TOAST
+========================= */
+
+.toast{
+  position:fixed;
+  left:50%;
+  bottom:22px;
+  transform:translate(-50%,20px);
+  background:#fff;
+  color:#111;
+  padding:12px 18px;
+  border-radius:24px;
+  box-shadow:0 8px 30px #0006;
+  opacity:0;
+  pointer-events:none;
+  transition:.25s;
+  z-index:100
+}
+
+.toast.show{
+  opacity:1;
+  transform:translate(-50%,0)
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:900px){
+
+  .hero{
+    grid-template-columns:1fr
+  }
+
+  .hero-photo{
+    height:420px;
+    min-height:420px;
+    margin:0 20px 20px
+  }
+
+  .hero-left{
+    min-height:760px
+  }
+
+  .listing-grid,
+  .match-grid,
+  .footer-grid{
+    grid-template-columns:1fr
+  }
+
+  .form-grid{
+    grid-template-columns:1fr
+  }
+
+  .field.full{
+    grid-column:auto
+  }
+
+  .brand-block{
+    left:20px;
+    right:20px
+  }
+
+  .sort-control{
+    width:100%;
+    margin-left:0
+  }
+
+  .sort-control select{
+    flex:1
+  }
+}
+</style>
+
+<style id="sts-sage-luxe">
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+:root{
+  --sage:#dce5d2;
+  --sage2:#cbd8c0;
+  --sage3:#aebfa0;
+  --forest:#26372b;
+  --forest2:#18251c;
+  --paper:#f7f5ee;
+  --paper2:#eef1e8;
+  --line:rgba(38,55,43,.13);
+  --muted:rgba(38,55,43,.62);
+  --accent:#9caf87;
+  --shadow:0 26px 70px rgba(38,55,43,.12);
+  --radius-xl:38px;
+  --radius-lg:28px;
+}
+html{scroll-behavior:smooth}
+body{
+  background:
+    radial-gradient(circle at 8% 4%,rgba(255,255,255,.72),transparent 28%),
+    radial-gradient(circle at 90% 18%,rgba(173,194,156,.22),transparent 25%),
+    linear-gradient(180deg,#e5ecde 0%,#dce5d2 48%,#edf0e7 100%);
+  color:var(--forest);
+  font-family:"DM Sans",system-ui,sans-serif;
+  overflow-x:hidden;
+}
+body:before{
+  content:"SHIFT THE STAY";
+  position:fixed;left:28px;top:24px;z-index:160;
+  font:700 15px/1 "Space Grotesk",sans-serif;letter-spacing:-.04em;
+  color:var(--forest);pointer-events:none;
+}
+body:after{
+  content:"STUDENT LIVING / INDIA";
+  position:fixed;left:30px;bottom:25px;z-index:160;
+  font:700 9px/1 "Space Grotesk",sans-serif;letter-spacing:.18em;
+  color:rgba(38,55,43,.5);pointer-events:none;
+}
+#authButton{
+  position:fixed!important;top:16px!important;right:22px!important;z-index:200!important;
+  padding:11px 18px!important;border:1px solid rgba(38,55,43,.16)!important;
+  border-radius:999px!important;background:rgba(247,245,238,.74)!important;
+  color:var(--forest)!important;font-family:"DM Sans",sans-serif!important;
+  font-size:13px!important;font-weight:700!important;backdrop-filter:blur(16px);
+  box-shadow:0 10px 30px rgba(38,55,43,.08);transition:.35s cubic-bezier(.2,.8,.2,1)!important;
+}
+#authButton:hover{transform:translateY(-2px);background:var(--forest)!important;color:#fff!important;box-shadow:0 16px 34px rgba(38,55,43,.16)}
+.hidden{display:none!important}
+.hero{
+  min-height:100svh;display:grid;grid-template-columns:1.12fr .88fr;gap:24px;
+  padding:120px 34px 38px;position:relative;isolation:isolate;background:transparent;
+}
+.hero:before{
+  content:"";position:absolute;inset:0;z-index:-2;opacity:.38;pointer-events:none;
+  background-image:linear-gradient(rgba(38,55,43,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(38,55,43,.055) 1px,transparent 1px);
+  background-size:84px 84px;mask-image:linear-gradient(to bottom,black,transparent 88%);
+}
+.hero-left{padding:28px 4.5% 42px;position:relative;min-height:calc(100svh - 158px);display:flex;flex-direction:column;justify-content:center}
+.hero-left:after{
+  content:"";position:absolute;width:270px;height:270px;border-radius:50%;right:7%;bottom:2%;
+  background:rgba(174,191,160,.23);filter:blur(5px);z-index:-1;animation:sageFloat 9s ease-in-out infinite alternate;
+}
+.title{
+  font:700 clamp(4.2rem,8.7vw,9.8rem)/.84 "Space Grotesk",sans-serif;
+  letter-spacing:-.085em;margin:0;max-width:950px;color:var(--forest);text-wrap:balance;
+}
+.title:after{content:".";color:var(--accent)}
+.green-word{color:var(--forest)}
+.search-position{margin-top:44px;position:relative;width:min(720px,100%);z-index:20}
+.search-position:before{content:"FIND YOUR CAMPUS";display:block;margin:0 0 10px 4px;font:700 10px/1 "Space Grotesk";letter-spacing:.16em;color:rgba(38,55,43,.5)}
+.search-wrap{
+  display:flex;background:var(--paper);border:1px solid rgba(38,55,43,.12);border-radius:999px;overflow:hidden;height:68px;
+  box-shadow:0 20px 55px rgba(38,55,43,.11);transition:transform .45s cubic-bezier(.2,.8,.2,1),box-shadow .45s ease;
+}
+.search-wrap:focus-within{transform:translateY(-3px);box-shadow:0 26px 60px rgba(38,55,43,.16)}
+.search-wrap input{flex:1;border:0;outline:0;padding:0 18px;font-size:16px;background:transparent;color:var(--forest);min-width:0}
+.search-wrap input::placeholder{color:rgba(38,55,43,.48)}
+.search-btn{border:0;background:var(--forest);color:#fff;padding:0 27px;cursor:pointer;border-radius:999px;margin:6px;min-width:92px;font-weight:700;transition:.35s cubic-bezier(.2,.8,.2,1)}
+.search-btn:hover{background:#344a39;transform:translateY(-1px) scale(1.02)}
+.search-icon-box{width:58px;display:grid;place-items:center}
+.search-icon{width:17px;height:17px;border:2px solid var(--forest);border-radius:50%;position:relative;opacity:.65}
+.search-icon:after{content:"";position:absolute;width:8px;height:2px;background:var(--forest);right:-6px;bottom:-3px;transform:rotate(45deg)}
+.suggestions{top:78px;left:0;right:0;background:rgba(247,245,238,.96);color:var(--forest);border:1px solid var(--line);border-radius:22px;overflow:hidden;z-index:30;box-shadow:var(--shadow);backdrop-filter:blur(18px);padding:6px}
+.suggestion{display:block;width:100%;padding:13px 15px;border:0;border-radius:16px;background:transparent;text-align:left;cursor:pointer;color:var(--forest);transition:.25s ease}
+.suggestion:hover{background:var(--sage)}
+.brand-block{position:relative;left:auto;right:auto;bottom:auto;margin-top:32px;display:flex;align-items:center;gap:20px}
+.hero-logo{width:78px;height:78px;object-fit:cover;border-radius:24px;box-shadow:0 15px 35px rgba(38,55,43,.12);transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+.brand-block:hover .hero-logo{transform:rotate(-4deg) scale(1.04)}
+.tagline{font-size:17px;line-height:1.42;font-weight:600;margin:0;color:var(--forest)}
+.finder-btn,.back,.bag-btn{border:1px solid rgba(38,55,43,.16);background:rgba(247,245,238,.56);color:var(--forest);border-radius:999px;padding:10px 17px;cursor:pointer;transition:.35s cubic-bezier(.2,.8,.2,1);backdrop-filter:blur(10px)}
+.finder-btn{margin-top:10px;font-weight:700}
+.finder-btn:hover,.back:hover,.bag-btn:hover{transform:translateY(-2px);background:var(--forest);color:#fff;box-shadow:0 12px 25px rgba(38,55,43,.13)}
+.hero-photo{
+  margin:0 18px 0 0;border-radius:var(--radius-xl);min-height:calc(100svh - 158px);position:relative;overflow:hidden;isolation:isolate;
+  background:none;box-shadow:var(--shadow);transform:translateZ(0);transition:transform .7s cubic-bezier(.2,.8,.2,1);
+}
+.hero-photo:before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(38,55,43,.02),rgba(38,55,43,.34));z-index:0}
+.hero-photo:after{content:"ROOMS WITH A FEELING";position:absolute;left:22px;bottom:20px;color:#fff;font:700 10px/1 "Space Grotesk";letter-spacing:.16em;padding:10px 13px;border:1px solid rgba(255,255,255,.35);border-radius:999px;background:rgba(38,55,43,.2);backdrop-filter:blur(8px);z-index:2}
+.hero-photo{clip-path:inset(0 round 38px)}
+.hero-photo:hover{transform:translateY(-5px) scale(1.006)}
+.hero-photo .floating-sage{position:absolute}
+.hero-photo{animation:heroIn 1s cubic-bezier(.2,.8,.2,1) both}
+.hero:after{content:"SCROLL TO EXPLORE ↓";position:absolute;right:48%;bottom:28px;font:700 9px/1 "Space Grotesk";letter-spacing:.18em;color:rgba(38,55,43,.42);animation:softPulse 2.5s ease-in-out infinite}
+.sts-marquee{margin:0 34px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;padding:17px 0;background:rgba(247,245,238,.26)}
+.sts-marquee-track{display:flex;width:max-content;gap:22px;animation:marquee 24s linear infinite}
+.sts-marquee-item{display:flex;align-items:center;gap:22px;white-space:nowrap;font:700 clamp(1rem,1.8vw,1.35rem)/1 "Space Grotesk";letter-spacing:-.03em;color:var(--forest)}
+.sts-dot{width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 6px rgba(156,175,135,.14)}
+.view{min-height:100vh;padding:110px 5% 90px;background:transparent;color:var(--forest)}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:18px;margin-bottom:28px}
+.view-title{margin:0;font:700 clamp(3rem,6vw,6.8rem)/.88 "Space Grotesk";letter-spacing:-.075em;color:var(--forest)}
+.filters{background:rgba(247,245,238,.72);border:1px solid var(--line);border-radius:24px;padding:13px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:26px;box-shadow:0 14px 35px rgba(38,55,43,.06);backdrop-filter:blur(12px)}
+.filter-label{font-weight:700;color:rgba(38,55,43,.58);font-size:12px;letter-spacing:.05em}
+.seg{display:flex;background:rgba(38,55,43,.07);border-radius:999px;padding:4px;gap:3px}
+.seg button{border:0;background:transparent;color:var(--forest);padding:9px 14px;border-radius:999px;cursor:pointer;transition:.3s ease;font-weight:600}
+.seg button.active{background:var(--forest);color:#fff;box-shadow:0 7px 16px rgba(38,55,43,.13)}
+.sort-control select{border:1px solid var(--line);background:var(--paper);color:var(--forest);border-radius:999px;padding:9px 13px;outline:0}
+.listing-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.card{background:rgba(247,245,238,.86)!important;color:var(--forest)!important;border:1px solid var(--line)!important;border-radius:28px!important;box-shadow:0 18px 45px rgba(38,55,43,.07)!important;overflow:hidden;transition:transform .55s cubic-bezier(.2,.8,.2,1),box-shadow .55s ease,border-color .35s ease!important}
+.card:hover{transform:translateY(-8px)!important;box-shadow:0 28px 60px rgba(38,55,43,.13)!important;border-color:rgba(156,175,135,.65)!important}
+.card img{transition:transform .8s cubic-bezier(.2,.8,.2,1)}
+.card:hover img{transform:scale(1.045)}
+.card h3,.card .name{font-family:"Space Grotesk",sans-serif!important;letter-spacing:-.045em}
+.card .price,.card .starting-price{color:var(--forest)!important}
+.primary{background:var(--forest)!important;color:#fff!important;border:0!important;border-radius:999px!important;box-shadow:none!important;transition:.35s cubic-bezier(.2,.8,.2,1)!important}
+.primary:hover{transform:translateY(-2px)!important;box-shadow:0 13px 28px rgba(38,55,43,.16)!important}
+.roommate{min-height:100vh;padding:110px 5% 90px;background:transparent;color:var(--forest)}
+.footer{background:var(--forest)!important;color:#f7f5ee!important;padding:65px 6% 38px}
+.footer h3{font-family:"Space Grotesk",sans-serif!important}
+.accommodation a{color:#f7f5ee!important}.coming-soon{color:var(--sage2)!important}
+.toast{background:var(--paper)!important;color:var(--forest)!important;box-shadow:0 18px 45px rgba(38,55,43,.18)!important;border:1px solid var(--line)}
+/* smooth entry states */
+.hero-left>*{animation:rise .85s cubic-bezier(.2,.8,.2,1) both}.hero-left .search-position{animation-delay:.12s}.hero-left .brand-block{animation-delay:.22s}
+@keyframes rise{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+@keyframes heroIn{from{opacity:0;transform:scale(1.035) translateY(18px)}to{opacity:1;transform:none}}
+@keyframes sageFloat{from{transform:translate3d(-5px,8px,0)}to{transform:translate3d(18px,-12px,0)}}
+@keyframes softPulse{0%,100%{opacity:.38;transform:translateY(0)}50%{opacity:.8;transform:translateY(-4px)}}
+@keyframes marquee{to{transform:translateX(-50%)}}
+@media(max-width:980px){
+  body:before{left:18px;top:18px}.hero{grid-template-columns:1fr;padding:108px 20px 24px}.hero-left{padding:28px 2% 36px;min-height:auto}.hero-photo{min-height:480px;margin:0}.hero:after{right:30px}.listing-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.sts-marquee{margin:0 20px}
+}
+@media(max-width:620px){
+  body:after{display:none}#authButton{right:14px!important;top:12px!important}.hero{padding:94px 14px 18px}.title{font-size:clamp(4rem,18vw,6.2rem)}.search-wrap{height:62px}.search-btn{min-width:78px;padding:0 17px}.hero-photo{min-height:390px;border-radius:28px}.hero:after{display:none}.brand-block{align-items:flex-start}.hero-logo{width:64px;height:64px;border-radius:20px}.tagline{font-size:15px}.listing-grid{grid-template-columns:1fr}.view,.roommate{padding:94px 18px 70px}.view-title{font-size:3.6rem}.topbar{align-items:flex-start}.topbar-right{flex-wrap:wrap;justify-content:flex-end}.filters{border-radius:20px}.seg{overflow:auto;max-width:100%}.sort-control{width:100%}.sort-control select{width:100%}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}}
+</style>
+
+<style id="sts-award-v5">
+:root{
+  --luxe-sage:#dfe8d7;
+  --luxe-sage-deep:#aebea0;
+  --luxe-forest:#213228;
+  --luxe-forest-2:#17241c;
+  --luxe-paper:#fbfaf4;
+  --luxe-ink:#1c2b22;
+  --luxe-line:rgba(33,50,40,.12);
+  --luxe-shadow:0 28px 90px rgba(33,50,40,.12);
+  --luxe-ease:cubic-bezier(.2,.8,.2,1);
+}
+html{scroll-padding-top:80px}
+body{
+  background:
+    radial-gradient(900px 600px at 7% 0%,rgba(255,255,255,.86),transparent 62%),
+    radial-gradient(720px 520px at 95% 11%,rgba(177,198,160,.33),transparent 62%),
+    radial-gradient(900px 700px at 58% 78%,rgba(255,255,255,.26),transparent 64%),
+    linear-gradient(135deg,#e8eee4 0%,#dce6d5 48%,#f2f2ea 100%);
+}
+body:has(#listingView:not(.hidden)) .sts-marquee,
+body:has(#roommateView:not(.hidden)) .sts-marquee,
+body:has(#listingView:not(.hidden)) .home-ecosystem,
+body:has(#roommateView:not(.hidden)) .home-ecosystem,
+body:has(#listingView:not(.hidden)) .footer,
+body:has(#roommateView:not(.hidden)) .footer{display:none}
+body:has(#listingView:not(.hidden)) .view,
+body:has(#roommateView:not(.hidden)) .roommate{padding-top:128px}
+
+.hero{
+  min-height:100svh!important;
+  grid-template-columns:minmax(0,1.1fr) minmax(390px,.9fr)!important;
+  padding:100px 28px 28px!important;
+  gap:20px!important;
+  overflow:clip;
+}
+.hero:before{
+  opacity:.5!important;
+  background-size:62px 62px!important;
+  mask-image:linear-gradient(to bottom,black 0%,rgba(0,0,0,.64) 54%,transparent 88%)!important;
+}
+.hero:after{content:"01 / 04  ·  DISCOVER YOUR STAY"!important;right:34px!important;bottom:24px!important;letter-spacing:.16em!important;animation:none!important}
+.hero-left{
+  min-height:calc(100svh - 128px)!important;
+  padding:28px 4.8% 38px!important;
+  justify-content:center!important;
+}
+.hero-left:before{
+  content:"STUDENT LIVING, RECOMPOSED";
+  position:absolute;left:4.8%;top:2px;
+  font:700 10px/1 "Space Grotesk",sans-serif;
+  letter-spacing:.18em;color:rgba(33,50,40,.44);
+}
+.title{
+  max-width:1000px!important;
+  font-size:clamp(4.8rem,9.2vw,10.4rem)!important;
+  line-height:.79!important;
+  letter-spacing:-.095em!important;
+  text-transform:none!important;
+  text-wrap:balance;
+}
+.title .green-word{position:relative}
+.title .green-word:after{
+  content:"";position:absolute;left:0;bottom:-.1em;width:72%;height:5px;border-radius:10px;
+  background:linear-gradient(90deg,var(--luxe-sage-deep),transparent);
+  transform-origin:left;animation:drawLine 1.35s .45s var(--luxe-ease) both;
+}
+.search-position{margin-top:48px!important;max-width:760px!important}
+.search-position:before{margin-bottom:12px!important;font-size:9px!important;letter-spacing:.21em!important}
+.search-wrap{
+  height:74px!important;
+  border-radius:24px!important;
+  background:rgba(251,250,244,.84)!important;
+  border:1px solid rgba(33,50,40,.14)!important;
+  box-shadow:0 24px 60px rgba(33,50,40,.12),0 1px 0 rgba(255,255,255,.8) inset!important;
+  backdrop-filter:blur(20px)!important;
+  padding-left:4px;
+}
+.search-wrap:focus-within{transform:translateY(-4px) scale(1.008)!important;box-shadow:0 32px 75px rgba(33,50,40,.17),0 1px 0 #fff inset!important}
+.search-icon-box{width:64px!important}
+.search-btn{min-width:100px!important;border-radius:18px!important;margin:6px!important;font-size:13px!important;letter-spacing:.02em;box-shadow:0 10px 22px rgba(33,50,40,.16)}
+.suggestions{top:84px!important;border-radius:24px!important;padding:8px!important}
+.suggestion{padding:14px 16px!important;border-radius:17px!important;font-size:14px!important}
+.brand-block{gap:18px!important;margin-top:30px!important}
+.hero-logo{width:72px!important;height:72px!important;border-radius:22px!important}
+.tagline{font-size:16px!important;line-height:1.4!important;letter-spacing:-.02em}
+.finder-btn{margin-top:11px!important;padding:10px 16px!important;font-size:12px!important;letter-spacing:.015em}
+.hero-photo{
+  margin:0!important;
+  min-height:calc(100svh - 128px)!important;
+  border-radius:42px!important;
+  box-shadow:0 34px 100px rgba(33,50,40,.18),0 0 0 1px rgba(255,255,255,.35) inset!important;
+  background-position:center!important;
+}
+.hero-photo:before{background:linear-gradient(180deg,rgba(21,35,26,.02) 0%,rgba(21,35,26,.08) 38%,rgba(21,35,26,.46) 100%)!important}
+.hero-photo:after{left:22px!important;bottom:22px!important;background:rgba(15,28,21,.22)!important;padding:10px 14px!important}
+.hero-photo:global{transform-style:preserve-3d}
+
+/* Floating glass index cards */
+.hero:has(.hero-photo):before{content:""}
+.luxe-orbit-a,.luxe-orbit-b{display:block;position:absolute;z-index:3;pointer-events:none}
+.luxe-orbit-a{width:170px;height:170px;border:1px solid rgba(33,50,40,.13);border-radius:50%;right:39%;top:20%;transform:rotate(-14deg)}
+.luxe-orbit-a:before,.luxe-orbit-a:after{content:"";position:absolute;border-radius:50%;background:var(--luxe-sage-deep)}
+.luxe-orbit-a:before{width:8px;height:8px;left:14px;top:28px;box-shadow:0 0 0 7px rgba(174,190,160,.16)}
+.luxe-orbit-a:after{width:4px;height:4px;right:28px;bottom:18px}
+.luxe-orbit-b{right:7.5%;top:15%;width:76px;height:76px;border-radius:24px;border:1px solid rgba(255,255,255,.34);background:rgba(247,249,243,.2);backdrop-filter:blur(16px);transform:rotate(6deg)}
+.luxe-orbit-b:before{content:"02";position:absolute;inset:0;display:grid;place-items:center;font:700 11px "Space Grotesk";letter-spacing:.12em;color:#fff}
+
+/* Editorial home module */
+.home-ecosystem{padding:120px 5.4% 120px;position:relative;isolation:isolate}
+.home-ecosystem:before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(251,250,244,.25),rgba(183,201,170,.17));border-top:1px solid var(--luxe-line);border-bottom:1px solid var(--luxe-line)}
+.ecosystem-head{display:grid;grid-template-columns:1.05fr .95fr;gap:60px;align-items:end;max-width:1280px;margin:0 auto 58px}
+.ecosystem-kicker{font:700 10px "Space Grotesk";letter-spacing:.19em;color:rgba(33,50,40,.48);margin-bottom:18px}
+.ecosystem-head h2{margin:0;font:700 clamp(3.6rem,6.8vw,7.6rem)/.86 "Space Grotesk";letter-spacing:-.09em;color:var(--luxe-forest)}
+.ecosystem-head h2 em{font-style:normal;color:#6c8060}
+.ecosystem-head p{max-width:520px;margin:0 0 7px;font-size:17px;line-height:1.65;color:rgba(33,50,40,.63)}
+.ecosystem-grid{display:grid;grid-template-columns:1.18fr .91fr .91fr;gap:16px;max-width:1280px;margin:auto}
+.ecosystem-card{min-height:340px;border-radius:32px;border:1px solid var(--luxe-line);background:rgba(251,250,244,.62);box-shadow:0 18px 55px rgba(33,50,40,.055);backdrop-filter:blur(14px);padding:26px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden;transition:transform .55s var(--luxe-ease),box-shadow .55s ease,border-color .35s ease}
+.ecosystem-card:before{content:"";position:absolute;inset:-40% -20% auto auto;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(174,190,160,.24),transparent 70%);transform:translate3d(18px,-12px,0)}
+.ecosystem-card:hover{transform:translateY(-9px) rotate(-.35deg)!important;box-shadow:0 28px 65px rgba(33,50,40,.11);border-color:rgba(33,50,40,.2)}
+.ecosystem-card-large{background:linear-gradient(145deg,rgba(174,190,160,.43),rgba(251,250,244,.68))}
+.ecosystem-index{font:700 10px "Space Grotesk";letter-spacing:.18em;color:rgba(33,50,40,.48)}
+.ecosystem-icon{width:54px;height:54px;border-radius:18px;display:grid;place-items:center;background:rgba(255,255,255,.38);border:1px solid rgba(33,50,40,.1);font-size:23px;margin-bottom:54px;box-shadow:0 12px 30px rgba(33,50,40,.05)}
+.ecosystem-card h3{font:700 clamp(1.65rem,2.3vw,2.35rem)/.94 "Space Grotesk";letter-spacing:-.06em;margin:0 0 11px;color:var(--luxe-forest)}
+.ecosystem-card p{margin:0;max-width:480px;line-height:1.6;color:rgba(33,50,40,.62);font-size:14px}
+.ecosystem-line{width:72px;height:1px;background:var(--luxe-sage-deep);margin-top:26px;transform-origin:left;transition:width .5s var(--luxe-ease)}
+.ecosystem-card:hover .ecosystem-line{width:125px}
+.ecosystem-footer{max-width:1280px;margin:44px auto 0;padding-top:17px;border-top:1px solid var(--luxe-line);display:grid;grid-template-columns:repeat(3,1fr);font:700 9px "Space Grotesk";letter-spacing:.18em;color:rgba(33,50,40,.42)}
+.ecosystem-footer span:nth-child(2){text-align:center}.ecosystem-footer span:last-child{text-align:right}
+
+/* Global view polish */
+.view,.roommate{padding-left:5.4%!important;padding-right:5.4%!important}
+.view-title{font-size:clamp(4.2rem,7vw,8.4rem)!important;line-height:.8!important}
+.topbar{position:relative;align-items:end!important;padding-bottom:22px!important;border-bottom:1px solid var(--luxe-line);margin-bottom:26px!important}
+.topbar:after{content:"";position:absolute;right:0;bottom:-1px;width:72px;height:2px;background:var(--luxe-sage-deep);border-radius:9px}
+.topbar-right{gap:8px!important}
+.back,.bag-btn{background:rgba(251,250,244,.72)!important;border-color:var(--luxe-line)!important;padding:10px 15px!important;font-size:12px!important;box-shadow:0 10px 24px rgba(33,50,40,.05)}
+.filters{padding:12px!important;border-radius:24px!important;background:rgba(251,250,244,.64)!important}
+.listing-grid{gap:16px!important;grid-auto-rows:1fr}
+.card{position:relative!important;border-radius:31px!important;box-shadow:0 18px 48px rgba(33,50,40,.06)!important;overflow:hidden!important;transform-origin:center bottom}
+.card:before{counter-increment:listing;content:counter(listing,decimal-leading-zero);position:absolute;right:16px;top:16px;z-index:5;width:36px;height:28px;border-radius:99px;background:rgba(251,250,244,.78);border:1px solid rgba(33,50,40,.08);display:grid;place-items:center;font:700 9px "Space Grotesk";letter-spacing:.08em;color:rgba(33,50,40,.7);backdrop-filter:blur(10px)}
+.listing-grid{counter-reset:listing}
+
+.card:after{content:"";position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .45s ease;background:radial-gradient(260px 180px at var(--mx,50%) var(--my,15%),rgba(255,255,255,.28),transparent 70%);mix-blend-mode:screen}
+.card:hover:after{opacity:1}
+.card:hover.reveal.is-in{transform:translateY(-8px)!important}
+.ecosystem-card:hover.reveal.is-in{transform:translateY(-9px) rotate(-.35deg)!important}
+.card-image{height:260px!important}
+.card-body{padding:22px 20px 20px!important}
+.badge,.distance{border:1px solid rgba(33,50,40,.08)!important;background:rgba(223,232,215,.72)!important;color:var(--luxe-forest)!important;padding:7px 10px!important}
+.distance{background:rgba(251,250,244,.78)!important}
+.card h3{font-size:32px!important;line-height:.95!important;margin:15px 0 9px!important}
+.address{font:15px/1.48 "DM Sans",sans-serif!important;color:rgba(33,50,40,.6)!important;min-height:44px}
+.chips{margin-top:15px!important}
+.chip{background:rgba(223,232,215,.7)!important;border:1px solid rgba(33,50,40,.08);padding:7px 10px!important}
+.price-box{margin-top:22px!important;padding-top:16px!important;border-top:1px solid var(--luxe-line)!important}
+.price-label{font-size:9px!important;letter-spacing:.16em!important;color:rgba(33,50,40,.46)!important}
+.price{font:700 clamp(1.9rem,3vw,2.45rem)/1 "Space Grotesk",sans-serif!important;letter-spacing:-.055em!important}
+.availability{display:inline-flex!important;padding:7px 10px;border-radius:999px;background:rgba(174,190,160,.24);font-size:11px!important;color:rgba(33,50,40,.72)}
+.booked-card .availability{background:rgba(128,80,76,.09);color:#7b4b46}
+.booked-banner{background:#334438!important;padding:10px 14px!important;font-size:11px!important;letter-spacing:.08em;text-transform:uppercase}
+.empty{background:rgba(251,250,244,.55);border-color:rgba(33,50,40,.2)!important}
+
+/* Roommate */
+.roommate .topbar{margin-bottom:38px!important}
+.form-shell{max-width:1120px!important;border-radius:34px!important;padding:34px!important;background:rgba(33,50,40,.93)!important;box-shadow:0 30px 90px rgba(33,50,40,.16)!important;position:relative;overflow:hidden}
+.form-shell:before{content:"MATCH BY LIFESTYLE";position:absolute;top:25px;right:28px;font:700 9px "Space Grotesk";letter-spacing:.18em;color:rgba(223,232,215,.48)}
+.form-shell>p{max-width:660px;line-height:1.7;color:rgba(247,249,243,.7)!important;font-size:15px}
+.form-grid{gap:14px!important;margin-top:25px!important}
+.field label{font:700 10px "Space Grotesk"!important;letter-spacing:.12em;text-transform:uppercase;color:rgba(223,232,215,.72)!important}
+.field input,.field select{border-radius:15px!important;border-color:rgba(255,255,255,.1)!important;box-shadow:0 8px 25px rgba(0,0,0,.08) inset}
+.field input:focus,.field select:focus{border-color:rgba(223,232,215,.55)!important;box-shadow:0 0 0 4px rgba(174,190,160,.12)!important}
+.submit{padding:14px 21px!important;border-radius:999px!important;transition:transform .35s var(--luxe-ease),box-shadow .35s ease}
+.submit:hover{transform:translateY(-2px);box-shadow:0 15px 30px rgba(0,0,0,.18)}
+#matches{margin-top:30px}
+#matches>h3{font:700 38px "Space Grotesk";letter-spacing:-.065em;margin-bottom:18px}
+.match-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:14px!important}
+.match-card{border-radius:24px!important;box-shadow:0 15px 35px rgba(33,50,40,.07)!important;transition:.45s var(--luxe-ease)!important}
+.match-card:hover{transform:translateY(-7px) rotate(-.25deg)}
+.score{font-family:"Space Grotesk",sans-serif!important;color:var(--luxe-forest)}
+
+/* Auth = quiet luxury */
+#authOverlay{background:rgba(21,33,25,.42)!important;backdrop-filter:blur(16px)!important}
+#authModal{background:rgba(250,250,244,.94)!important;color:var(--luxe-forest)!important;border:1px solid rgba(255,255,255,.65)!important;border-radius:34px!important;box-shadow:0 40px 120px rgba(20,33,25,.25)!important;padding:38px 30px 32px!important;backdrop-filter:blur(24px)}
+#authClose{color:var(--luxe-forest)!important;width:40px;height:40px;border-radius:50%!important;background:rgba(33,50,40,.06)!important}
+#authModal h2{font:700 34px/1 "Space Grotesk",sans-serif!important;letter-spacing:-.06em!important}
+#authModal p{color:rgba(33,50,40,.6)!important}
+#authError{color:#8f5f57!important}
+
+/* Footer */
+.footer{padding:86px 6% 36px!important;position:relative;overflow:hidden}
+.footer:before{content:"SHIFT THE STAY";position:absolute;right:-10px;bottom:-35px;font:700 clamp(7rem,18vw,19rem)/.8 "Space Grotesk";letter-spacing:-.11em;color:rgba(223,232,215,.055);pointer-events:none}
+.footer-grid{position:relative;z-index:2;gap:70px!important;grid-template-columns:1.05fr .72fr 1.18fr!important}
+.footer h3{font-size:14px!important;letter-spacing:.02em!important;text-transform:uppercase;color:rgba(223,232,215,.68)!important}
+.about{max-width:430px;color:rgba(247,249,243,.68)!important}
+.copyright{position:relative;z-index:2;border-top:1px solid rgba(223,232,215,.1);padding-top:22px}
+
+/* Add a thin scroll progress rail from JS */
+.sts-progress{position:fixed;left:0;top:0;height:2px;width:0;background:linear-gradient(90deg,#809875,#b8c7ac);z-index:10000;box-shadow:0 0 16px rgba(151,174,130,.34);pointer-events:none}
+
+/* Micro texture + motion */
+body:after{content:"STUDENT LIVING / INDIA"!important;}
+::selection{background:#9fb18e;color:#1e2d24}
+@keyframes drawLine{from{transform:scaleX(0);opacity:0}to{transform:scaleX(1);opacity:1}}
+@keyframes luxeRise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .85s var(--luxe-ease),transform .85s var(--luxe-ease)}
+.reveal.is-in{opacity:1;transform:none}
+.tilt-ready{transform-style:preserve-3d;will-change:transform}
+
+@media(max-width:980px){
+  .hero{grid-template-columns:1fr!important;padding:100px 20px 22px!important}.hero-left{min-height:auto!important}.hero-photo{min-height:520px!important}.luxe-orbit-a{display:none}
+  .ecosystem-head{grid-template-columns:1fr;gap:20px}.ecosystem-head p{margin:0}.ecosystem-grid{grid-template-columns:1fr 1fr}.ecosystem-card-large{grid-column:1/-1}.ecosystem-footer{grid-template-columns:1fr;gap:9px}.ecosystem-footer span:nth-child(2),.ecosystem-footer span:last-child{text-align:left}
+  .match-grid{grid-template-columns:1fr!important}
+  .footer-grid{grid-template-columns:1fr 1fr!important}
+}
+@media(max-width:620px){
+  .hero{padding:88px 14px 16px!important}.hero-left{padding:22px 2% 30px!important}.hero-left:before{left:2%;top:0}.title{font-size:clamp(4.2rem,19vw,6.2rem)!important}.search-wrap{height:64px!important;border-radius:21px!important}.search-btn{min-width:84px!important}.brand-block{flex-wrap:wrap}.hero-photo{min-height:380px!important;border-radius:28px!important}.home-ecosystem{padding:85px 18px}.ecosystem-head h2{font-size:3.7rem}.ecosystem-grid{grid-template-columns:1fr}.ecosystem-card-large{grid-column:auto}.ecosystem-card{min-height:295px}.view-title{font-size:3.8rem!important}.topbar{align-items:flex-start!important;flex-direction:column}.topbar-right{width:100%;justify-content:flex-start}.footer-grid{grid-template-columns:1fr!important}
+}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none}.sts-progress{display:none}.ecosystem-card{transition:none}}
+</style>
+
+
+<style id="sts-roommate-queue">
+.roommate-intro-copy{max-width:760px!important}
+.roommate-promise{margin:22px 0 8px;padding:18px 20px;border-radius:22px;border:1px solid rgba(223,232,215,.14);background:rgba(223,232,215,.07);display:flex;align-items:center;justify-content:space-between;gap:22px}
+.roommate-promise-main{display:grid;gap:6px;max-width:670px}
+.roommate-promise-main strong{font:700 clamp(20px,2.2vw,27px)/1.12 "Space Grotesk",sans-serif;color:#f7f9f3;letter-spacing:-.035em}
+.roommate-promise-main>span:last-child{font-size:12px;line-height:1.55;color:rgba(247,249,243,.62)}
+.roommate-promise-eyebrow{font:700 9px/1 "Space Grotesk";letter-spacing:.16em;text-transform:uppercase;color:rgba(223,232,215,.52)}
+.roommate-promise-steps{display:grid;grid-template-columns:repeat(3,auto);gap:9px;flex:none}
+.roommate-promise-steps span{padding:9px 11px;border-radius:999px;background:rgba(251,250,244,.07);border:1px solid rgba(255,255,255,.08);font-size:10px;color:rgba(247,249,243,.72);white-space:nowrap}
+.roommate-promise-steps b{color:#f7f9f3;margin-right:4px}
+.field-note{display:block;margin-top:7px;font-size:10px;line-height:1.45;color:rgba(223,232,215,.5)}
+.field input.session-prefilled{opacity:.82}
+.roommate-status,.roommate-confirmation{margin-top:22px;border-radius:24px}
+.roommate-status{padding:16px 18px;background:rgba(223,232,215,.08);border:1px solid rgba(223,232,215,.12);color:rgba(247,249,243,.82)}
+.roommate-status.error{border-color:rgba(170,96,82,.35);color:#ffd7cf;background:rgba(145,74,62,.12)}
+.roommate-confirmation{padding:24px;background:linear-gradient(145deg,rgba(251,250,244,.98),rgba(231,226,208,.98));color:var(--warm-ink);box-shadow:0 18px 45px rgba(0,0,0,.13)}
+.roommate-confirmation-top{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.roommate-confirmation-mark{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:var(--warm-moss);color:#fff;font-weight:800}
+.roommate-confirmation h3{margin:0 0 10px;font:700 clamp(30px,4vw,46px)/.98 "Space Grotesk";letter-spacing:-.06em}
+.roommate-confirmation p{margin:0;color:rgba(42,48,39,.72);font-size:14px;line-height:1.6;max-width:760px}
+.roommate-next-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px}
+.roommate-next-grid>div{padding:13px 14px;border-radius:16px;background:rgba(178,180,157,.18);border:1px solid rgba(42,48,39,.08);display:flex;flex-direction:column;gap:5px}
+.roommate-next-grid b{font:700 9px "Space Grotesk";letter-spacing:.14em;color:var(--warm-brass)}
+.roommate-next-grid span{font-size:11px;line-height:1.35;color:rgba(42,48,39,.72)}
+.roommate-saved-note{margin:11px 2px 0;color:rgba(247,249,243,.45);font-size:11px}
+.roommate-form-submitted{opacity:.72}
+.roommate-form-submitted .submit{opacity:.55}
+@media(max-width:980px){.roommate-promise{align-items:flex-start;flex-direction:column}.roommate-promise-steps{width:100%;grid-template-columns:repeat(3,1fr)}}
+@media(max-width:620px){.roommate-promise{padding:16px}.roommate-promise-steps{grid-template-columns:1fr;gap:7px}.roommate-promise-steps span{white-space:normal}.roommate-next-grid{grid-template-columns:1fr}.roommate-confirmation{padding:20px}.roommate-confirmation h3{font-size:34px}}
+</style>
+
+<style id="sts-warm-luxe-v6">
+:root{
+  --luxe-sage:#b2b49d!important;
+  --luxe-sage-deep:#7f896f!important;
+  --luxe-forest:#2b3228!important;
+  --luxe-forest-2:#20261f!important;
+  --luxe-paper:#e8e2d0!important;
+  --luxe-ink:#252b23!important;
+  --luxe-line:rgba(44,50,39,.16)!important;
+  --luxe-shadow:0 24px 58px rgba(48,48,36,.13)!important;
+  --warm-bg:#b7b6a1;
+  --warm-bg-2:#c2c0aa;
+  --warm-surface:#ddd7c4;
+  --warm-surface-2:#d1ccb9;
+  --warm-ivory:#e8e2d0;
+  --warm-moss:#7f896f;
+  --warm-brass:#927f5e;
+  --warm-ink:#2a3027;
+}
+html{scroll-behavior:smooth;background:var(--warm-bg)}
+body{
+  background:
+    radial-gradient(740px 540px at 6% 3%,rgba(236,230,214,.20),transparent 66%),
+    radial-gradient(650px 520px at 94% 18%,rgba(89,102,76,.10),transparent 64%),
+    radial-gradient(900px 600px at 50% 100%,rgba(235,227,209,.10),transparent 70%),
+    linear-gradient(145deg,#aaa994 0%,#bcbaa5 46%,#aaa993 100%)!important;
+  color:var(--warm-ink)!important;
+}
+body:before{color:rgba(42,48,39,.88)!important}
+body:after{color:rgba(42,48,39,.46)!important}
+::selection{background:#8c9677!important;color:#f0eadb!important}
+.authButton,#authButton{background:rgba(232,226,208,.76)!important;color:var(--warm-ink)!important;border-color:rgba(42,48,39,.18)!important;box-shadow:0 8px 24px rgba(43,50,40,.10)!important}
+#authButton:hover{background:var(--warm-ink)!important;color:#eee7d6!important}
+.hero{background:transparent!important}
+.hero:before{opacity:.32!important;background-image:linear-gradient(rgba(42,48,39,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(42,48,39,.05) 1px,transparent 1px)!important;background-size:74px 74px!important}
+.hero-left:after{background:rgba(98,108,82,.15)!important;filter:none!important;border:1px solid rgba(53,61,47,.11)!important;box-shadow:0 0 0 24px rgba(226,219,200,.05),0 22px 70px rgba(52,57,43,.08)!important;animation:warmBreathe 11s ease-in-out infinite!important}
+.hero-left:before{color:rgba(42,48,39,.46)!important}
+.title{color:var(--warm-ink)!important}
+.title .green-word:after{background:linear-gradient(90deg,var(--warm-brass),rgba(146,127,94,0))!important;height:3px!important}
+.search-position:before,.filter-label,.ecosystem-kicker{color:rgba(42,48,39,.52)!important}
+.search-wrap{
+  background:rgba(232,226,208,.90)!important;border-color:rgba(52,57,44,.16)!important;
+  box-shadow:0 18px 46px rgba(49,50,39,.14),0 1px 0 rgba(255,244,223,.45) inset!important;
+  backdrop-filter:none!important;-webkit-backdrop-filter:none!important;
+}
+.search-wrap:focus-within{box-shadow:0 24px 54px rgba(49,50,39,.17),0 1px 0 rgba(255,244,223,.5) inset!important}
+.search-wrap input{color:var(--warm-ink)!important}
+.search-wrap input::placeholder{color:rgba(42,48,39,.48)!important}
+.search-icon{border-color:var(--warm-ink)!important}.search-icon:after{background:var(--warm-ink)!important}
+.search-btn{background:var(--warm-ink)!important;color:#eee7d7!important;box-shadow:0 10px 20px rgba(44,48,38,.14)!important}
+.search-btn:hover{background:#343c30!important}
+.suggestions{background:var(--warm-ivory)!important;color:var(--warm-ink)!important;box-shadow:0 18px 45px rgba(48,48,36,.15)!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+.suggestion{color:var(--warm-ink)!important}.suggestion:hover{background:#d0cfb9!important}
+.hero-logo{box-shadow:0 14px 30px rgba(49,51,39,.13)!important}
+.tagline{color:rgba(42,48,39,.82)!important}
+.finder-btn,.back,.bag-btn{background:rgba(232,226,208,.62)!important;color:var(--warm-ink)!important;border-color:rgba(48,53,42,.17)!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;box-shadow:0 9px 22px rgba(48,50,39,.08)!important}
+.finder-btn:hover,.back:hover,.bag-btn:hover{background:var(--warm-ink)!important;color:#eee7d7!important}
+.hero-photo{box-shadow:0 28px 75px rgba(46,48,38,.20),0 0 0 1px rgba(238,229,210,.24) inset!important}
+.hero-photo:before{background:linear-gradient(180deg,rgba(26,34,28,.01),rgba(26,34,28,.08) 42%,rgba(26,34,28,.50))!important}
+.hero-photo:after{background:rgba(34,41,33,.28)!important;border-color:rgba(239,232,216,.28)!important}
+.hero:after{color:rgba(42,48,39,.43)!important}
+.sts-marquee{background:rgba(232,226,208,.10)!important;border-color:rgba(45,51,40,.17)!important}
+.sts-marquee-track{animation-duration:30s!important}
+.sts-marquee-item{color:var(--warm-ink)!important}.sts-dot{background:var(--warm-brass)!important;box-shadow:0 0 0 6px rgba(146,127,94,.10)!important}
+.view,.roommate{color:var(--warm-ink)!important}
+.view-title,.ecosystem-head h2,.ecosystem-card h3,.match-card h3{color:var(--warm-ink)!important}
+.topbar{border-color:rgba(43,49,39,.17)!important}.topbar:after{background:var(--warm-brass)!important}
+.filters{background:rgba(232,226,208,.68)!important;border-color:rgba(45,51,40,.17)!important;box-shadow:0 12px 30px rgba(48,48,36,.08)!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+.seg{background:rgba(43,49,39,.075)!important}.seg button{color:var(--warm-ink)!important}.seg button.active{background:var(--warm-ink)!important;color:#eee8d9!important;box-shadow:0 6px 14px rgba(45,48,38,.14)!important}
+.sort-control select{background:var(--warm-ivory)!important;color:var(--warm-ink)!important;border-color:rgba(45,51,40,.17)!important}
+.card{background:rgba(225,219,202,.90)!important;color:var(--warm-ink)!important;border-color:rgba(45,51,40,.15)!important;box-shadow:0 16px 38px rgba(48,48,36,.10)!important}
+.card:hover{box-shadow:0 25px 52px rgba(45,46,37,.15)!important;border-color:rgba(127,137,111,.62)!important}
+.card:before{background:rgba(232,226,208,.88)!important;border-color:rgba(45,51,40,.10)!important;color:rgba(42,48,39,.72)!important;backdrop-filter:none!important}
+.card:after{background:radial-gradient(260px 180px at var(--mx,50%) var(--my,15%),rgba(250,242,223,.23),transparent 70%)!important;mix-blend-mode:normal!important}
+.badge,.chip{background:#c4c8ae!important;color:var(--warm-ink)!important;border-color:rgba(45,51,40,.10)!important}
+.distance{background:#e1dcca!important;color:var(--warm-ink)!important}.address,.meta{color:rgba(42,48,39,.63)!important}.price-label{color:rgba(42,48,39,.48)!important}.price,.card .price,.card .starting-price{color:var(--warm-ink)!important}.availability{background:rgba(127,137,111,.18)!important;color:rgba(42,48,39,.76)!important}.booked-card .availability{background:rgba(127,82,74,.10)!important;color:#754e49!important}.booked-banner{background:#384034!important}
+.primary,.submit{background:var(--warm-ink)!important;color:#eee8d9!important}
+.primary:hover,.submit:hover{box-shadow:0 13px 25px rgba(45,48,38,.16)!important}
+.roommate .topbar{border-color:rgba(43,49,39,.17)!important}
+.form-shell{background:rgba(43,50,40,.96)!important;box-shadow:0 26px 70px rgba(35,37,29,.19)!important}
+.form-shell:before{color:rgba(222,223,197,.47)!important}.form-shell>p{color:rgba(244,238,223,.68)!important}.field label{color:rgba(216,218,190,.75)!important}
+.field input,.field select{background:#e5dec9!important;color:var(--warm-ink)!important;border-color:rgba(255,248,227,.10)!important}.field input:focus,.field select:focus{border-color:rgba(180,191,153,.64)!important;box-shadow:0 0 0 3px rgba(146,158,121,.14)!important}
+.ecosystem-head p,.ecosystem-card p{color:rgba(42,48,39,.65)!important}
+.home-ecosystem{background:transparent!important}.home-ecosystem:before{background:linear-gradient(180deg,rgba(230,223,204,.08),rgba(95,106,82,.08))!important;border-color:rgba(45,51,40,.17)!important}
+.ecosystem-card{background:rgba(225,220,204,.66)!important;border-color:rgba(45,51,40,.15)!important;box-shadow:0 16px 40px rgba(48,48,36,.075)!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+.ecosystem-card-large{background:linear-gradient(145deg,rgba(135,146,112,.30),rgba(229,223,207,.66))!important}
+.ecosystem-card:before{background:radial-gradient(circle,rgba(144,154,121,.18),transparent 70%)!important}
+.ecosystem-icon{background:rgba(237,231,216,.52)!important;border-color:rgba(45,51,40,.11)!important;box-shadow:0 9px 22px rgba(48,48,36,.05)!important}
+.ecosystem-line{background:var(--warm-brass)!important}.ecosystem-footer{color:rgba(42,48,39,.44)!important;border-color:rgba(45,51,40,.17)!important}
+.match-card{box-shadow:0 14px 32px rgba(48,48,36,.08)!important}
+.empty{background:rgba(232,226,208,.46)!important;border-color:rgba(43,49,39,.22)!important}
+#authOverlay{background:rgba(29,35,28,.50)!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+#authModal{background:#e8e2d1!important;color:var(--warm-ink)!important;border-color:rgba(255,248,226,.46)!important;box-shadow:0 35px 90px rgba(25,29,23,.23)!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+#authClose{background:rgba(43,49,39,.07)!important;color:var(--warm-ink)!important}
+#authModal p{color:rgba(42,48,39,.62)!important}
+.footer{background:#2b3128!important;color:#eee7d8!important}.about{color:rgba(239,232,216,.66)!important}.footer h3{color:rgba(214,216,191,.68)!important}.copyright{border-color:rgba(216,216,192,.11)!important}.footer:before{color:rgba(209,211,188,.045)!important}
+.sts-progress{background:linear-gradient(90deg,#7b856c,#aa9a78)!important;box-shadow:0 0 14px rgba(146,127,94,.24)!important}
+.sts-cursor-dot{background:#3a4134!important}.sts-cursor-ring{border-color:rgba(58,65,52,.42)!important}.sts-cursor-ring.hover{background:rgba(232,226,208,.08)!important}
+.sts-orb{position:absolute;width:7px;height:7px;border-radius:50%;background:var(--warm-brass);opacity:.62;box-shadow:0 0 0 7px rgba(146,127,94,.08);pointer-events:none}
+@keyframes warmBreathe{0%,100%{transform:scale(.98);opacity:.70}50%{transform:scale(1.03);opacity:.46}}
+@keyframes warmDrift{0%,100%{transform:translate3d(0,0,0)}50%{transform:translate3d(7px,-5px,0)}}
+@keyframes warmSweep{from{transform:translateX(-115%)}to{transform:translateX(115%)}}
+.ecosystem-card-large{animation:warmDrift 12s ease-in-out infinite}
+.search-btn,.primary,.submit,.finder-btn{position:relative;overflow:hidden;isolation:isolate}
+.search-btn:after,.primary:after,.submit:after,.finder-btn:after{content:"";position:absolute;top:-30%;bottom:-30%;left:-48%;width:32%;background:linear-gradient(90deg,transparent,rgba(245,238,220,.13),transparent);transform:translateX(-120%) rotate(12deg);pointer-events:none}
+.search-btn:hover:after,.primary:hover:after,.submit:hover:after,.finder-btn:hover:after{animation:warmSweep .78s ease-out both}
+@media(pointer:coarse),(max-width:820px){
+  *,*::before,*::after{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+  .hero-left:after{animation:none!important;opacity:.42!important}
+  .ecosystem-card-large{animation:none!important}
+  .card:hover,.room:hover,.ecosystem-card:hover{transform:none!important;box-shadow:0 16px 36px rgba(48,48,36,.09)!important}
+  .search-btn:hover:after,.primary:hover:after,.submit:hover:after,.finder-btn:hover:after{animation:none!important}
+  .sts-progress{height:1px!important;box-shadow:none!important}
+}
+@media(max-width:620px){
+  body{background:linear-gradient(160deg,#b6b6a1,#bbb9a5 52%,#aaa993)!important}
+  .hero:before{opacity:.18!important;background-size:58px 58px!important}
+  .hero-photo{box-shadow:0 18px 42px rgba(47,48,38,.16)!important}
+  .home-ecosystem{padding-top:78px!important;padding-bottom:78px!important}
+  .ecosystem-card{background:rgba(222,216,199,.88)!important}
+}
+@media(prefers-reduced-motion:reduce){
+  .ecosystem-card-large,.hero-left:after{animation:none!important}
+  .search-btn:hover:after,.primary:hover:after,.submit:hover:after,.finder-btn:hover:after{animation:none!important}
+}
+</style><style>
+/* V6 quick-check hero swap: V11 architectural scene only.
+   All search/auth/listing/property/bag logic remains untouched. */
+.hero-photo.hero-visual{
+  margin:26px 26px 26px 0;
+  border-radius:40px;
+  overflow:hidden;
+  min-height:calc(100vh - 52px);
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+  isolation:isolate;
+  background:linear-gradient(135deg,#6f7d66 0%,#9da68f 31%,#b9a983 31.4%,#b9a983 45%,#b87f68 45.3%,#9b806c 63%,#80958d 100%);
+  box-shadow:0 28px 72px rgba(24,34,23,.19),0 0 0 1px rgba(246,243,233,.22) inset;
+}
+.hero-photo.hero-visual:before{
+  content:"";
+  position:absolute;inset:0;opacity:.14;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(246,243,233,.23) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(246,243,233,.23) 1px,transparent 1px);
+  background-size:62px 62px;
+}
+.hero-photo.hero-visual:after{
+  content:"SHIFT / 01";
+  position:absolute;right:22px;top:19px;
+  color:rgba(246,243,233,.56);
+  font:700 9px/1 "Space Grotesk";
+  letter-spacing:.18em;
+  writing-mode:vertical-rl;
+  transform:rotate(180deg);
+}
+.atelier-shell{width:min(760px,100%);position:relative;z-index:1}
+.atelier-topline,.atelier-bottomline{
+  display:flex;justify-content:space-between;gap:14px;align-items:center;
+  color:rgba(246,243,233,.82);
+  font:700 9px/1 "Space Grotesk";
+  letter-spacing:.16em;text-transform:uppercase;
+}
+.atelier-bottomline{margin-top:13px;color:rgba(246,243,233,.60)}
+.atelier-ticker{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:58%}
+.atelier-stage{
+  height:650px;
+  position:relative;margin-top:16px;
+  border:1px solid rgba(246,243,233,.25);
+  border-radius:36px;
+  background:linear-gradient(145deg,#74816a 0%,#8b967d 34%,#9a8067 34.4%,#9a8067 49%,#7f918a 49.4%,#8d998a 100%);
+  overflow:hidden;
+  box-shadow:0 30px 52px rgba(24,34,23,.17);
+}
+.atelier-stage:before{
+  content:"";position:absolute;inset:7% 5% 10% 6%;
+  border:1px solid rgba(246,243,233,.22);border-radius:42px;
+  transform:rotate(-4deg);pointer-events:none;
+}
+.atelier-grid{
+  position:absolute;inset:0;
+  background:
+    linear-gradient(rgba(24,34,23,.08) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(24,34,23,.08) 1px,transparent 1px);
+  background-size:42px 42px;opacity:.24;
+}
+.atelier-grid:before{
+  content:"";position:absolute;left:50%;top:50%;
+  width:76%;height:76%;
+  border:1px solid rgba(246,243,233,.22);
+  border-radius:50%;
+  transform:translate(-50%,-50%) rotate(-8deg);
+  box-shadow:0 0 0 30px rgba(208,183,127,.07),0 0 0 82px rgba(184,127,104,.055);
+  animation:stsQuickOrbit 28s linear infinite;
+}
+.atelier-grid:after{
+  content:"";position:absolute;right:7%;top:8%;width:34%;height:1px;
+  background:rgba(246,243,233,.42);transform:rotate(-12deg);
+  transform-origin:right center;
+  box-shadow:-22px 13px 0 rgba(246,243,233,.16),-44px 26px 0 rgba(246,243,233,.10);
+}
+.atelier-sun{
+  position:absolute;width:260px;height:260px;border-radius:50%;
+  right:-90px;top:54px;background:#e1c995;opacity:.36;
+  animation:stsQuickSun 10s ease-in-out infinite;
+}
+.atelier-room{
+  position:absolute;left:14%;right:11%;top:12%;bottom:11%;
+  transform:perspective(1100px) rotateY(-8deg) rotateX(1deg) rotateZ(-.35deg);
+  transition:transform .7s cubic-bezier(.2,.8,.2,1);
+}
+.hero-photo.hero-visual:hover .atelier-room{
+  transform:perspective(1100px) rotateY(-4deg) rotateX(1deg) rotateZ(-.1deg) translateY(-4px);
+}
+.room-back{
+  position:absolute;inset:0 0 20% 0;background:#e9ddc7;
+  border-radius:28px 28px 10px 10px;
+  box-shadow:inset 0 -28px 0 rgba(91,95,73,.10);
+}
+.room-floor{
+  position:absolute;left:0;right:0;bottom:0;height:30%;
+  background:repeating-linear-gradient(90deg,#8f7659 0 34px,#806a50 34px 38px);
+  clip-path:polygon(0 35%,100% 0,100% 100%,0 100%);
+  border-radius:0 0 28px 28px;opacity:.86;
+}
+.room-window{
+  position:absolute;top:14%;right:10%;width:29%;height:37%;
+  border:10px solid #6f7766;border-radius:13px;
+  background:linear-gradient(145deg,#c7cdbd,#86988f);
+  box-shadow:inset 0 0 0 7px rgba(241,231,211,.40);
+}
+.room-window:before,.room-window:after{
+  content:"";position:absolute;background:rgba(232,224,205,.48);
+}
+.room-window:before{left:50%;top:0;bottom:0;width:5px;transform:translateX(-50%)}
+.room-window:after{left:0;right:0;top:50%;height:5px;transform:translateY(-50%)}
+.room-bed{
+  position:absolute;left:12%;bottom:25%;width:43%;height:25%;
+  background:#f1e7d7;border-radius:18px 18px 10px 10px;
+  box-shadow:12px 14px 0 rgba(55,55,44,.10);
+}
+.room-bed:before{
+  content:"";position:absolute;left:0;top:-18%;width:100%;height:26%;
+  background:#e4cfb7;border-radius:16px 16px 7px 7px;
+}
+.room-bed i{position:absolute;left:9%;top:13%;width:28%;height:24%;background:#87987d;border-radius:8px}
+.room-bed b{position:absolute;right:8%;top:13%;width:30%;height:24%;background:#c08b74;border-radius:8px}
+.room-desk{
+  position:absolute;right:11%;bottom:23%;width:24%;height:8%;
+  background:#745742;border-radius:7px;
+}
+.room-desk:before{
+  content:"";position:absolute;left:7%;top:-95%;width:35%;height:90%;
+  background:#718276;border-radius:5px;
+}
+.room-desk span{position:absolute;right:7%;top:10%;width:28%;height:60%;background:#d5cab3;border-radius:3px}
+.room-desk i{position:absolute;left:12%;top:96%;height:90px;border-left:6px solid #66533f}
+.room-chair{
+  position:absolute;right:15%;bottom:13%;width:15%;height:18%;
+  background:#a7634f;border-radius:17px 17px 10px 10px;
+  box-shadow:0 10px 0 rgba(50,49,40,.10);
+}
+.room-plant{position:absolute;left:7%;bottom:11%;width:17%;height:31%}
+.room-plant:after{
+  content:"";position:absolute;left:25%;bottom:0;width:48%;height:28%;
+  background:#9a7d58;border-radius:4px 4px 13px 13px;
+}
+.room-plant span,.room-plant i,.room-plant b{
+  position:absolute;bottom:23%;width:48%;height:28%;background:#68775d;
+  border-radius:60% 10% 60% 10%;transform-origin:bottom center;
+}
+.room-plant span{left:19%;transform:rotate(-28deg)}
+.room-plant i{left:39%;transform:rotate(14deg);background:#7d8b6e}
+.room-plant b{left:0;bottom:37%;transform:rotate(-8deg);background:#899477}
+.room-lamp{position:absolute;left:57%;top:7%;width:12%;height:20%}
+.room-lamp:before{content:"";position:absolute;left:50%;top:0;height:55%;border-left:3px solid #6c6f5b}
+.room-lamp span{
+  position:absolute;left:20%;top:43%;width:62%;height:22%;
+  background:#e2c997;border-radius:70% 70% 30% 30%;
+  box-shadow:0 8px 32px rgba(226,201,151,.24);
+}
+.atelier-label{
+  position:absolute;z-index:4;display:flex;flex-direction:column;gap:4px;
+  background:rgba(242,232,214,.94);color:#1a2219;
+  padding:10px 12px;border:1px solid rgba(38,45,37,.13);border-radius:14px;
+  box-shadow:0 10px 24px rgba(39,41,33,.12);
+  font-family:"Space Grotesk",sans-serif;
+}
+.atelier-label strong{font-size:18px;line-height:1}
+.atelier-label span{font-size:8px;letter-spacing:.12em;opacity:.58}
+.atelier-label-a{left:5%;top:9%;animation:stsQuickFloatA 7.5s ease-in-out infinite}
+.atelier-label-b{right:5%;bottom:12%;animation:stsQuickFloatB 9s .7s ease-in-out infinite}
+.atelier-label-c{right:8%;top:52%;animation:stsQuickFloatC 8.2s .4s ease-in-out infinite}
+.atelier-pin{
+  position:absolute;width:8px;height:8px;border-radius:50%;
+  background:#b87f68;box-shadow:0 0 0 7px rgba(184,127,104,.13);
+}
+.pin-1{left:19%;top:23%;animation:stsQuickPin 6s ease-in-out infinite}
+.pin-2{right:19%;top:30%;animation:stsQuickPin 7.3s .8s ease-in-out infinite}
+.pin-3{left:49%;bottom:13%;animation:stsQuickPin 5.8s .3s ease-in-out infinite}
+.atelier-vertical{
+  position:absolute;left:10px;bottom:104px;
+  color:rgba(246,243,233,.58);
+  font:700 8px/1 "Space Grotesk";letter-spacing:.18em;
+  writing-mode:vertical-rl;transform:rotate(180deg);
+}
+@keyframes stsQuickSun{0%,100%{transform:scale(.98);opacity:.32}50%{transform:scale(1.035);opacity:.40}}
+@keyframes stsQuickOrbit{from{transform:translate(-50%,-50%) rotate(0)}to{transform:translate(-50%,-50%) rotate(360deg)}}
+@keyframes stsQuickFloatA{0%,100%{transform:translate3d(0,0,0)}50%{transform:translate3d(5px,-5px,0)}}
+@keyframes stsQuickFloatB{0%,100%{transform:translate3d(0,0,0)}50%{transform:translate3d(-4px,4px,0)}}
+@keyframes stsQuickFloatC{0%,100%{transform:translate3d(0,0,0)}50%{transform:translate3d(3px,-4px,0)}}
+@keyframes stsQuickPin{0%,100%{transform:scale(1);opacity:.76}50%{transform:scale(1.18);opacity:.48}}
+
+@media(max-width:900px){
+  .hero-photo.hero-visual{
+    min-height:430px!important;height:430px!important;
+    margin:0 20px 20px!important;padding:10px!important;border-radius:28px!important;
+  }
+  .atelier-stage{height:420px!important;margin-top:12px!important;border-radius:28px!important}
+  .atelier-topline,.atelier-bottomline{font-size:7px!important}
+  .atelier-ticker{display:none}
+  .atelier-label{padding:8px 9px!important}
+  .atelier-label strong{font-size:15px}
+  .atelier-stage:before{border-radius:30px!important}
+}
+@media(prefers-reduced-motion:reduce){
+  .atelier-sun,.atelier-label-a,.atelier-label-b,.atelier-label-c,.pin-1,.pin-2,.pin-3,.atelier-grid:before{animation:none!important}
+  .hero-photo.hero-visual:hover .atelier-room{transform:none!important}
+}
+@media(pointer:coarse){
+  .atelier-sun,.atelier-label-a,.atelier-label-b,.atelier-label-c,.pin-1,.pin-2,.pin-3,.atelier-grid:before{animation:none!important}
+  .hero-photo.hero-visual:hover .atelier-room{transform:perspective(1100px) rotateY(-8deg) rotateX(1deg) rotateZ(-.35deg)!important}
+}
+</style>
+
+<style id="sts-hero-cta-layout">
+/* Hero CTA layout: About Us stays with the brand; AI Roommate Finder moves into the visual. */
+.brand-block{
+  align-items:flex-start!important;
+}
+.about-btn{
+  margin-top:14px!important;
+  min-width:128px!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  gap:16px!important;
+  padding:10px 12px 10px 16px!important;
+  background:rgba(232,226,208,.72)!important;
+  color:var(--warm-ink)!important;
+  border-color:rgba(42,48,39,.18)!important;
+  box-shadow:0 10px 22px rgba(48,50,39,.08)!important;
+}
+.about-btn b{
+  display:grid!important;
+  place-items:center!important;
+  width:24px!important;
+  height:24px!important;
+  border-radius:50%!important;
+  background:var(--warm-ink)!important;
+  color:#eee8d9!important;
+  font-size:13px!important;
+  font-weight:700!important;
+}
+.about-btn:hover b{
+  transform:translate(2px,2px)!important;
+}
+.hero-roommate-spot{
+  position:absolute!important;
+  left:50%!important;
+  top:50%!important;
+  transform:translate(-50%,-50%)!important;
+  z-index:8!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  gap:9px!important;
+  pointer-events:none!important;
+}
+.hero-roommate-kicker{
+  font:700 8px/1 "Space Grotesk",sans-serif!important;
+  letter-spacing:.24em!important;
+  color:rgba(245,239,224,.76)!important;
+  text-align:center!important;
+  text-shadow:0 1px 12px rgba(22,28,23,.18)!important;
+  white-space:nowrap!important;
+}
+.hero-roommate-btn{
+  pointer-events:auto!important;
+  position:relative!important;
+  display:flex!important;
+  align-items:center!important;
+  gap:12px!important;
+  min-width:230px!important;
+  padding:12px 13px 12px 12px!important;
+  border:1px solid rgba(248,242,225,.38)!important;
+  border-radius:999px!important;
+  background:rgba(39,48,39,.82)!important;
+  color:#f3eddb!important;
+  cursor:pointer!important;
+  box-shadow:0 16px 40px rgba(20,26,21,.22),0 0 0 1px rgba(247,240,221,.06) inset!important;
+  transition:transform .34s cubic-bezier(.2,.8,.2,1),box-shadow .34s ease,background .34s ease!important;
+  animation:roommateFloat 6.5s ease-in-out infinite!important;
+}
+.hero-roommate-btn:before{
+  content:""!important;
+  position:absolute!important;
+  inset:1px!important;
+  border-radius:inherit!important;
+  border:1px solid rgba(247,240,221,.10)!important;
+  pointer-events:none!important;
+}
+.hero-roommate-btn:after{
+  content:""!important;
+  position:absolute!important;
+  top:-40%!important;
+  bottom:-40%!important;
+  left:-28%!important;
+  width:24%!important;
+  transform:translateX(-160%) rotate(16deg)!important;
+  background:linear-gradient(90deg,transparent,rgba(248,241,224,.18),transparent)!important;
+  pointer-events:none!important;
+}
+.hero-roommate-btn:hover{
+  transform:translateY(-4px) scale(1.02)!important;
+  background:rgba(46,57,45,.94)!important;
+  box-shadow:0 20px 52px rgba(20,26,21,.30),0 0 0 1px rgba(247,240,221,.10) inset!important;
+}
+.hero-roommate-btn:hover:after{
+  animation:roommateSweep .8s ease-out both!important;
+}
+.hero-roommate-ai{
+  display:grid!important;
+  place-items:center!important;
+  width:34px!important;
+  height:34px!important;
+  flex:0 0 34px!important;
+  border-radius:50%!important;
+  background:#d0b994!important;
+  color:#2d342a!important;
+  font:800 10px/1 "Space Grotesk",sans-serif!important;
+  letter-spacing:.04em!important;
+  box-shadow:0 8px 18px rgba(0,0,0,.16)!important;
+}
+.hero-roommate-copy{
+  flex:1!important;
+  text-align:left!important;
+  font:700 11px/1.05 "Space Grotesk",sans-serif!important;
+  letter-spacing:.01em!important;
+  white-space:nowrap!important;
+}
+.hero-roommate-arrow{
+  width:29px!important;
+  height:29px!important;
+  display:grid!important;
+  place-items:center!important;
+  border-radius:50%!important;
+  border:1px solid rgba(244,237,220,.18)!important;
+  font-size:14px!important;
+  color:#ece4d0!important;
+}
+.hero-photo{
+  overflow:hidden!important;
+}
+@keyframes roommateFloat{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-5px)}
+}
+@keyframes roommateSweep{
+  from{transform:translateX(-160%) rotate(16deg)}
+  to{transform:translateX(610%) rotate(16deg)}
+}
+@media (pointer:coarse),(max-width:820px){
+  .hero-roommate-btn{animation:none!important;min-width:215px!important}
+  .hero-roommate-btn:hover{transform:none!important}
+  .hero-roommate-btn:hover:after{animation:none!important}
+}
+@media(max-width:620px){
+  .hero-roommate-spot{top:52%!important}
+  .hero-roommate-kicker{font-size:7px!important}
+  .hero-roommate-btn{min-width:205px!important;padding:11px 11px 11px 10px!important}
+  .hero-roommate-copy{font-size:10.5px!important}
+  .hero-roommate-ai{width:31px!important;height:31px!important;flex-basis:31px!important}
+  .hero-roommate-arrow{width:27px!important;height:27px!important}
+}
+@media(prefers-reduced-motion:reduce){
+  .hero-roommate-btn{animation:none!important}
+  .hero-roommate-btn:hover:after{animation:none!important}
+}
+</style>
+
+<style id="sts-roommate-profile-card">
+.hero-roommate-spot{
+  gap:11px!important;
+  top:50%!important;
+  align-items:center!important;
+}
+.roommate-profile-box{
+  position:relative!important;
+  width:184px!important;
+  height:184px!important;
+  padding:10px!important;
+  border:1px solid rgba(246,240,223,.58)!important;
+  border-radius:20px!important;
+  background:rgba(236,230,213,.88)!important;
+  box-shadow:0 20px 42px rgba(25,31,26,.20),0 0 0 1px rgba(255,255,255,.10) inset!important;
+  display:flex!important;
+  flex-direction:column!important;
+  justify-content:space-between!important;
+  overflow:hidden!important;
+  transform:translateZ(0)!important;
+}
+.roommate-profile-box:before{
+  content:""!important;
+  position:absolute!important;
+  left:10px!important;
+  right:10px!important;
+  top:34px!important;
+  bottom:28px!important;
+  border:1px solid rgba(40,51,40,.12)!important;
+  border-radius:14px!important;
+  pointer-events:none!important;
+}
+.roommate-profile-meta,.roommate-profile-foot{
+  position:relative!important;
+  z-index:2!important;
+  display:flex!important;
+  justify-content:space-between!important;
+  align-items:center!important;
+  font:700 7px/1 "Space Grotesk",sans-serif!important;
+  letter-spacing:.16em!important;
+  color:rgba(38,55,43,.66)!important;
+}
+.roommate-profile-dot{
+  width:7px!important;
+  height:7px!important;
+  border-radius:50%!important;
+  background:#9caf87!important;
+  box-shadow:0 0 0 3px rgba(156,175,135,.18)!important;
+}
+.roommate-avatar-shell{
+  position:relative!important;
+  z-index:1!important;
+  width:138px!important;
+  height:116px!important;
+  margin:0 auto!important;
+  overflow:hidden!important;
+  border-radius:14px!important;
+  border:1px solid rgba(38,55,43,.14)!important;
+  background:#d8dccb!important;
+}
+.roommate-avatar{
+  display:block!important;
+  width:100%!important;
+  height:100%!important;
+  object-fit:cover!important;
+  object-position:center 43%!important;
+}
+.roommate-profile-foot{
+  padding:0 3px!important;
+}
+.roommate-profile-foot span:last-child{
+  opacity:.52!important;
+}
+.hero-roommate-btn{
+  min-width:228px!important;
+  justify-content:center!important;
+  padding:13px 14px!important;
+  gap:11px!important;
+  background:rgba(38,55,43,.96)!important;
+  border-color:rgba(247,240,221,.72)!important;
+  box-shadow:0 18px 34px rgba(25,31,26,.24),0 0 0 1px rgba(255,255,255,.08) inset!important;
+  animation:roommateFloat 6.5s ease-in-out infinite!important;
+}
+.hero-roommate-btn:hover{
+  transform:translateY(-4px) scale(1.015)!important;
+  box-shadow:0 22px 38px rgba(25,31,26,.26),0 0 0 1px rgba(255,255,255,.08) inset!important;
+}
+.hero-roommate-ai{
+  width:33px!important;
+  height:33px!important;
+  flex-basis:33px!important;
+  display:grid!important;
+  place-items:center!important;
+  border-radius:10px!important;
+  background:#d8c29f!important;
+  color:#26372b!important;
+  font:800 9px/1 "Space Grotesk",sans-serif!important;
+  letter-spacing:.06em!important;
+  box-shadow:0 5px 12px rgba(24,34,23,.16)!important;
+}
+.hero-roommate-copy{
+  font:700 12px/1.1 "Space Grotesk",sans-serif!important;
+  letter-spacing:.015em!important;
+}
+.hero-roommate-arrow{
+  width:28px!important;
+  height:28px!important;
+  display:grid!important;
+  place-items:center!important;
+  border-radius:50%!important;
+  background:rgba(247,240,221,.12)!important;
+  border:1px solid rgba(247,240,221,.18)!important;
+  font-size:14px!important;
+}
+@media(pointer:coarse),(max-width:820px){
+  .roommate-profile-box{width:156px!important;height:156px!important;padding:9px!important}
+  .roommate-avatar-shell{width:118px!important;height:96px!important}
+  .hero-roommate-btn{min-width:205px!important;animation:none!important}
+}
+@media(max-width:620px){
+  .hero-roommate-spot{top:52%!important}
+  .roommate-profile-box{width:148px!important;height:148px!important}
+  .roommate-avatar-shell{width:112px!important;height:88px!important}
+  .hero-roommate-btn{min-width:198px!important}
+  .hero-roommate-copy{font-size:10.5px!important}
+}
+@media(prefers-reduced-motion:reduce){
+  .hero-roommate-btn{animation:none!important}
+}
+</style>
+
+
+<style id="sts-home-spacing-fix">
+/* Small hero-spacing refinement: keep the lower brand block anchored,
+   lift the main title slightly, and leave the search visually centred between sections. */
+.hero-left .title{
+  position:relative!important;
+  top:-30px!important;
+  z-index:2!important;
+}
+.hero-left .search-position{
+  position:relative!important;
+  z-index:3!important;
+}
+@media(max-width:980px){
+  .hero-left .title{top:0!important}
+}
+</style>
+<style id="roommate-course-picker-css">
+
+/* =====================================================
+   ROOMMATE COURSE PICKER
+===================================================== */
+.course-picker{position:relative}
+.course-trigger{
+  width:100%;min-height:48px;border:1px solid #94ab78;background:var(--paper);color:var(--forest);
+  border-radius:13px;padding:0 14px;font-size:15px;cursor:pointer;text-align:left;display:flex;
+  align-items:center;justify-content:space-between;gap:12px
+}
+.course-trigger span:first-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:rgba(38,55,43,.56)}
+.course-trigger.has-value span:first-child{color:var(--forest)}
+.course-chevron{font-size:18px;line-height:1;flex:0 0 auto}
+.course-menu{
+  position:absolute;z-index:80;left:0;right:0;top:56px;background:var(--paper);
+  border:1px solid rgba(38,55,43,.15);border-radius:16px;padding:10px;
+  box-shadow:0 20px 45px rgba(38,55,43,.18);display:none
+}
+.course-menu.open{display:block}
+.course-search{
+  width:100%;margin:0 0 9px;border:1px solid rgba(38,55,43,.14)!important;
+  background:#f3f1e8!important;color:var(--forest)!important;border-radius:11px!important;
+  padding:11px 12px!important;outline:none
+}
+.course-list{max-height:250px;overflow-y:auto;border-radius:11px;overscroll-behavior:contain}
+.course-option{
+  width:100%;border:0;background:transparent;color:var(--forest);text-align:left;padding:11px 12px;
+  border-radius:9px;cursor:pointer;font-size:14px;display:flex;align-items:center;
+  justify-content:space-between;gap:12px
+}
+.course-option:hover,.course-option.active{background:var(--sage2)}
+.course-option.other{font-weight:700;border-top:1px solid rgba(38,55,43,.12);margin-top:6px;padding-top:14px}
+.course-option.other span{font-size:17px}
+.course-empty{padding:12px;color:rgba(38,55,43,.66);font-size:13px}
+.other-course-wrap{margin-top:9px}
+.other-course-wrap[hidden]{display:none}
+.other-course-wrap input{
+  width:100%;border:1px solid #94ab78;background:var(--paper);color:var(--forest);
+  border-radius:13px;padding:12px 13px;font-size:15px;outline:none
+}
+.course-field-invalid .course-trigger{
+  border-color:#a65747!important;box-shadow:0 0 0 3px rgba(166,87,71,.10)
+}
+.roommate-course-note{font-size:11px;color:rgba(247,249,243,.54);line-height:1.45;margin-top:2px}
+@media(max-width:700px){
+  .course-menu{
+    position:fixed;left:12px;right:12px;top:auto;bottom:12px;max-height:min(72vh,520px);
+    border-radius:18px;box-shadow:0 18px 44px rgba(0,0,0,.28)
+  }
+  .course-list{max-height:min(52vh,360px)}
+}
+
+</style>
+</head>
+
+<body>
+<div class="sts-cursor-dot"></div><div class="sts-cursor-ring"></div>
+<!-- =========================
+     STUDENT AUTH
+========================= -->
+
+<button
+  id="authButton"
+  type="button"
+  style="
+    position:fixed;
+    top:22px;
+    right:28px;
+    z-index:200;
+    padding:11px 18px;
+    border:1px solid rgba(255,255,255,.35);
+    border-radius:30px;
+    background:rgba(255,255,255,.08);
+    color:#fff;
+    font-family:inherit;
+    font-size:14px;
+    cursor:pointer;
+    backdrop-filter:blur(10px);
+  "
+>
+  Sign In / Create Account
+</button>
+
+
+<div
+  id="authOverlay"
+  style="
+    display:none;
+    position:fixed;
+    inset:0;
+    z-index:1000;
+    background:rgba(0,0,0,.65);
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+  "
+>
+
+  <div
+    id="authModal"
+    style="
+      position:relative;
+      width:min(420px,100%);
+      background:#1f2b20;
+      color:#fff;
+      border-radius:24px;
+      padding:34px 28px;
+      box-shadow:0 25px 80px rgba(0,0,0,.45);
+      text-align:center;
+    "
+  >
+
+    <button
+      id="authClose"
+      type="button"
+      style="
+        position:absolute;
+        top:12px;
+        right:16px;
+        border:0;
+        background:none;
+        color:#fff;
+        font-size:28px;
+        cursor:pointer;
+      "
+    >
+      ×
+    </button>
+
+
+    <h2
+      style="
+        margin:0 0 10px;
+        font-family:Georgia,serif;
+        font-size:28px;
+      "
+    >
+      Sign In / Create Account
+    </h2>
+
+
+    <p
+      style="
+        margin:0 0 24px;
+        opacity:.75;
+        line-height:1.5;
+        font-size:14px;
+      "
+    >
+      Sign in with your Google account to continue with Shift The Stay.
+    </p>
+
+
+    <div
+      id="googleSignInButton"
+      style="
+        display:flex;
+        justify-content:center;
+        min-height:44px;
+      "
+    ></div>
+
+
+    <div
+      id="authError"
+      style="
+        margin-top:16px;
+        color:#ffb4a8;
+        font-size:13px;
+        min-height:18px;
+      "
+    ></div>
+
+  </div>
+
+</div>
+
+<!-- =========================
+     HOME
+========================= -->
+
+<section id="homeView" class="hero">
+
+  <div class="hero-left">
+
+    <h1 class="title">
+      <span class="green-word">Shift</span> The Stay
+    </h1>
+
+    <div class="search-position">
+
+      <form id="searchForm" class="search-wrap">
+
+        <div class="search-icon-box">
+          <span class="search-icon"></span>
+        </div>
+
+        <input
+          id="universityInput"
+          autocomplete="off"
+          placeholder="Enter Your University/College Name"
+        >
+
+        <button class="search-btn" type="submit">
+          Enter
+        </button>
+
+      </form>
+
+      <div id="suggestions" class="suggestions hidden"></div>
+
+    </div>
+
+    <div class="brand-block">
+
+      <img
+        class="hero-logo"
+        src="logo.png"
+        alt="Shift The Stay"
+      >
+
+      <div>
+
+        <p class="tagline">
+          Your City Changes,<br>
+          Comfort Shouldn’t
+        </p>
+
+        <button
+          id="aboutBtn"
+          class="finder-btn about-btn"
+          type="button"
+        >
+          <span>About Us</span>
+          <b aria-hidden="true">↘</b>
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <aside class="hero-photo hero-visual" aria-label="A visual of modern student living">
+  <div class="atelier-shell">
+    <div class="atelier-topline"><span>STS / 01</span><span>THE RESIDENCE EDITION</span></div>
+    <div class="atelier-stage">
+      <div class="atelier-grid"></div>
+      <div class="atelier-sun"></div>
+      <div class="atelier-room">
+        <div class="room-back"></div>
+        <div class="room-floor"></div>
+        <div class="room-window"><span></span></div>
+        <div class="room-bed"><i></i><b></b></div>
+        <div class="room-desk"><span></span><i></i></div>
+        <div class="room-chair"></div>
+        <div class="room-plant"><span></span><i></i><b></b></div>
+        <div class="room-lamp"><span></span></div>
+      </div>
+      <div class="atelier-label atelier-label-a"><strong>01</strong><span>ROOM</span></div>
+      <div class="atelier-label atelier-label-b"><strong>24/7</strong><span>COMFORT</span></div>
+      <div class="atelier-label atelier-label-c"><strong>∞</strong><span>COMMUNITY</span></div>
+      <div class="atelier-pin pin-1"></div><div class="atelier-pin pin-2"></div><div class="atelier-pin pin-3"></div>
+    </div>
+    <div class="atelier-bottomline"><span>FIND · COMPARE · MOVE</span><span class="atelier-ticker">YOUR CITY CHANGES / COMFORT SHOULDN’T</span></div>
+  </div>
+  <div class="atelier-vertical">STUDENT LIVING / CURATED</div>
+
+  <div class="hero-roommate-spot">
+    <span class="hero-roommate-kicker">PERSONALIZED LIVING</span>
+
+    <div class="roommate-profile-box" aria-hidden="true">
+      <div class="roommate-profile-meta">
+        <span>STS / MATCH</span>
+        <span class="roommate-profile-dot"></span>
+      </div>
+      <div class="roommate-avatar-shell">
+        <img src="hypothetical-student.png" alt="" class="roommate-avatar">
+      </div>
+      <div class="roommate-profile-foot">
+        <span>VIBE CHECK</span>
+        <span>01 / 01</span>
+      </div>
+    </div>
+
+    <button
+      id="roommateBtn"
+      class="hero-roommate-btn"
+      type="button"
+      aria-label="Open AI Roommate Finder"
+    >
+      <span class="hero-roommate-ai">AI</span>
+      <span class="hero-roommate-copy">AI Roommate Finder</span>
+      <span class="hero-roommate-arrow" aria-hidden="true">↗</span>
+    </button>
+  </div>
+</aside>
+
+</section>
+
+
+
+
+<!-- =========================
+     LUXE HOME EDITORIAL LAYER
+========================= -->
+<section class="home-ecosystem" aria-label="The Shift The Stay experience">
+  <div class="ecosystem-head">
+    <div class="ecosystem-kicker">THE SHIFT THE STAY STANDARD</div>
+    <h2>Move into a place<br><em>that feels like yours.</em></h2>
+    <p>Search by campus. Compare the stay. Shortlist what fits. The experience stays calm even when the city does not.</p>
+  </div>
+
+  <div class="ecosystem-grid">
+    <article class="ecosystem-card ecosystem-card-large">
+      <span class="ecosystem-index">01</span>
+      <div>
+        <div class="ecosystem-icon">↗</div>
+        <h3>Find the right address.</h3>
+        <p>Start with your university and move through stays without losing the thread.</p>
+      </div>
+      <div class="ecosystem-line"></div>
+    </article>
+
+    <article class="ecosystem-card">
+      <span class="ecosystem-index">02</span>
+      <div>
+        <div class="ecosystem-icon">≈</div>
+        <h3>Compare without noise.</h3>
+        <p>Room types, starting prices, availability and facilities stay visible in one clean flow.</p>
+      </div>
+      <div class="ecosystem-line"></div>
+    </article>
+
+    <article class="ecosystem-card">
+      <span class="ecosystem-index">03</span>
+      <div>
+        <div class="ecosystem-icon">◎</div>
+        <h3>Shortlist. Visit. Decide.</h3>
+        <p>Keep the options worth seeing, then take the next step when the place feels right.</p>
+      </div>
+      <div class="ecosystem-line"></div>
+    </article>
+  </div>
+
+  <div class="ecosystem-footer">
+    <span>HOSTELS / FLATS / ROOMMATES</span>
+    <span>DESIGNED FOR THE MOVE</span>
+    <span>DELIVERED WITH LESS FRICTION</span>
+  </div>
+</section>
+
+
+<div class="sts-marquee" aria-hidden="true">
+  <div class="sts-marquee-track">
+    <span class="sts-marquee-item"><span class="sts-dot"></span> HOSTELS</span>
+    <span class="sts-marquee-item"><span class="sts-dot"></span> FLATS</span>
+    <span class="sts-marquee-item"><span class="sts-dot"></span> CAMPUS LIFE</span>
+    <span class="sts-marquee-item"><span class="sts-dot"></span> ROOMMATES</span>
+    <span class="sts-marquee-item"><span class="sts-dot"></span> FIND YOUR PLACE</span>
+    <span class="sts-marquee-item"><span class="sts-dot"></span> HOSTELS</span>
+    <span class="sts-marquee-item"><span class="sts-dot"></span> FLATS</span>
+    <span class="sts-marquee-item"><span class="sts-dot"></span> CAMPUS LIFE</span>
+    <span class="sts-marquee-item"><span class="sts-dot"></span> ROOMMATES</span>
+    <span class="sts-marquee-item"><span class="sts-dot"></span> FIND YOUR PLACE</span>
+  </div>
+</div>
+
+
+<!-- =========================
+     LISTINGS
+========================= -->
+
+<section id="listingView" class="view hidden">
+
+  <div class="topbar">
+
+    <h2 class="view-title">
+      Find Your Stay
+    </h2>
+
+    <div class="topbar-right">
+
+      <button
+        class="bag-btn"
+        id="listingBagBtn"
+      >
+        🛒 Cart
+        <span class="bagCount">0</span>
+      </button>
+
+      <button
+        class="back"
+        id="listingBack"
+      >
+        ← Back
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <div class="filters">
+
+    <span class="filter-label">
+      University:
+    </span>
+
+    <strong id="selectedUniversity"></strong>
+
+
+    <span class="filter-label">
+      Type:
+    </span>
+
+    <div class="seg" id="typeFilter">
+
+      <button
+        class="active"
+        data-value="all"
+      >
+        All
+      </button>
+
+      <button data-value="Hostel">
+        Hostels
+      </button>
+
+      <button data-value="Flat">
+        Flats
+      </button>
+
+    </div>
+
+
+    <span class="filter-label">
+      Gender:
+    </span>
+
+    <div class="seg" id="genderFilter">
+
+      <button
+        class="active"
+        data-value="all"
+      >
+        All
+      </button>
+
+      <button data-value="Boys">
+        Boys
+      </button>
+
+      <button data-value="Girls">
+        Girls
+      </button>
+
+      <button data-value="Co-Ed">
+        Co-Ed
+      </button>
+
+    </div>
+
+
+    <!-- SORT -->
+
+    <label class="sort-control">
+
+      <span class="filter-label">
+        Sort by:
+      </span>
+
+      <select id="sortSelect">
+
+        <option value="price_asc">
+          Price: Low to High
+        </option>
+
+        <option value="price_desc">
+          Price: High to Low
+        </option>
+
+      </select>
+
+    </label>
+
+  </div>
+
+
+  <div
+    id="listingGrid"
+    class="listing-grid"
+  ></div>
+
+</section>
+
+
+<!-- =========================
+     ROOMMATE FINDER
+========================= -->
+
+<section
+  id="roommateView"
+  class="roommate hidden"
+>
+
+  <div class="topbar">
+
+    <h2 class="view-title">
+      AI Roommate Finder
+    </h2>
+
+    <div class="topbar-right">
+
+      <button
+        class="bag-btn"
+        id="roommateBagBtn"
+      >
+        🛒 Cart
+        <span class="bagCount">0</span>
+      </button>
+
+      <button
+        class="back"
+        id="roommateBack"
+      >
+        ← Back
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <div class="form-shell">
+
+    <p class="roommate-intro-copy">
+      Tell us about yourself and the kind of person you would feel most comfortable living with.
+      We keep your answers private and use them to curate a better roommate fit.
+    </p>
+
+    <div class="roommate-promise" role="note" aria-label="Roommate matching timeline">
+      <div class="roommate-promise-main">
+        <span class="roommate-promise-eyebrow">A BETTER MATCH TAKES A LITTLE TIME</span>
+        <strong>Perfect matches are curated within 7–10 days.</strong>
+        <span>Once we review your profile and find the right fit, we’ll send the match details to your email.</span>
+      </div>
+      <div class="roommate-promise-steps" aria-hidden="true">
+        <span><b>01</b> Answer</span>
+        <span><b>02</b> We match</span>
+        <span><b>03</b> Email</span>
+      </div>
+    </div>
+
+
+    <form
+      id="roommateForm"
+      class="form-grid"
+    >
+
+      <div class="field">
+        <label>Name</label>
+        <input name="name" required autocomplete="name">
+      </div>
+
+      <div class="field">
+        <label>Email for your match</label>
+        <input
+          name="email"
+          id="roommateEmail"
+          type="email"
+          required
+          autocomplete="email"
+          placeholder="you@example.com"
+        >
+        <small class="field-note">We’ll use this only to send your roommate match.</small>
+      </div>
+
+
+      <div class="field">
+
+        <label>Gender</label>
+
+        <select name="gender" required>
+
+          <option value="">
+            Select
+          </option>
+
+          <option>
+            Boys
+          </option>
+
+          <option>
+            Girls
+          </option>
+
+          <option>
+            Co-Ed
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <div class="field">
+
+        <label>Age *</label>
+
+        <input
+          name="age"
+          type="number"
+          min="12"
+          max="80"
+          required
+          inputmode="numeric"
+          placeholder="12 or above"
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label>University</label>
+
+        <input
+          name="university_name"
+          id="roommateUniversity"
+          required
+        >
+
+      </div>
+
+
+      <div class="field" id="roommateCourseField">
+
+        <label>Degree / Course *</label>
+
+        <div class="course-picker" id="roommateCoursePicker">
+          <button
+            type="button"
+            class="course-trigger"
+            id="roommateCourseSelected"
+            aria-haspopup="listbox"
+            aria-expanded="false"
+          >
+            <span id="roommateCourseSelectedLabel">Select your degree / course</span>
+            <span class="course-chevron">⌄</span>
+          </button>
+
+          <div
+            class="course-menu"
+            id="roommateCourseMenu"
+            role="dialog"
+            aria-label="Select your degree or course"
+          >
+            <input
+              id="roommateCourseSearch"
+              class="course-search"
+              type="search"
+              placeholder="Search degree or course..."
+              autocomplete="off"
+              aria-label="Search degree or course"
+            >
+            <div class="course-list" id="roommateCourseList" role="listbox"></div>
+          </div>
+        </div>
+
+        <input type="hidden" name="course" id="roommateCourse" value="">
+
+        <div class="other-course-wrap" id="roommateOtherCourseWrap" hidden>
+          <input
+            id="roommateOtherCourse"
+            type="text"
+            placeholder="Enter your degree / course name"
+            autocomplete="off"
+          >
+        </div>
+
+        <small class="roommate-course-note">Search the list or choose Other to enter your own course.</small>
+
+      </div>
+
+
+      <div class="field">
+
+        <label>Year *</label>
+
+        <select name="year" required>
+          <option value="" selected disabled>Select your year</option>
+          <option value="1st Year">1st Year</option>
+          <option value="2nd Year">2nd Year</option>
+          <option value="3rd Year">3rd Year</option>
+          <option value="4th Year">4th Year</option>
+          <option value="5th Year">5th Year</option>
+          <option value="Final Year">Final Year</option>
+        </select>
+
+      </div>
+
+
+      <div class="field">
+
+        <label>Monthly Budget *</label>
+
+        <input
+          name="budget"
+          type="number"
+          min="1000"
+          required
+          step="100"
+          inputmode="numeric"
+          placeholder="Minimum ₹1,000"
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label>Food</label>
+
+        <select name="food">
+
+          <option>
+            Veg
+          </option>
+
+          <option>
+            Non-Veg
+          </option>
+
+          <option>
+            Both
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <div class="field">
+
+        <label>Sleep</label>
+
+        <select name="sleep">
+
+          <option>
+            Early
+          </option>
+
+          <option>
+            Normal
+          </option>
+
+          <option>
+            Late
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <div class="field">
+
+        <label>Smoking</label>
+
+        <select name="smoking">
+
+          <option>
+            No
+          </option>
+
+          <option>
+            Yes
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <div class="field">
+
+        <label>Cleanliness</label>
+
+        <select name="cleanliness">
+
+          <option>
+            Balanced
+          </option>
+
+          <option>
+            Very Clean
+          </option>
+
+          <option>
+            Relaxed
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <div class="field">
+
+        <label>Social</label>
+
+        <select name="social">
+
+          <option>
+            Balanced
+          </option>
+
+          <option>
+            Social
+          </option>
+
+          <option>
+            Quiet
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <div class="field full">
+
+        <label>
+          Personality / Lifestyle
+        </label>
+
+        <input
+          name="personality"
+          placeholder="e.g. introvert, gym, gaming, study-focused, outgoing"
+        >
+
+      </div>
+
+
+      <div class="field full">
+
+        <button
+          class="submit"
+          type="submit"
+        >
+          Submit My Profile
+        </button>
+
+      </div>
+
+    </form>
+
+
+    <div id="matches"></div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer class="footer">
+
+  <div class="footer-grid">
+
+    <section>
+
+      <h3>
+        Follow Us On
+      </h3>
+
+      <div class="socials">
+
+        <a
+          class="social-link"
+          href="#"
+          data-placeholder="Instagram link coming soon"
+        >
+          <img
+            src="instagram-placeholder.png"
+            alt="Instagram"
+          >
+        </a>
+
+        <a
+          class="social-link"
+          href="#"
+          data-placeholder="LinkedIn link coming soon"
+        >
+          <img
+            src="linkedin-placeholder.png"
+            alt="LinkedIn"
+          >
+        </a>
+
+      </div>
+
+
+      <h3>
+        Connect Us On
+      </h3>
+
+      <p>
+        +91 7906984114 (Whatsapp/Call)
+      </p>
+
+      <p>
+        shiftthestay.com
+      </p>
+
+    </section>
+
+
+    <section>
+
+      <h3>
+        Accommodation Types
+      </h3>
+
+      <div class="accommodation">
+
+        <a
+          href="#"
+          data-placeholder="Hostel listings link coming soon"
+        >
+          HOSTEL
+
+          <span class="coming-soon">
+            → listing link coming soon
+          </span>
+
+        </a>
+
+
+        <a
+          href="#"
+          data-placeholder="Flat listings link coming soon"
+        >
+          FLATS
+
+          <span class="coming-soon">
+            → listing link coming soon
+          </span>
+
+        </a>
+
+      </div>
+
+    </section>
+
+
+    <section id="aboutUsSection">
+
+      <h3>
+        About Us
+      </h3>
+
+      <p class="about">
+        Shift The Stay is your all-in-one student housing
+        platform. We simplify hostel and PG discovery by
+        giving students transparent room options,
+        real-time cost estimates, and direct inquiries—
+        while providing property owners a modern portal
+        to showcase their listings.
+      </p>
+
+    </section>
+
+  </div>
+
+
+  <div class="copyright">
+
+    <div class="brand">
+
+      <img
+        src="footer-logo.png"
+        alt=""
+      >
+
+      <span>
+        Shift The Stay
+      </span>
+
+    </div>
+
+    © 2026 Shift The Stay. All rights reserved.
+
+  </div>
+
+</footer>
+
+
+<div
+  id="toast"
+  class="toast"
+></div>
+
+
+<script>
+
+/* =====================================================
+   SHIFT THE STAY
+   FRONTEND
+===================================================== */
+
+
+/* =====================================================
+   APPS SCRIPT API
+===================================================== */
+
+const API_URL ="https://script.google.com/macros/s/AKfycbzaPvD-J4nnSwXudYter54rdz68zeBdVgHQeJWmzyFmLG4GhtTKSrfrHITFTS6nLctD/exec";
+
+
+
+/* =====================================================
+   HELPERS
+===================================================== */
+
+const $ = id =>
+  document.getElementById(id);
+
+
+let universities = [];
+
+let selectedUniversity = null;
+
+let currentType = "all";
+
+let currentGender = "all";
+
+let currentSort = "price_asc";
+
+
+function escapeHtml(v){
+
+  return String(v ?? "").replace(
+    /[&<>"']/g,
+
+    m => ({
+      "&":"&amp;",
+      "<":"&lt;",
+      ">":"&gt;",
+      '"':"&quot;",
+      "'":"&#039;"
+    }[m])
+  );
+
+}
+
+
+function showMessage(msg){
+
+  $("toast").textContent = msg;
+
+  $("toast").classList.add("show");
+
+  setTimeout(
+    () =>
+      $("toast").classList.remove("show"),
+    2600
+  );
+
+}
+
+
+/* =====================================================
+   API
+===================================================== */
+
+function apiReady(){
+
+  return (
+    API_URL &&
+    !API_URL.includes("PASTE_YOUR")
+  );
+
+}
+
+
+async function apiGet(params){
+
+  if(!apiReady()){
+    throw new Error(
+      "Put your Apps Script /exec URL in index.html."
+    );
+  }
+
+  const url =
+    API_URL +
+    "?" +
+    new URLSearchParams(params);
+
+  // One retry helps with temporary network/server failures.
+  // A 404 is not retried because it normally indicates a deployment/URL problem.
+  let lastError = null;
+
+  for(let attempt = 0; attempt < 2; attempt++){
+
+    try{
+
+      const r = await fetch(url, {
+        cache: "no-store"
+      });
+
+      if(!r.ok){
+
+        if(r.status === 404){
+          throw new Error(
+            "API request failed (404). Check the Apps Script /exec deployment URL."
+          );
+        }
+
+        throw new Error(
+          "API request failed (" + r.status + ")"
+        );
+      }
+
+      return await r.json();
+
+    }catch(e){
+
+      lastError = e;
+
+      if(
+        String(e.message || "").includes("(404)")
+      ){
+        break;
+      }
+
+      if(attempt === 0){
+        await new Promise(resolve => setTimeout(resolve, 500));
+      }
+    }
+  }
+
+  throw lastError || new Error("API request failed.");
+}
+
+
+async function apiPost(params){
+
+  if(!apiReady()){
+
+    throw new Error(
+      "Put your Apps Script /exec URL in index.html."
+    );
+
+  }
+
+  const r =
+    await fetch(
+      API_URL,
+      {
+        method:"POST",
+
+        headers:{
+          "Content-Type":
+            "application/x-www-form-urlencoded;charset=UTF-8"
+        },
+
+        body:
+          new URLSearchParams(params)
+      }
+    );
+
+  if(!r.ok){
+
+    throw new Error(
+      "API request failed (" +
+      r.status +
+      ")"
+    );
+
+  }
+
+  return r.json();
+
+}
+/* =====================================================
+   GOOGLE STUDENT AUTHENTICATION
+===================================================== */
+
+const AUTH_SESSION_KEY = "stsStudentSession";
+
+const GOOGLE_CLIENT_ID =
+  "196772290485-4dgurhk02s06hko2vsfagql92np107t8.apps.googleusercontent.com";
+
+let googleInitialized = false;
+
+
+/* =========================
+   SESSION
+========================= */
+
+function getStudentSession(){
+
+  try{
+
+    return JSON.parse(
+      localStorage.getItem(
+        AUTH_SESSION_KEY
+      ) || "null"
+    );
+
+  }catch(e){
+
+    return null;
+
+  }
+
+}
+
+
+function saveStudentSession(data){
+
+  localStorage.setItem(
+    AUTH_SESSION_KEY,
+    JSON.stringify(data)
+  );
+
+  updateAuthButton();
+
+}
+
+
+function clearStudentSession(){
+
+  localStorage.removeItem(
+    AUTH_SESSION_KEY
+  );
+
+  updateAuthButton();
+
+}
+
+
+function isStudentLoggedIn(){
+
+  const session =
+    getStudentSession();
+
+  return !!(
+    session &&
+    session.session_token &&
+    session.student &&
+    session.student.student_id
+  );
+
+}
+
+
+/* =========================
+   AUTH BUTTON
+========================= */
+
+function updateAuthButton(){
+
+  const button =
+    $("authButton");
+
+  if(!button) return;
+
+
+  if(isStudentLoggedIn()){
+
+    const session =
+      getStudentSession();
+
+    const name =
+      session.student.name ||
+      "Account";
+
+    button.textContent =
+      "Account · " + name;
+
+  }else{
+
+    button.textContent =
+      "Sign In / Create Account";
+
+  }
+
+}
+
+
+/* =========================
+   ERROR
+========================= */
+
+function setAuthError(message){
+
+  const error =
+    $("authError");
+
+  if(error){
+
+    error.textContent =
+      message || "";
+
+  }
+
+}
+
+
+/* =========================
+   OPEN AUTH
+========================= */
+
+function openAuth(){
+
+  setAuthError("");
+
+  if(isStudentLoggedIn()){
+
+    const session =
+      getStudentSession();
+
+    const name =
+      session.student.name ||
+      session.student.email ||
+      "your account";
+
+    const logout =
+      confirm(
+        "You are signed in as " +
+        name +
+        ".\n\nDo you want to sign out?"
+      );
+
+    if(logout){
+
+      clearStudentSession();
+
+      showMessage(
+        "You have been signed out."
+      );
+
+    }
+
+    return;
+
+  }
+
+
+  $("authOverlay").style.display =
+    "flex";
+
+  initializeGoogleSignIn();
+
+}
+
+
+/* =========================
+   CLOSE AUTH
+========================= */
+
+function closeAuth(){
+
+  $("authOverlay").style.display =
+    "none";
+
+  setAuthError("");
+
+}
+
+
+/* =========================
+   GOOGLE CALLBACK
+========================= */
+
+async function handleGoogleCredential(
+  response
+){
+
+  setAuthError("");
+
+  if(
+    !response ||
+    !response.credential
+  ){
+
+    setAuthError(
+      "Google sign-in did not return a valid credential."
+    );
+
+    return;
+
+  }
+
+
+  try{
+
+    showMessage(
+      "Signing you in..."
+    );
+
+
+    const result =
+      await apiPost({
+
+        action:
+          "googleLogin",
+
+        id_token:
+          response.credential
+
+      });
+
+
+    if(
+      !result ||
+      !result.success
+    ){
+
+      throw new Error(
+        result &&
+        result.error
+          ? result.error
+          : "Google sign-in failed."
+      );
+
+    }
+
+
+    saveStudentSession({
+
+      session_token:
+        result.session_token,
+
+      student:
+        result.student,
+
+      logged_in_at:
+        Date.now()
+
+    });
+
+
+    closeAuth();
+
+
+    showMessage(
+      "You're signed in. Welcome to Shift The Stay!"
+    );
+
+
+  }catch(error){
+
+    console.error(
+      "Google login error:",
+      error
+    );
+
+    setAuthError(
+      error.message ||
+      "Unable to sign in with Google."
+    );
+
+  }
+
+}
+
+
+/* =========================
+   LOAD GOOGLE SCRIPT
+========================= */
+
+function initializeGoogleSignIn(){
+
+  if(googleInitialized){
+
+    renderGoogleButton();
+
+    return;
+
+  }
+
+
+  if(
+    window.google &&
+    google.accounts &&
+    google.accounts.id
+  ){
+
+    setupGoogleIdentity();
+
+    return;
+
+  }
+
+
+  const existing =
+    document.querySelector(
+      'script[data-google-gsi="true"]'
+    );
+
+
+  if(existing){
+
+    existing.addEventListener(
+      "load",
+      setupGoogleIdentity,
+      {once:true}
+    );
+
+    return;
+
+  }
+
+
+  const script =
+    document.createElement(
+      "script"
+    );
+
+
+  script.src =
+    "https://accounts.google.com/gsi/client";
+
+  script.async =
+    true;
+
+  script.defer =
+    true;
+
+  script.dataset.googleGsi =
+    "true";
+
+
+  script.onload =
+    setupGoogleIdentity;
+
+
+  script.onerror =
+    () => {
+
+      setAuthError(
+        "Unable to load Google Sign-In. Check your internet connection."
+      );
+
+    };
+
+
+  document.head.appendChild(
+    script
+  );
+
+}
+
+
+/* =========================
+   GOOGLE INITIALIZATION
+========================= */
+
+function setupGoogleIdentity(){
+
+  if(
+    !window.google ||
+    !google.accounts ||
+    !google.accounts.id
+  ){
+
+    setAuthError(
+      "Google Sign-In is unavailable right now."
+    );
+
+    return;
+
+  }
+
+
+  google.accounts.id.initialize({
+
+    client_id:
+      GOOGLE_CLIENT_ID,
+
+    callback:
+      handleGoogleCredential,
+
+    auto_select:
+      false,
+
+    cancel_on_tap_outside:
+      true
+
+  });
+
+
+  googleInitialized =
+    true;
+
+
+  renderGoogleButton();
+
+}
+
+
+/* =========================
+   GOOGLE BUTTON
+========================= */
+
+function renderGoogleButton(){
+
+  const container =
+    $("googleSignInButton");
+
+  if(!container) return;
+
+
+  if(
+    !window.google ||
+    !google.accounts ||
+    !google.accounts.id
+  ){
+
+    return;
+
+  }
+
+
+  container.innerHTML =
+    "";
+
+
+  google.accounts.id.renderButton(
+
+    container,
+
+    {
+
+      type:
+        "standard",
+
+      theme:
+        "outline",
+
+      size:
+        "large",
+
+      text:
+        "signin_with",
+
+      shape:
+        "pill",
+
+      width:
+        280
+
+    }
+
+  );
+
+}
+
+
+/* =========================
+   EVENTS
+========================= */
+
+$("authButton").onclick =
+  openAuth;
+
+
+$("authClose").onclick =
+  closeAuth;
+
+
+$("authOverlay").addEventListener(
+  "click",
+  event => {
+
+    if(
+      event.target ===
+      $("authOverlay")
+    ){
+
+      closeAuth();
+
+    }
+
+  }
+);
+
+
+/* =========================
+   INITIAL STATE
+========================= */
+
+updateAuthButton();
+
+/* =====================================================
+   BAG
+===================================================== */
+
+function bag(){
+
+  /* Keep the listing/roommate Cart count in sync with the
+     student-specific Cart used by property.html and bag.html.
+     Legacy global storage is intentionally ignored so an old
+     user's stale value can never appear as a false count. */
+  try{
+
+    const session = getStudentSession();
+
+    if(
+      !session ||
+      !session.student ||
+      !session.student.student_id
+    ){
+      return [];
+    }
+
+    const key =
+      "stsBag_" +
+      session.student.student_id;
+
+    const parsed = JSON.parse(
+      localStorage.getItem(key) ||
+      "[]"
+    );
+
+    return Array.isArray(parsed) ? parsed : [];
+
+  }catch{
+
+    return [];
+
+  }
+
+}
+
+
+function saveBag(x){
+
+  localStorage.setItem(
+    "stsBag",
+    JSON.stringify(x)
+  );
+
+  updateBagCount();
+
+}
+
+
+function updateBagCount(){
+
+  document
+    .querySelectorAll(".bagCount")
+    .forEach(
+      e =>
+        e.textContent =
+          bag().length
+    );
+
+}
+
+
+function goBag(){
+
+  location.href =
+    "bag.html";
+
+}
+
+
+/* =====================================================
+   VIEWS
+===================================================== */
+
+function showView(id){
+
+  [
+    "homeView",
+    "listingView",
+    "roommateView"
+  ]
+  .forEach(
+    v =>
+      $(v).classList.add("hidden")
+  );
+
+
+  $(id).classList.remove("hidden");
+
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+
+  updateBagCount();
+
+}
+
+
+/* =====================================================
+   UNIVERSITIES
+===================================================== */
+
+async function loadUniversities(){
+
+  // Cache-first: the UI can become interactive immediately on repeat visits.
+  // The network refresh happens in parallel and never blocks the listings view.
+  const CACHE_KEY = "stsUniversitiesCache";
+  const CACHE_TTL = 6 * 60 * 60 * 1000; // 6 hours
+  let hasFreshCache = false;
+
+  try{
+    const cached = JSON.parse(localStorage.getItem(CACHE_KEY) || "null");
+    if(
+      cached &&
+      Array.isArray(cached.data) &&
+      cached.data.length &&
+      cached.savedAt
+    ){
+      universities = cached.data;
+      hasFreshCache = (Date.now() - Number(cached.savedAt)) < CACHE_TTL;
+    }
+  }catch(e){
+    // Ignore a broken cache.
+  }
+
+  // A fresh cache is enough for autocomplete/listings restoration right now.
+  if(hasFreshCache) return;
+
+  // First visit: fetch once so the search is usable.
+  try{
+    const d = await apiGet({action:"universities"});
+    if(d && d.success && Array.isArray(d.universities)){
+      universities = d.universities;
+      try{
+        localStorage.setItem(CACHE_KEY, JSON.stringify({savedAt:Date.now(), data:universities}));
+      }catch(e){}
+    }
+  }catch(e){
+    if(!universities.length) showMessage(e.message);
+  }
+}
+
+
+/* =====================================================
+   UNIVERSITY SEARCH
+===================================================== */
+
+$("universityInput")
+.addEventListener(
+  "input",
+  () => {
+
+    const q =
+      $("universityInput")
+      .value
+      .trim()
+      .toLowerCase();
+
+
+    if(!q){
+
+      $("suggestions")
+        .classList
+        .add("hidden");
+
+      return;
+
+    }
+
+
+    const list =
+      universities
+      .filter(
+        u =>
+          String(
+            u.university_name
+          )
+          .toLowerCase()
+          .includes(q)
+      )
+      .slice(0,8);
+
+
+    $("suggestions")
+      .innerHTML =
+        list
+        .map(
+          u =>
+
+          `
+          <button
+            class="suggestion"
+            type="button"
+            data-id="${escapeHtml(
+              u.university_id
+            )}"
+          >
+            ${escapeHtml(
+              u.university_name
+            )}
+          </button>
+          `
+        )
+        .join("");
+
+
+    $("suggestions")
+      .classList
+      .toggle(
+        "hidden",
+        !list.length
+      );
+
+  }
+);
+
+
+/* =====================================================
+   UNIVERSITY SUGGESTION CLICK
+===================================================== */
+
+$("suggestions")
+.addEventListener(
+  "click",
+  e => {
+
+    const b =
+      e.target.closest(
+        ".suggestion"
+      );
+
+    if(!b) return;
+
+
+    selectedUniversity =
+      universities.find(
+        x =>
+          String(
+            x.university_id
+          ) === b.dataset.id
+      );
+
+
+    if(selectedUniversity){
+
+      $("universityInput")
+        .value =
+        selectedUniversity
+          .university_name;
+
+
+      $("suggestions")
+        .classList
+        .add("hidden");
+
+    }
+
+  }
+);
+
+
+/* =====================================================
+   SEARCH
+===================================================== */
+
+$("searchForm")
+.addEventListener(
+  "submit",
+  async e => {
+
+    e.preventDefault();
+
+
+    const text =
+      $("universityInput")
+      .value
+      .trim()
+      .toLowerCase();
+
+
+    if(!text){
+
+      showMessage(
+        "Please enter your university/college."
+      );
+
+      return;
+
+    }
+
+
+    if(!selectedUniversity){
+
+      selectedUniversity =
+        universities.find(
+          u =>
+            String(
+              u.university_name
+            )
+            .toLowerCase() === text
+        ) ||
+
+        universities.find(
+          u =>
+            String(
+              u.university_name
+            )
+            .toLowerCase()
+            .includes(text)
+        );
+
+    }
+
+
+    if(!selectedUniversity){
+
+      showMessage(
+        "Please select a university from the suggestions."
+      );
+
+      return;
+
+    }
+
+
+    /* Reset filters */
+
+    currentType = "all";
+
+    currentGender = "all";
+
+    currentSort = "price_asc";
+
+
+    /* Reset UI */
+
+    document
+      .querySelectorAll(
+        "#typeFilter button"
+      )
+      .forEach(
+        x =>
+          x.classList.remove(
+            "active"
+          )
+      );
+
+    document
+      .querySelector(
+        '#typeFilter button[data-value="all"]'
+      )
+      .classList.add("active");
+
+
+    document
+      .querySelectorAll(
+        "#genderFilter button"
+      )
+      .forEach(
+        x =>
+          x.classList.remove(
+            "active"
+          )
+      );
+
+    document
+      .querySelector(
+        '#genderFilter button[data-value="all"]'
+      )
+      .classList.add("active");
+
+
+    $("sortSelect")
+      .value =
+      "price_asc";
+
+
+    $("selectedUniversity")
+      .textContent =
+      selectedUniversity
+        .university_name;
+
+
+    showView(
+      "listingView"
+    );
+
+
+    await renderListings();
+
+  }
+);
+
+
+/* =====================================================
+   RENDER LISTINGS
+===================================================== */
+
+const LISTINGS_CACHE_TTL = 45 * 1000;
+
+function listingsCacheKey(){
+  return [
+    "stsListingsCache",
+    selectedUniversity?.university_id || "",
+    currentType,
+    currentGender,
+    currentSort
+  ].join("|");
+}
+
+function sortListingRows(rows){
+  return rows.slice().sort((a,b)=>{
+    const aBooked=Boolean(a.is_fully_booked), bBooked=Boolean(b.is_fully_booked);
+    if(aBooked!==bBooked) return aBooked?1:-1;
+    const aPrice=Number(a.starting_price||0), bPrice=Number(b.starting_price||0);
+    return currentSort==="price_desc" ? bPrice-aPrice : aPrice-bPrice;
+  });
+}
+
+function renderListingRows(rows){
+  rows=sortListingRows(rows||[]);
+  if(!rows.length){
+    $("listingGrid").innerHTML='<div class="empty">No stays found for these filters.</div>';
+    return;
+  }
+
+  $("listingGrid").innerHTML=rows.map(x=>{
+    const booked=Boolean(x.is_fully_booked);
+    const cardClass=booked?"card booked-card":"card";
+    const availableBeds=Number(x.available_beds||0);
+    const availabilityText=booked?"Currently fully booked":availableBeds+" bed"+(availableBeds===1?"":"s")+" available";
+    const bookedBanner=booked?`<div class="booked-banner">🔒 Currently Fully Booked</div>`:"";
+    const startingPrice=Number(x.starting_price??0);
+    const priceSection=`<div class="price-box"><div class="price-label">Starting from</div><div class="price">${startingPrice>0?`₹${startingPrice.toLocaleString("en-IN")}`:"Price unavailable"}${startingPrice>0?`<span>/ month</span>`:""}</div><div class="availability">${escapeHtml(availabilityText)}</div></div>`;
+    return `<article class="${cardClass}" data-property="${escapeHtml(x.property_id)}">
+      <img class="card-image" loading="lazy" decoding="async" src="${escapeHtml(x.image_url||"building.jpg")}" onerror="this.src='building.jpg'" alt="${escapeHtml(x.property_name)}">
+      ${bookedBanner}
+      <div class="card-body">
+        <span class="badge">${escapeHtml(x.property_type)}</span>
+        <span class="distance">${Number(x.distance_km).toFixed(1)} km</span>
+        <h3>${escapeHtml(x.property_name)}</h3>
+        <div class="address">${escapeHtml(x.address)}, ${escapeHtml(x.city)}</div>
+        <div class="chips">${(x.amenities||[]).slice(0,6).map(a=>`<span class="chip">✓ ${escapeHtml(a)}</span>`).join("")}</div>
+        ${priceSection}
+      </div>
+    </article>`;
+  }).join("");
+
+  document.querySelectorAll(".card").forEach(c=>{
+    const go=()=>{
+      const pid=c.dataset.property;
+      const uid=selectedUniversity?.university_id||"";
+      // Preheat property details before the navigation where possible.
+      prefetchPropertyDetails(pid);
+      location.href="property.html?id="+encodeURIComponent(pid)+"&universityId="+encodeURIComponent(uid);
+    };
+    c.addEventListener("click",go);
+
+    // Desktop hover: warm the cache without delaying the interaction.
+    if(window.matchMedia && window.matchMedia('(pointer:fine)').matches){
+      let t;
+      c.addEventListener("pointerenter",()=>{
+        clearTimeout(t);
+        t=setTimeout(()=>prefetchPropertyDetails(c.dataset.property),140);
+      },{passive:true});
+      c.addEventListener("pointerleave",()=>clearTimeout(t),{passive:true});
+    }
+    // Touch devices: prefetch on first touch without making it visible.
+    c.addEventListener("touchstart",()=>prefetchPropertyDetails(c.dataset.property),{passive:true,once:true});
+  });
+}
+
+function prefetchPropertyDetails(propertyId){
+  if(!propertyId || !apiReady()) return;
+  const key="stsPropertyDetails:"+String(propertyId);
+  try{
+    const hit=JSON.parse(sessionStorage.getItem(key)||"null");
+    if(hit&&hit.savedAt&&Date.now()-Number(hit.savedAt)<120000&&hit.data) return;
+  }catch(e){}
+  if(window.__stsPropertyPrefetch && window.__stsPropertyPrefetch.has(propertyId)) return;
+  if(!window.__stsPropertyPrefetch) window.__stsPropertyPrefetch=new Set();
+  window.__stsPropertyPrefetch.add(propertyId);
+  fetch(API_URL+"?"+new URLSearchParams({action:"propertyDetails",propertyId}),{cache:"force-cache"})
+    .then(r=>r.ok?r.json():null)
+    .then(data=>{
+      if(data&&data.success){
+        try{sessionStorage.setItem(key,JSON.stringify({savedAt:Date.now(),data}));}catch(e){}
+      }
+    })
+    .catch(()=>{})
+    .finally(()=>window.__stsPropertyPrefetch.delete(propertyId));
+}
+
+async function renderListings(){
+  const cacheKey=listingsCacheKey();
+  let cachedRows=null;
+
+  try{
+    const cached=JSON.parse(sessionStorage.getItem(cacheKey)||"null");
+    if(cached && Array.isArray(cached.rows) && cached.savedAt && Date.now()-Number(cached.savedAt)<LISTINGS_CACHE_TTL){
+      cachedRows=cached.rows;
+    }
+  }catch(e){}
+
+  if(cachedRows){
+    renderListingRows(cachedRows);
+  }else{
+    $("listingGrid").innerHTML='<div class="loader">Loading stays...</div>';
+  }
+
+  try{
+    const d=await apiGet({
+      action:"listings",
+      universityId:selectedUniversity.university_id,
+      type:currentType,
+      gender:currentGender,
+      sort:currentSort
+    });
+
+    const rows=Array.isArray(d.listings)?d.listings:[];
+    try{sessionStorage.setItem(cacheKey,JSON.stringify({savedAt:Date.now(),rows}));}catch(e){}
+    renderListingRows(rows);
+  }catch(e){
+    if(!cachedRows){
+      $("listingGrid").innerHTML='<div class="empty">'+escapeHtml(e.message)+'</div>';
+    }
+  }
+}
+
+
+/* =====================================================
+   FILTER BUTTONS
+===================================================== */
+
+function setupSeg(
+  id,
+  cb
+){
+
+  $(id)
+    .addEventListener(
+      "click",
+      e => {
+
+        const b =
+          e.target.closest(
+            "button"
+          );
+
+        if(!b) return;
+
+
+        $(id)
+          .querySelectorAll(
+            "button"
+          )
+          .forEach(
+            x =>
+              x.classList.remove(
+                "active"
+              )
+          );
+
+
+        b.classList.add(
+          "active"
+        );
+
+
+        cb(
+          b.dataset.value
+        );
+
+      }
+    );
+
+}
+
+
+setupSeg(
+  "typeFilter",
+  v => {
+
+    currentType = v;
+
+    renderListings();
+
+  }
+);
+
+
+setupSeg(
+  "genderFilter",
+  v => {
+
+    currentGender = v;
+
+    renderListings();
+
+  }
+);
+
+
+/* =====================================================
+   SORT
+===================================================== */
+
+$("sortSelect")
+.addEventListener(
+  "change",
+  e => {
+
+    currentSort =
+      e.target.value;
+
+    renderListings();
+
+  }
+);
+
+
+/* =====================================================
+   NAVIGATION
+===================================================== */
+
+$("listingBack").onclick =
+  () =>
+    showView(
+      "homeView"
+    );
+
+
+$("roommateBack").onclick =
+  () =>
+    showView(
+      "homeView"
+    );
+
+
+$("listingBagBtn").onclick =
+  goBag;
+
+
+$("roommateBagBtn").onclick =
+  goBag;
+
+
+$("roommateBtn").onclick =
+  () => {
+
+    $("roommateUniversity")
+      .value =
+      $("universityInput")
+        .value;
+
+    showView(
+      "roommateView"
+    );
+
+  };
+
+
+$("aboutBtn").onclick =
+  () => {
+
+    const aboutSection =
+      document.getElementById("aboutUsSection");
+
+    if (aboutSection) {
+      aboutSection.scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+      });
+    } else {
+      window.scrollTo({
+        top: document.documentElement.scrollHeight,
+        behavior: "smooth"
+      });
+    }
+
+  };
+
+
+/* =====================================================
+   ROOMMATE MATCHING — PROFILE QUEUE
+===================================================== */
+
+function syncRoommateEmailFromSession(){
+
+  const emailField = $("roommateEmail");
+  if(!emailField) return;
+
+  const session = getStudentSession();
+  const email = session && session.student
+    ? String(session.student.email || "").trim()
+    : "";
+
+  if(email){
+    emailField.value = email;
+    emailField.readOnly = true;
+    emailField.classList.add("session-prefilled");
+  }
+
+}
+
+syncRoommateEmailFromSession();
+
+
+/* =====================================================
+   ROOMMATE COURSE PICKER
+===================================================== */
+
+const ROOMMATE_COURSE_OPTIONS = [
+  "B.Tech / B.E.", "B.Arch", "B.Des", "B.Sc.", "B.A.", "B.Com.", "BBA", "BCA", "BJMC", "B.Ed.", "B.Pharm", "BPT", "BHM", "MBBS", "BDS", "LLB",
+  "M.Tech / M.E.", "M.Arch", "M.Des", "M.Sc.", "M.A.", "M.Com.", "MBA", "MCA", "MJMC", "M.Ed.", "M.Pharm", "MPT", "MHM", "MD", "MS (Medical)", "MDS", "LLM",
+  "Ph.D.", "Diploma / Polytechnic", "CA", "CS", "CMA", "Other"
+];
+
+let selectedRoommateCourse = "";
+
+function renderRoommateCourseList(query = ""){
+  const list = $("roommateCourseList");
+  if(!list) return;
+  const q = String(query || "").trim().toLowerCase();
+  const filtered = ROOMMATE_COURSE_OPTIONS.filter(c => c.toLowerCase().includes(q));
+
+  list.innerHTML = filtered.length
+    ? filtered.map(c => `
+        <button type="button" class="course-option ${c === "Other" ? "other" : ""}" data-course="${escapeHtml(c)}" role="option">
+          <span>${escapeHtml(c)}</span>${c === "Other" ? "<span>＋</span>" : ""}
+        </button>
+      `).join("")
+    : '<div class="course-empty">No matching course. Choose <strong>Other</strong> to enter it manually.</div>';
+
+  list.querySelectorAll(".course-option").forEach(btn => {
+    btn.addEventListener("click", () => chooseRoommateCourse(btn.dataset.course || ""));
+  });
+}
+
+function setRoommateCourseValidity(valid){
+  const field = $("roommateCourseField");
+  if(field) field.classList.toggle("course-field-invalid", !valid);
+}
+
+function chooseRoommateCourse(course){
+  selectedRoommateCourse = course || "";
+  const menu = $("roommateCourseMenu");
+  const trigger = $("roommateCourseSelected");
+  const label = $("roommateCourseSelectedLabel");
+  const hidden = $("roommateCourse");
+  const otherWrap = $("roommateOtherCourseWrap");
+  const otherInput = $("roommateOtherCourse");
+
+  hidden.value = selectedRoommateCourse;
+  label.textContent = selectedRoommateCourse || "Select your degree / course";
+  trigger.classList.toggle("has-value", !!selectedRoommateCourse);
+  setRoommateCourseValidity(!!selectedRoommateCourse);
+  menu.classList.remove("open");
+  trigger.setAttribute("aria-expanded", "false");
+  $("roommateCourseSearch").value = "";
+  renderRoommateCourseList("");
+
+  if(selectedRoommateCourse === "Other"){
+    otherWrap.hidden = false;
+    setTimeout(() => otherInput?.focus(), 0);
+  }else{
+    otherWrap.hidden = true;
+    if(otherInput) otherInput.value = "";
+  }
+}
+
+function initRoommateCoursePicker(){
+  const picker = $("roommateCoursePicker");
+  const trigger = $("roommateCourseSelected");
+  const menu = $("roommateCourseMenu");
+  const search = $("roommateCourseSearch");
+  if(!picker || !trigger || !menu || !search) return;
+
+  renderRoommateCourseList("");
+
+  trigger.addEventListener("click", () => {
+    const open = menu.classList.toggle("open");
+    trigger.setAttribute("aria-expanded", String(open));
+    if(open){
+      search.value = "";
+      renderRoommateCourseList("");
+      setTimeout(() => search.focus(), 0);
+    }
+  });
+
+  search.addEventListener("input", () => renderRoommateCourseList(search.value));
+  search.addEventListener("keydown", e => {
+    if(e.key === "Escape"){
+      menu.classList.remove("open");
+      trigger.setAttribute("aria-expanded", "false");
+      trigger.focus();
+    }
+  });
+
+  document.addEventListener("click", e => {
+    if(!picker.contains(e.target)){
+      menu.classList.remove("open");
+      trigger.setAttribute("aria-expanded", "false");
+    }
+  });
+
+  $("roommateOtherCourse")?.addEventListener("input", () => {
+    setRoommateCourseValidity(String($("roommateOtherCourse").value || "").trim().length > 0);
+  });
+}
+
+initRoommateCoursePicker();
+
+$("roommateForm")
+.addEventListener(
+  "submit",
+  async e => {
+
+    e.preventDefault();
+
+    const form = e.target;
+    const emailField = $("roommateEmail");
+
+    if(!form.reportValidity()) return;
+
+    const selectedCourseValue = String($("roommateCourse")?.value || "").trim();
+    const otherCourseValue = String($("roommateOtherCourse")?.value || "").trim();
+    const finalCourseValue = selectedCourseValue === "Other" ? otherCourseValue : selectedCourseValue;
+
+    if(!finalCourseValue){
+      setRoommateCourseValidity(false);
+      showMessage("Please select your degree / course.");
+      $("roommateCourseSelected")?.focus();
+      return;
+    }
+
+    setRoommateCourseValidity(true);
+
+    const ageValue = Number(form.elements.age?.value);
+    if(!Number.isFinite(ageValue) || ageValue < 12){
+      form.elements.age?.setCustomValidity("Age must be 12 or above.");
+      form.elements.age?.reportValidity();
+      form.elements.age?.setCustomValidity("");
+      return;
+    }
+
+    const budgetValue = Number(form.elements.budget?.value);
+    if(!Number.isFinite(budgetValue) || budgetValue < 1000){
+      form.elements.budget?.setCustomValidity("Monthly budget must be at least ₹1,000.");
+      form.elements.budget?.reportValidity();
+      form.elements.budget?.setCustomValidity("");
+      return;
+    }
+
+    const email = String(emailField?.value || "").trim();
+    if(!/^\S+@\S+\.\S+$/.test(email)){
+      if(emailField){
+        emailField.setCustomValidity("Enter a valid email address.");
+        emailField.reportValidity();
+        emailField.setCustomValidity("");
+      }
+      return;
+    }
+
+    const fd = new FormData(form);
+    const data = Object.fromEntries(fd.entries());
+    data.course = finalCourseValue;
+
+
+    const session = getStudentSession();
+    const studentId = session && session.student
+      ? String(session.student.student_id || "").trim()
+      : "";
+
+    if(studentId) data.student_id = studentId;
+
+    const submitButton = form.querySelector(".submit");
+    if(submitButton){
+      submitButton.disabled = true;
+      submitButton.textContent = "Submitting profile…";
+    }
+
+    $("matches").innerHTML =
+      '<div class="roommate-status loading">Saving your profile…</div>';
+
+    try{
+
+      const r = await apiPost({
+        action: "matchStudent",
+        ...data
+      });
+
+      if(!r || !r.success){
+        throw new Error(
+          r && r.error ? r.error : "We couldn’t save your profile."
+        );
+      }
+
+      $("matches").innerHTML = `
+        <div class="roommate-confirmation" role="status" aria-live="polite">
+          <div class="roommate-confirmation-top">
+            <span class="roommate-confirmation-mark">✓</span>
+            <span class="roommate-promise-eyebrow">PROFILE RECEIVED</span>
+          </div>
+          <h3>Your roommate search is officially in.</h3>
+          <p>
+            We’ve stored your answers privately. We’ll curate your best possible roommate match
+            within <strong>7–10 days</strong> and send the result to
+            <strong>${escapeHtml(email)}</strong>.
+          </p>
+          <div class="roommate-next-grid">
+            <div><b>01</b><span>Your profile is saved</span></div>
+            <div><b>02</b><span>We review &amp; compare profiles</span></div>
+            <div><b>03</b><span>Your match arrives by email</span></div>
+          </div>
+        </div>
+      `;
+
+      form.classList.add("roommate-form-submitted");
+      form.querySelectorAll("input, select, button").forEach(el => el.disabled = true);
+
+      const statusText = document.createElement("p");
+      statusText.className = "roommate-saved-note";
+      statusText.textContent = "You can leave this page now — your profile has been saved.";
+      $("matches").appendChild(statusText);
+
+    }catch(err){
+
+      $("matches").innerHTML =
+        `<div class="roommate-status error">${escapeHtml(err.message || "Something went wrong. Please try again.")}</div>`;
+
+      if(submitButton){
+        submitButton.disabled = false;
+        submitButton.textContent = "Submit My Profile";
+      }
+
+    }
+
+  }
+);
+
+
+/* =====================================================
+   PLACEHOLDER LINKS
+===================================================== */
+
+document
+  .querySelectorAll(
+    "a[data-placeholder]"
+  )
+  .forEach(
+    a =>
+
+      a.onclick =
+        e => {
+
+          if(
+            a.getAttribute(
+              "href"
+            ) === "#"
+          ){
+
+            e.preventDefault();
+
+            showMessage(
+              a.dataset.placeholder
+            );
+
+          }
+
+        }
+  );
+
+
+/* =====================================================
+   RESTORE LISTINGS VIEW FROM PROPERTY BACK
+===================================================== */
+
+async function restoreRequestedView(){
+  const query = new URLSearchParams(location.search);
+  if(query.get("view") !== "listings") return;
+
+  const universityId = query.get("universityId") || "";
+  if(!universityId) return;
+
+  const found = universities.find(
+    u => String(u.university_id) === String(universityId)
+  );
+
+  if(!found) return;
+
+  selectedUniversity = found;
+  $("universityInput").value = found.university_name;
+  $("selectedUniversity").textContent = found.university_name;
+  $("suggestions").classList.add("hidden");
+  currentType = "all";
+  currentGender = "all";
+  currentSort = "price_asc";
+  $("sortSelect").value = "price_asc";
+
+  document.querySelectorAll("#typeFilter button").forEach(x => x.classList.remove("active"));
+  const typeAll = document.querySelector('#typeFilter button[data-value="all"]');
+  if(typeAll) typeAll.classList.add("active");
+
+  document.querySelectorAll("#genderFilter button").forEach(x => x.classList.remove("active"));
+  const genderAll = document.querySelector('#genderFilter button[data-value="all"]');
+  if(genderAll) genderAll.classList.add("active");
+
+  showView("listingView");
+  await renderListings();
+  history.replaceState({}, document.title, location.pathname);
+}
+
+/* =====================================================
+   INIT
+===================================================== */
+
+updateBagCount();
+
+loadUniversities().then(restoreRequestedView).catch(()=>{});
+
+</script>
+
+
+<script id="sts-sage-motion">
+(() => {
+  const dot=document.querySelector('.sts-cursor-dot');
+  const ring=document.querySelector('.sts-cursor-ring');
+  const fine=window.matchMedia('(pointer:fine)').matches;
+  if(fine && dot && ring){
+    let mx=innerWidth/2,my=innerHeight/2,rx=mx,ry=my;
+    addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px'});
+    const loop=()=>{rx+=(mx-rx)*.13;ry+=(my-ry)*.13;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop)};loop();
+    document.addEventListener('mouseover',e=>{if(e.target.closest('a,button,input,select')){dot.classList.add('hover');ring.classList.add('hover')}});
+    document.addEventListener('mouseout',e=>{if(e.target.closest('a,button,input,select')){dot.classList.remove('hover');ring.classList.remove('hover')}});
+    const photo=document.querySelector('.hero-photo');
+    addEventListener('mousemove',e=>{
+      if(!photo||innerWidth<900)return;
+      const r=photo.getBoundingClientRect();
+      if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom){photo.style.transform='';return}
+      const x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;
+      photo.style.transform=`perspective(1100px) rotateY(${x*1.5}deg) rotateX(${y*-1.5}deg) translateY(-3px)`;
+    });
+  }
+  const style=document.createElement('style');
+  style.textContent=`
+    .sts-cursor-dot{position:fixed;z-index:10000;width:9px;height:9px;border-radius:50%;background:#26372b;pointer-events:none;transform:translate(-50%,-50%);opacity:.9;transition:width .25s ease,height .25s ease}
+    .sts-cursor-ring{position:fixed;z-index:9999;width:38px;height:38px;border:1px solid rgba(38,55,43,.45);border-radius:50%;pointer-events:none;transform:translate(-50%,-50%);transition:width .35s cubic-bezier(.2,.8,.2,1),height .35s cubic-bezier(.2,.8,.2,1),background .35s ease}
+    .sts-cursor-dot.hover{width:15px;height:15px}.sts-cursor-ring.hover{width:60px;height:60px;background:rgba(247,245,238,.08)}
+    @media(pointer:coarse){.sts-cursor-dot,.sts-cursor-ring{display:none}}
+  `;
+  document.head.appendChild(style);
+  document.querySelectorAll('.card').forEach((el,i)=>{el.style.transitionDelay=Math.min(i*45,220)+'ms'});
+})();
+</script>
+
+<script id="sts-award-v5-motion">
+(() => {
+  const root = document.documentElement;
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Scroll progress: visual only.
+  const progress = document.createElement('div');
+  progress.className = 'sts-progress';
+  document.body.appendChild(progress);
+  const updateProgress = () => {
+    const max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+    progress.style.width = `${Math.min(100, (window.scrollY / max) * 100)}%`;
+  };
+  window.addEventListener('scroll', updateProgress, { passive: true });
+  updateProgress();
+
+  if (reduced) return;
+
+  // Elegant reveal choreography for the home editorial module and common cards.
+  const revealTargets = document.querySelectorAll('.home-ecosystem .ecosystem-card, .home-ecosystem .ecosystem-head, .filters, .card, .form-shell, .footer-grid > section');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('reveal', 'is-in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: .12, rootMargin: '0px 0px -40px' });
+    revealTargets.forEach((el, i) => {
+      if (el.classList.contains('ecosystem-card')) el.style.transitionDelay = `${Math.min(i * 55, 180)}ms`;
+      io.observe(el);
+    });
+  }
+
+  const finePointer = window.matchMedia('(pointer:fine)').matches;
+  const largeScreen = window.innerWidth > 980;
+
+  // Desktop-only micro-interactions. Touch devices stay quiet and light.
+  if (finePointer) {
+    document.querySelectorAll('.search-btn, .finder-btn, .primary, .submit, .select-btn, .bag-btn, .back, .btn').forEach(btn => {
+      btn.addEventListener('pointermove', e => {
+        const r = btn.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width - .5;
+        const y = (e.clientY - r.top) / r.height - .5;
+        btn.style.transform = `translate(${x * 3}px, ${y * 2}px)`;
+      });
+      btn.addEventListener('pointerleave', () => btn.style.transform = '');
+    });
+
+    document.querySelectorAll('.ecosystem-card, .card, .match-card').forEach(card => {
+      card.addEventListener('pointermove', e => {
+        const r = card.getBoundingClientRect();
+        card.style.setProperty('--mx', `${((e.clientX-r.left)/r.width)*100}%`);
+        card.style.setProperty('--my', `${((e.clientY-r.top)/r.height)*100}%`);
+      });
+      card.addEventListener('pointerleave', () => {
+        card.style.removeProperty('--mx');card.style.removeProperty('--my');
+      });
+    });
+  }
+
+  // The premium orbit/parallax layer only runs on larger screens.
+  if (finePointer && largeScreen) {
+    const photo = document.querySelector('.hero-photo');
+    const hero = document.querySelector('.hero');
+    const orb = document.createElement('span');
+    orb.className = 'luxe-orbit-a';
+    hero?.appendChild(orb);
+    const orb2 = document.createElement('span');
+    orb2.className = 'luxe-orbit-b';
+    hero?.appendChild(orb2);
+
+    let ticking = false;
+    const parallax = () => {
+      const y = window.scrollY;
+      if (photo) {
+        const shift = Math.min(20, y * .04);
+        photo.style.backgroundPosition = `center ${50 + shift/3}%`;
+      }
+      orb.style.transform = `translate3d(${Math.sin(y/560)*6}px,${Math.cos(y/510)*8}px,0) rotate(-14deg)`;
+      orb2.style.transform = `translate3d(0,${Math.sin(y/380)*6}px,0) rotate(6deg)`;
+      ticking = false;
+    };
+    window.addEventListener('scroll', () => {
+      if (!ticking) { ticking = true; requestAnimationFrame(parallax); }
+    }, { passive:true });
+  }
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Your Cart — Shift The Stay</title>
+<style>
+:root{--green:#3d5630;--dark:#182217;--mint:#c7dc9e;--card:#d6e0e8;--soft:#eef3e7}
+*{box-sizing:border-box}
+body{margin:0;background:var(--green);color:#fff;font-family:Arial,Helvetica,sans-serif}
+.page{min-height:100vh;padding:28px 6% 80px}
+.top{display:flex;justify-content:space-between;align-items:center}
+.brand{font:400 50px Georgia,serif}
+.actions{display:flex;gap:10px}
+.btn{border:1px solid var(--mint);background:transparent;color:var(--mint);border-radius:28px;padding:11px 18px;cursor:pointer}
+.title{font:400 65px Georgia,serif;margin:55px 0 10px}
+.subtitle{max-width:900px;font-size:17px;line-height:1.7;margin:0 0 28px;color:#f4f6ed}
+.notice{max-width:950px;background:#172116;border:1px solid #78915b;border-radius:24px;padding:22px 25px;margin-bottom:22px}
+.notice strong{font-size:21px;color:var(--mint)}
+.notice p{margin:8px 0 0;line-height:1.6}
+.bag-list{display:grid;gap:18px;max-width:950px}
+.item{background:var(--card);color:#111;border-radius:23px;padding:20px;display:grid;grid-template-columns:110px 1fr auto;gap:20px;align-items:center;border:3px solid transparent;transition:.2s}
+.item.selected{border-color:var(--mint);box-shadow:0 0 0 3px rgba(199,220,158,.18)}
+.item img{width:110px;height:90px;object-fit:cover;border-radius:15px}
+.item h3{font:400 27px Georgia,serif;margin:0 0 7px}
+.meta{line-height:1.55}
+.item-actions{display:flex;flex-direction:column;gap:9px;align-items:flex-end}
+.select-btn{border:1px solid #3d5630;background:#3d5630;color:#fff;border-radius:22px;padding:10px 15px;cursor:pointer;font-weight:700}
+.select-btn.selected-btn{background:#182217;color:var(--mint);border-color:#182217}
+.remove{border:0;background:#222;color:#fff;border-radius:20px;padding:9px 14px;cursor:pointer}
+.compare{max-width:950px;margin-top:28px;background:#172116;border:1px solid #78915b;border-radius:24px;padding:24px;overflow:auto}
+.compare h2{font:400 30px Georgia,serif;margin:0 0 18px}
+.compare table{width:100%;border-collapse:collapse;min-width:650px}
+.compare th,.compare td{padding:13px 12px;border-bottom:1px solid #536848;text-align:left;vertical-align:top}
+.compare th{color:var(--mint);font-weight:700}
+.total{max-width:950px;margin-top:22px;background:#172116;border:1px solid #78915b;border-radius:24px;padding:24px;display:flex;justify-content:space-between;align-items:center;gap:20px}
+.total strong{font-size:28px}
+.total small{display:block;margin-top:5px;color:#d8e4ca}
+.primary{border:0;background:var(--mint);color:#16200f;border-radius:28px;padding:14px 25px;font-weight:800;cursor:pointer}
+.primary:disabled{opacity:.45;cursor:not-allowed}
+.selected-request-list{background:#eef3e7;color:#182217;border:1px solid #91a97a;border-radius:16px;padding:12px 15px;margin:18px 0}.selected-request-item{display:flex;justify-content:space-between;gap:16px;padding:9px 0;border-bottom:1px solid #c6d1bc}.selected-request-item:last-child{border-bottom:0}.selected-request-item span{font-weight:600;text-align:right}.form-card{max-width:950px;margin-top:25px;background:#172116;border:1px solid #78915b;border-radius:24px;padding:28px}
+.form-card h2{font:400 34px Georgia,serif;margin:0 0 8px}
+.form-card p{line-height:1.6;color:#e9efe2}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px}
+.field{display:flex;flex-direction:column;gap:7px}
+.field.full{grid-column:1/-1}
+.field label{font-size:14px;color:var(--mint)}
+.field input,.field select,.country-search{border:1px solid #91a97a;background:#eef3e7;color:#182217;border-radius:12px;padding:13px 14px;font-size:15px;outline:none}
+.field select{cursor:pointer}
+.phone-wrap{display:grid;grid-template-columns:230px 1fr;gap:10px}
+.country-picker{position:relative}
+.country-trigger{width:100%;height:46px;border:1px solid #91a97a;background:#eef3e7;color:#182217;border-radius:12px;padding:0 14px;font-size:15px;cursor:pointer;text-align:left;display:flex;align-items:center;justify-content:space-between}
+.country-trigger span:last-child{font-size:18px}
+.country-menu{position:absolute;z-index:50;left:0;right:0;top:52px;background:#eef3e7;border:1px solid #91a97a;border-radius:14px;padding:9px;box-shadow:0 12px 30px rgba(0,0,0,.25);display:none}
+.country-menu.open{display:block}
+.country-search{width:100%;margin-bottom:8px}
+.country-list{max-height:230px;overflow-y:auto;border-radius:10px}
+.country-option{width:100%;border:0;background:transparent;color:#182217;text-align:left;padding:10px 11px;border-radius:9px;cursor:pointer;font-size:14px;display:flex;justify-content:space-between;gap:10px}
+.country-option:hover,.country-option.active{background:#d6e0c9}
+.country-option .dial{font-weight:700;white-space:nowrap}
+.phone-number{width:100%}
+.course-picker{position:relative}
+.course-trigger{width:100%;min-height:46px;border:1px solid #91a97a;background:#eef3e7;color:#182217;border-radius:12px;padding:0 14px;font-size:15px;cursor:pointer;text-align:left;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.course-trigger span:first-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#687064}
+.course-trigger.has-value span:first-child{color:#182217}
+.course-chevron{font-size:18px;line-height:1;flex:0 0 auto}
+.course-menu{position:absolute;z-index:60;left:0;right:0;top:52px;background:#eef3e7;border:1px solid #91a97a;border-radius:14px;padding:9px;box-shadow:0 12px 30px rgba(0,0,0,.25);display:none}
+.course-menu.open{display:block}
+.course-search{width:100%;margin-bottom:8px}
+.course-list{max-height:240px;overflow-y:auto;border-radius:10px;overscroll-behavior:contain}
+.course-option{width:100%;border:0;background:transparent;color:#182217;text-align:left;padding:11px 12px;border-radius:9px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.course-option:hover,.course-option.active{background:#d6e0c9}
+.course-option.other{font-weight:700;border-top:1px solid #c6d1bc;margin-top:6px;padding-top:14px}
+.course-empty{padding:12px;color:#526048;font-size:14px}
+.other-course-wrap{margin-top:9px}
+.other-course-wrap[hidden]{display:none}
+.other-course-wrap input{width:100%;border:1px solid #91a97a;background:#eef3e7;color:#182217;border-radius:12px;padding:13px 14px;font-size:15px;outline:none}
+.field.invalid input,.field.invalid .course-trigger{border-color:#9c5f4f!important;box-shadow:0 0 0 3px rgba(156,95,79,.10)}
+.field-error{font-size:12px;color:#a4513f;display:none}
+.field.invalid .field-error{display:block}
+@media(max-width:700px){.phone-wrap{grid-template-columns:1fr}.course-menu{position:fixed;left:12px;right:12px;top:auto;bottom:12px;max-height:min(72vh,520px);border-radius:18px;box-shadow:0 18px 44px rgba(0,0,0,.28)}.course-list{max-height:min(52vh,360px)}}
+.form-actions{margin-top:22px;display:flex;justify-content:flex-end}
+.receipt{max-width:950px;margin-top:25px;background:#eef3e7;color:#182217;border-radius:24px;padding:28px}
+.receipt h2{font:400 35px Georgia,serif;margin:0 0 10px}
+.receipt .ok{color:#31501f;font-weight:800}
+.receipt-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px 25px;margin-top:18px}
+.receipt-grid div{padding:10px 0;border-bottom:1px solid #c2cfb6}
+.empty{border:1px dashed #a9c18a;border-radius:22px;padding:50px;text-align:center;max-width:800px}
+.empty button{margin-top:15px}
+.toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,20px);background:#fff;color:#111;padding:12px 18px;border-radius:24px;opacity:0;transition:.25s;z-index:20}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(max-width:700px){
+ .item{grid-template-columns:1fr}.item img{width:100%;height:180px}.item-actions{align-items:stretch}
+ .total{flex-direction:column;align-items:flex-start}.brand{font-size:38px}.title{font-size:48px}
+ .form-grid,.receipt-grid{grid-template-columns:1fr}.field.full{grid-column:auto}
+}
+</style>
+
+<style id="sts-sage-bag">
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+:root{--sage:#dce5d2;--sage2:#cbd8c0;--forest:#26372b;--paper:#f7f5ee;--line:rgba(38,55,43,.13);--shadow:0 24px 65px rgba(38,55,43,.11)}
+body{background:radial-gradient(circle at 8% 4%,rgba(255,255,255,.75),transparent 28%),linear-gradient(180deg,#e5ecde,#edf0e7);color:var(--forest);font-family:"DM Sans",sans-serif}.page{padding:30px 5% 80px;max-width:1250px;margin:auto}.brand{font:700 17px "Space Grotesk",sans-serif;letter-spacing:-.04em}.btn{border:1px solid var(--line);background:rgba(247,245,238,.72);color:var(--forest);border-radius:999px;padding:10px 16px;transition:.35s}.btn:hover{background:var(--forest);color:#fff;transform:translateY(-2px)}.title{font:700 clamp(3.5rem,7vw,7rem)/.88 "Space Grotesk",sans-serif;letter-spacing:-.08em;margin:70px 0 10px}.subtitle{color:rgba(38,55,43,.65)}.notice{background:rgba(247,245,238,.78);color:var(--forest);border:1px solid var(--line);border-radius:26px;box-shadow:0 15px 38px rgba(38,55,43,.06)}.notice strong{color:var(--forest)}.bag-list{max-width:1000px}.item{background:rgba(247,245,238,.9);color:var(--forest);border:1px solid var(--line);border-radius:26px;box-shadow:0 15px 38px rgba(38,55,43,.06);transition:.45s cubic-bezier(.2,.8,.2,1)}.item:hover{transform:translateY(-5px);box-shadow:0 24px 52px rgba(38,55,43,.11)}.item.selected{border-color:#9caf87;box-shadow:0 0 0 3px rgba(156,175,135,.18),0 18px 42px rgba(38,55,43,.08)}.item h3{font:700 27px "Space Grotesk",sans-serif;letter-spacing:-.05em}.select-btn{border:1px solid var(--forest);background:var(--forest);color:#fff;border-radius:999px;transition:.3s}.select-btn.selected-btn{background:var(--sage2);color:var(--forest);border-color:var(--sage2)}.remove{background:transparent;color:var(--forest);border:1px solid var(--line)}.compare{max-width:1000px;background:rgba(247,245,238,.82);color:var(--forest);border:1px solid var(--line);border-radius:28px;box-shadow:0 18px 42px rgba(38,55,43,.06)}.compare h2{font:700 30px "Space Grotesk",sans-serif;letter-spacing:-.05em}.compare th,.compare td{border-bottom:1px solid var(--line)}.compare th{color:var(--forest)}.total{max-width:1000px;background:var(--forest);border:0;border-radius:28px;color:#fff;box-shadow:var(--shadow)}.total small{color:rgba(255,255,255,.64)}.primary{background:var(--sage2);color:var(--forest);border-radius:999px}.form-card{max-width:1000px;background:rgba(38,55,43,.96);border:0;border-radius:28px;box-shadow:var(--shadow)}.form-card h2{font:700 34px "Space Grotesk",sans-serif}.field label{color:var(--sage2)}.field input,.field select,.country-search{background:var(--paper);border:1px solid rgba(255,255,255,.12);color:var(--forest);border-radius:13px}.country-trigger{background:var(--paper);border-color:rgba(255,255,255,.12);color:var(--forest);border-radius:13px}.country-menu{background:var(--paper);border-color:var(--line)}.country-option{color:var(--forest)}.country-option:hover,.country-option.active{background:var(--sage)}.receipt{max-width:1000px;background:var(--paper);color:var(--forest);border-radius:28px;box-shadow:var(--shadow)}.receipt h2{font:700 35px "Space Grotesk",sans-serif}.receipt-grid div{border-bottom:1px solid var(--line)}.toast{background:var(--paper);color:var(--forest);border:1px solid var(--line);box-shadow:var(--shadow)}
+@media(max-width:700px){.title{font-size:3.7rem}}
+</style>
+
+<style id="sts-award-v5-bag">
+body{background:radial-gradient(850px 520px at 8% 0%,rgba(255,255,255,.88),transparent 60%),radial-gradient(700px 500px at 96% 18%,rgba(174,190,160,.32),transparent 62%),linear-gradient(140deg,#e7eee3,#dce6d5 48%,#f2f2eb)!important}
+body:before{content:"SHORTLIST / DECIDE";position:fixed;left:24px;top:22px;z-index:20;font:700 11px "Space Grotesk";letter-spacing:.13em;color:rgba(38,55,43,.48);pointer-events:none}
+.page{max-width:1260px!important;padding:92px 5% 95px!important}
+.top{padding-bottom:18px;border-bottom:1px solid var(--line);position:relative}.top:after{content:"03 / 04";position:absolute;right:0;bottom:9px;font:700 9px "Space Grotesk";letter-spacing:.15em;color:rgba(38,55,43,.38)}
+.brand{font:700 17px "Space Grotesk",sans-serif!important;letter-spacing:-.04em}.actions{gap:8px!important}.btn{box-shadow:0 10px 24px rgba(38,55,43,.05);transition:.35s cubic-bezier(.2,.8,.2,1)}
+.title{font:700 clamp(4.2rem,8vw,8.6rem)/.82 "Space Grotesk",sans-serif!important;letter-spacing:-.095em!important;margin:70px 0 12px!important}
+.subtitle{max-width:800px!important;font-size:16px!important;line-height:1.68!important;color:rgba(38,55,43,.62)!important}
+.notice{max-width:1050px!important;border-radius:30px!important;background:linear-gradient(135deg,rgba(174,190,160,.4),rgba(251,250,244,.72))!important;border-color:var(--line)!important;box-shadow:0 18px 48px rgba(38,55,43,.06)}
+.notice strong{font:700 26px "Space Grotesk"!important;letter-spacing:-.04em}
+.notice p{color:rgba(38,55,43,.64)!important}
+.bag-list{max-width:1050px!important;gap:14px!important}.item{position:relative;border-radius:29px!important;padding:15px!important;background:rgba(251,250,244,.82)!important;border-color:var(--line)!important;box-shadow:0 17px 44px rgba(38,55,43,.055)!important;transition:transform .5s cubic-bezier(.2,.8,.2,1),box-shadow .5s ease,border-color .3s ease!important}
+.item:before{content:"";position:absolute;left:0;top:15px;bottom:15px;width:3px;border-radius:0 99px 99px 0;background:var(--luxe-sage-deep);opacity:.7}
+.item:hover{transform:translateY(-7px);box-shadow:0 25px 62px rgba(38,55,43,.11)!important}.item.selected{border-color:#9caf87!important;box-shadow:0 0 0 3px rgba(156,175,135,.15),0 20px 50px rgba(38,55,43,.08)!important}
+
+.item:after{content:"";position:absolute;inset:0;border-radius:29px;pointer-events:none;opacity:0;transition:opacity .4s ease;background:radial-gradient(280px 180px at var(--mx,50%) var(--my,50%),rgba(255,255,255,.28),transparent 70%);mix-blend-mode:screen}
+.item:hover:after{opacity:1}
+.item:hover.reveal.is-in{transform:translateY(-7px)!important}
+.item img{width:122px!important;height:100px!important;border-radius:19px!important}.item h3{font-size:30px!important;letter-spacing:-.055em!important}.meta{color:rgba(38,55,43,.65)}
+.item-actions{gap:8px!important}.select-btn{padding:10px 15px!important}.remove{border-color:var(--line)!important}
+.compare{max-width:1050px!important;border-radius:30px!important;background:rgba(251,250,244,.77)!important;border-color:var(--line)!important;box-shadow:0 18px 48px rgba(38,55,43,.06)}
+.compare h2{font-size:32px!important}.compare th{color:var(--forest)!important}.compare th,.compare td{border-color:var(--line)!important}
+.total{max-width:1050px!important;position:sticky;bottom:16px;z-index:15;border-radius:30px!important;background:rgba(33,50,40,.94)!important;box-shadow:0 26px 75px rgba(33,50,40,.2)!important;backdrop-filter:blur(18px)}
+.form-card{max-width:1050px!important;border-radius:31px!important;padding:30px!important;box-shadow:0 30px 85px rgba(33,50,40,.15)!important}.form-card h2{font-size:38px!important;letter-spacing:-.06em!important}
+.receipt{max-width:1050px!important;border-radius:31px!important;box-shadow:0 26px 75px rgba(38,55,43,.12)!important}.receipt h2{font-size:39px!important;letter-spacing:-.06em!important}
+.sts-progress{position:fixed;left:0;top:0;height:2px;width:0;background:linear-gradient(90deg,#809875,#b8c7ac);z-index:9999}
+@media(max-width:700px){.page{padding:84px 18px 70px!important}.title{font-size:4rem!important}.item{padding:14px!important}.total{position:static!important}}
+</style>
+
+
+<style id="sts-warm-luxe-v6-bag">
+:root{--warm-bg:#b5b4a0;--warm-ivory:#e7e0cd;--warm-surface:#dcd5c1;--warm-ink:#2a3027;--warm-moss:#7f896e;--warm-brass:#927f5e;--warm-line:rgba(43,49,39,.16)}
+html{background:var(--warm-bg)}
+body{background:radial-gradient(720px 480px at 7% 2%,rgba(235,228,209,.18),transparent 65%),radial-gradient(650px 500px at 95% 16%,rgba(90,102,77,.10),transparent 63%),linear-gradient(145deg,#aaa994,#bbb9a5 48%,#aaa991)!important;color:var(--warm-ink)!important}
+body:before{color:rgba(42,48,39,.46)!important}.top{border-color:var(--warm-line)!important}.top:after{color:rgba(42,48,39,.40)!important}
+.brand,.title,.subtitle,.notice,.item,.compare,.total,.form-card,.receipt{color:var(--warm-ink)!important}
+.btn{background:rgba(231,224,205,.74)!important;color:var(--warm-ink)!important;border-color:var(--warm-line)!important;box-shadow:0 8px 22px rgba(48,48,36,.08)!important}.btn:hover{background:var(--warm-ink)!important;color:#eee7d8!important}
+.title{font-size:clamp(4rem,8vw,8.4rem)!important}
+.subtitle{color:rgba(42,48,39,.61)!important}
+.notice{background:linear-gradient(135deg,rgba(146,151,123,.22),rgba(231,224,205,.80))!important;border-color:var(--warm-line)!important;box-shadow:0 15px 36px rgba(48,48,36,.08)!important}.notice strong{color:var(--warm-ink)!important}.notice p{color:rgba(42,48,39,.62)!important}
+.item{background:rgba(222,216,199,.91)!important;border-color:var(--warm-line)!important;box-shadow:0 15px 36px rgba(48,48,36,.08)!important}.item:hover{box-shadow:0 22px 48px rgba(48,48,36,.13)!important}.item.selected{border-color:var(--warm-moss)!important;box-shadow:0 0 0 3px rgba(127,137,110,.16),0 18px 42px rgba(48,48,36,.09)!important}.item:before{background:var(--warm-brass)!important}.item:after{background:radial-gradient(260px 180px at var(--mx,50%) var(--my,50%),rgba(244,236,215,.22),transparent 70%)!important;mix-blend-mode:normal!important}.select-btn{background:var(--warm-ink)!important;border-color:var(--warm-ink)!important;color:#eee7d8!important}.select-btn.selected-btn{background:#c2c6aa!important;color:var(--warm-ink)!important;border-color:#c2c6aa!important}.remove{background:transparent!important;color:var(--warm-ink)!important;border-color:var(--warm-line)!important}
+.compare{background:rgba(231,224,205,.82)!important;border-color:var(--warm-line)!important;box-shadow:0 17px 39px rgba(48,48,36,.08)!important}.compare th,.compare td{border-color:var(--warm-line)!important}.compare th{color:var(--warm-ink)!important}
+.total{background:#2e352b!important;box-shadow:0 22px 58px rgba(37,39,31,.18)!important}.total small{color:rgba(235,230,216,.65)!important}.primary{background:#d5d0ba!important;color:var(--warm-ink)!important;box-shadow:0 9px 22px rgba(15,18,14,.16)!important}
+.form-card{background:#333a2f!important;box-shadow:0 28px 70px rgba(35,37,29,.17)!important}.form-card h2{color:#eee7d8!important}.field label{color:#c6c9aa!important}.field input,.field select,.country-trigger,.country-search{background:#e5dec9!important;color:var(--warm-ink)!important;border-color:rgba(44,50,39,.16)!important}.country-menu{background:#e5dec9!important;border-color:var(--warm-line)!important;box-shadow:0 12px 30px rgba(36,39,31,.18)!important}.country-option{color:var(--warm-ink)!important}.country-option:hover,.country-option.active{background:#d0cfb9!important}
+.receipt{background:var(--warm-ivory)!important;box-shadow:0 22px 58px rgba(48,48,36,.12)!important}.receipt-grid div{border-color:var(--warm-line)!important}.toast{background:var(--warm-ivory)!important;color:var(--warm-ink)!important;border-color:var(--warm-line)!important;box-shadow:0 16px 36px rgba(48,48,36,.14)!important}
+.sts-progress{background:linear-gradient(90deg,#7b856c,#aa9a78)!important;box-shadow:0 0 14px rgba(146,127,94,.20)!important}
+.btn,.select-btn,.primary{position:relative;overflow:hidden;isolation:isolate}.btn:after,.select-btn:after,.primary:after{content:"";position:absolute;top:-30%;bottom:-30%;left:-46%;width:30%;background:linear-gradient(90deg,transparent,rgba(245,238,220,.12),transparent);transform:translateX(-120%) rotate(12deg);pointer-events:none}.btn:hover:after,.select-btn:hover:after,.primary:hover:after{animation:bagSweep .75s ease-out both}
+@keyframes bagSweep{from{transform:translateX(-120%) rotate(12deg)}to{transform:translateX(500%) rotate(12deg)}}
+@media(pointer:coarse),(max-width:820px){.btn:hover:after,.select-btn:hover:after,.primary:hover:after{animation:none!important}.item:hover{transform:none!important;box-shadow:0 15px 36px rgba(48,48,36,.08)!important}}
+@media(max-width:620px){body{background:linear-gradient(160deg,#b4b39f,#b9b7a3 55%,#a9a891)!important}.page{padding-left:18px!important;padding-right:18px!important}.title{font-size:3.8rem!important}}
+@media(prefers-reduced-motion:reduce){.btn:hover:after,.select-btn:hover:after,.primary:hover:after{animation:none!important}}
+.course-trigger{background:#e5dec9!important;color:var(--warm-ink)!important;border-color:rgba(44,50,39,.16)!important}.course-trigger span:first-child{color:rgba(42,48,39,.56)}.course-trigger.has-value span:first-child{color:var(--warm-ink)}.course-menu{background:#e5dec9!important;border-color:var(--warm-line)!important;box-shadow:0 16px 36px rgba(36,39,31,.18)!important}.course-search{background:#f0ead9!important;color:var(--warm-ink)!important;border-color:var(--warm-line)!important}.course-option{color:var(--warm-ink)!important}.course-option:hover,.course-option.active{background:#d0cfb9!important}.course-option.other{border-color:var(--warm-line)!important}.course-empty{color:rgba(42,48,39,.64)!important}.other-course-wrap input{background:#e5dec9!important;color:var(--warm-ink)!important;border-color:var(--warm-line)!important}.field-error{color:#915646!important}
+</style>
+</head>
+<body>
+<main class="page">
+  <div class="top">
+    <div class="brand">Shift The Stay</div>
+    <div class="actions">
+      <button class="btn" onclick="history.back()">← Back</button>
+    </div>
+  </div>
+  <h1 class="title">Your Cart 🛒</h1>
+  <div id="content"></div>
+</main>
+<div id="toast" class="toast"></div>
+
+<script>
+const API_URL="https://script.google.com/macros/s/AKfycbzaPvD-J4nnSwXudYter54rdz68zeBdVgHQeJWmzyFmLG4GhtTKSrfrHITFTS6nLctD/exec";
+let selectedIndexes=[];
+const MAX_SELECTED=2;
+
+function getStudentSession(){
+  try{
+    return JSON.parse(localStorage.getItem("stsStudentSession")||"null");
+  }catch(e){return null;}
+}
+
+function bag(){
+  const session=getStudentSession();
+  if(!session||!session.student||!session.student.student_id)return [];
+  const key="stsBag_"+session.student.student_id;
+
+  try{
+    const raw=JSON.parse(localStorage.getItem(key)||"[]");
+    if(!Array.isArray(raw))return [];
+
+    /* Keep one entry per PROPERTY + ROOM TYPE.
+       Different room types under the same property are allowed. */
+    const seen=new Set();
+    const cleaned=raw.filter(item=>{
+      const propertyKey=String(item.propertyId ?? "");
+      const roomKey=String(item.roomTypeId ?? "");
+      const uniqueKey=propertyKey+"::"+roomKey;
+
+      /* Legacy entries without a room type fall back to their id. */
+      const finalKey=(roomKey ? uniqueKey : propertyKey+"::legacy::"+String(item.id||""));
+
+      if(seen.has(finalKey))return false;
+      seen.add(finalKey);
+      return true;
+    });
+
+    if(cleaned.length!==raw.length){
+      localStorage.setItem(key,JSON.stringify(cleaned));
+      localStorage.setItem("stsBag",JSON.stringify(cleaned));
+    }
+
+    return cleaned;
+  }catch(e){
+    return [];
+  }
+}
+
+function save(b){
+  const session=getStudentSession();
+  if(!session||!session.student||!session.student.student_id)return;
+  const key="stsBag_"+session.student.student_id;
+  localStorage.setItem(key,JSON.stringify(b));
+  localStorage.setItem("stsBag",JSON.stringify(b));
+}
+
+function esc(v){
+  return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
+}
+
+function money(n){
+  return "₹"+Number(n||0).toLocaleString("en-IN");
+}
+
+function monthly(item){
+  return Number(item.roomPrice||0)+(item.addons||[]).reduce((s,a)=>s+Number(a.price||0),0);
+}
+
+function showMessage(m){
+  const t=document.getElementById("toast");
+  t.textContent=m;t.classList.add("show");
+  setTimeout(()=>t.classList.remove("show"),2400);
+}
+
+function selectItem(index){
+  const b=bag();
+  if(index<0 || index>=b.length)return;
+
+  const pos=selectedIndexes.indexOf(index);
+
+  if(pos>=0){
+    selectedIndexes.splice(pos,1);
+    render();
+    return;
+  }
+
+  if(selectedIndexes.length>=MAX_SELECTED){
+    showMessage("You can select a maximum of 2 options.");
+    return;
+  }
+
+  selectedIndexes.push(index);
+  render();
+}
+
+function removeItem(id){
+  const old=bag();
+  const removedIndex=old.findIndex(x=>String(x.id)===String(id));
+  const b=old.filter(x=>String(x.id)!==String(id));
+
+  selectedIndexes=selectedIndexes
+    .filter(i=>i!==removedIndex)
+    .map(i=>i>removedIndex?i-1:i);
+
+  save(b);
+  render();
+}
+
+function compareRows(b){
+  const names=b.map(x=>esc(x.propertyName||"Accommodation"));
+  const room=b.map(x=>esc(x.roomTypeName||"—"));
+  const price=b.map(x=>money(x.roomPrice));
+  const extras=b.map(x=>(x.addons||[]).length
+    ? x.addons.map(a=>esc(a.name)+" — "+money(a.price)).join("<br>")
+    : "None");
+  const totals=b.map(x=>money(monthly(x)));
+  return `
+    <div class="compare">
+      <h2>Compare your shortlisted stays</h2>
+      <table>
+        <thead><tr><th>Compare</th>${names.map(n=>`<th>${n}</th>`).join("")}</tr></thead>
+        <tbody>
+          <tr><th>Selected room</th>${room.map(x=>`<td>${x}</td>`).join("")}</tr>
+          <tr><th>Room price</th>${price.map(x=>`<td>${x} / month</td>`).join("")}</tr>
+          <tr><th>Optional facilities</th>${extras.map(x=>`<td>${x}</td>`).join("")}</tr>
+          <tr><th>Monthly total</th>${totals.map(x=>`<td><strong>${x}</strong></td>`).join("")}</tr>
+        </tbody>
+      </table>
+    </div>`;
+}
+
+function requestForm(items){
+  if(!Array.isArray(items) || !items.length)return "";
+
+  const selectedSummary=items.map((item,i)=>`
+    <div class="selected-request-item">
+      <strong>${i+1}. ${esc(item.propertyName||"Accommodation")}</strong>
+      <span>${esc(item.roomTypeName||"Room")} — ${money(monthly(item))} / month</span>
+    </div>
+  `).join("");
+
+  return `
+    <section class="form-card" id="requestForm">
+      <h2>Finalise your accommodation request</h2>
+      <p>
+        You have selected <strong>${items.length} option${items.length===1?"":"s"}</strong>.
+        Fill in your details and we’ll create your booking request. There is no online payment here —
+        Shift The Stay will receive the selected options and contact you to arrange the next step and a physical property visit.
+      </p>
+      <div class="selected-request-list">
+        ${selectedSummary}
+      </div>
+      <div class="form-grid">
+        <div class="field">
+          <label>Full Name *</label>
+          <input id="fName" value="${esc(getStudentSession()?.student?.name||"")}" placeholder="Your full name">
+        </div>
+        <div class="field">
+          <label>Phone Number *</label>
+          <div class="phone-wrap">
+            <div class="country-picker" id="countryPicker">
+              <button type="button" class="country-selected" id="countrySelected">🇮🇳 +91</button>
+              <div class="country-menu" id="countryMenu">
+                <input id="countrySearch" class="country-search" placeholder="Search country..." autocomplete="off">
+                <div class="country-list" id="countryList"></div>
+              </div>
+            </div>
+            <input id="fPhone" class="phone-number" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="Phone number">
+          </div>
+          <input type="hidden" id="fCountryCode" value="+91">
+        </div>
+        <div class="field full">
+          <label>College / University Name *</label>
+          <input id="fUniversity" placeholder="College or university name">
+        </div>
+        <div class="field">
+          <label>Admission / Applicant ID Number *</label>
+          <input id="fAdmissionId" placeholder="Admission / applicant ID">
+        </div>
+        <div class="field" id="courseField">
+          <label>Degree / Course *</label>
+          <div class="course-picker" id="coursePicker">
+            <button type="button" class="course-trigger" id="courseSelected" aria-haspopup="listbox" aria-expanded="false">
+              <span id="courseSelectedLabel">Select your degree / course</span><span class="course-chevron">⌄</span>
+            </button>
+            <div class="course-menu" id="courseMenu" role="dialog" aria-label="Select your degree or course">
+              <input id="courseSearch" class="course-search" type="search" placeholder="Search degree or course..." autocomplete="off" aria-label="Search degree or course">
+              <div class="course-list" id="courseList" role="listbox"></div>
+            </div>
+          </div>
+          <input type="hidden" id="fCourse" value="">
+          <div class="other-course-wrap" id="otherCourseWrap" hidden>
+            <input id="fOtherCourse" type="text" placeholder="Enter your degree / course name">
+          </div>
+        </div>
+        <div class="field">
+          <label>Year *</label>
+          <select id="fYear">
+            <option value="" selected disabled>Select your year</option>
+            <option value="1st Year">1st Year</option>
+            <option value="2nd Year">2nd Year</option>
+            <option value="3rd Year">3rd Year</option>
+            <option value="4th Year">4th Year</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-actions">
+        <button class="primary" id="receiptBtn" onclick="submitRequest()">GET BOOKING RECEIPT</button>
+      </div>
+    </section>`;
+}
+
+function renderReceipt(data){
+  const r=data.request||{};
+  const items=Array.isArray(r.selected_items)&&r.selected_items.length
+    ? r.selected_items
+    : [{
+        property_name:r.property_name||"—",
+        room_type_name:r.room_type_name||"—",
+        room_price:Number(r.monthly_total||0),
+        addon_total:0,
+        monthly_total:Number(r.monthly_total||0),
+        addons:[]
+      }];
+
+  const accommodationHtml=items.map((item,index)=>{
+    const addons=Array.isArray(item.addons)&&item.addons.length
+      ? `<div style="margin-top:6px;font-size:14px;color:#526048">${item.addons.map(a=>`+ ${esc(a.name||"Facility")} — ${money(a.price||0)}`).join("<br>")}</div>`
+      : "";
+
+    return `<div style="padding:14px 0;border-bottom:${index===items.length-1?"0":"1px solid #cfd6c5"}">
+      <strong>${index+1}. ${esc(item.property_name||"Accommodation")}</strong><br>
+      ${esc(item.room_type_name||"Room")} — ${money(item.room_price||0)} / month
+      ${addons}
+      <br><strong>Monthly total: ${money(item.monthly_total||0)}</strong>
+    </div>`;
+  }).join("");
+
+  document.getElementById("content").innerHTML=`
+    <div class="receipt">
+      <div class="ok">✓ Booking request created successfully</div>
+      <h2>Your Booking Receipt</h2>
+      <p>Your request has been recorded. Shift The Stay will contact you to arrange the next step and a physical visit.</p>
+
+      <div class="receipt-grid">
+        <div><strong>Request ID</strong><br>${esc(r.request_id||"—")}</div>
+        <div><strong>Options selected</strong><br>${items.length}</div>
+        <div style="grid-column:1/-1"><strong>Selected accommodations</strong><br>${accommodationHtml}</div>
+        <div><strong>Name</strong><br>${esc(r.student_name||"—")}</div>
+        <div><strong>Phone</strong><br>${esc(r.phone||"—")}</div>
+      </div>
+
+      <p><strong>Please keep your Request ID: ${esc(r.request_id||"")}</strong></p>
+    </div>`;
+}
+
+function render(){
+  const b=bag();
+  if(!b.length){
+    selectedIndexes=[];
+    document.getElementById("content").innerHTML=
+      '<div class="empty"><h2>Your shortlist is empty.</h2><p>Select rooms and optional facilities from property pages to compare your stays.</p><button class="primary" onclick="location.href=\'index.html\'">FIND A STAY</button></div>';
+    return;
+  }
+
+  selectedIndexes=selectedIndexes.filter(i=>i>=0 && i<b.length);
+
+  const html=b.map((item,i)=>{
+    const isSelected=selectedIndexes.includes(i);
+    const extras=(item.addons||[]).length
+      ? item.addons.map(a=>`+ ${esc(a.name)} — ${money(a.price)}`).join("<br>")
+      : "No optional facilities selected";
+    return `<article class="item ${isSelected?"selected":""}">
+      <img src="${esc(item.propertyImage||"building.jpg")}" onerror="this.src='building.jpg'">
+      <div>
+        <h3>${esc(item.propertyName||"Accommodation")}</h3>
+        <div class="meta">
+          <strong>${esc(item.roomTypeName||"Room")}</strong> — ${money(item.roomPrice)} / month<br>
+          ${extras}<br>
+          <strong>Monthly total: ${money(monthly(item))}</strong>
+          ${isSelected?'<br><strong style="color:#31501f">✓ Selected for final request</strong>':""}
+        </div>
+      </div>
+      <div class="item-actions">
+        <button class="select-btn ${isSelected?"selected-btn":""}" onclick="selectItem(${i})">${isSelected?"✓ SELECTED":"SELECT THIS"}</button>
+        <button class="remove" onclick="removeItem('${esc(item.id)}')">Remove</button>
+      </div>
+    </article>`;
+  }).join("");
+
+  document.getElementById("content").innerHTML=`
+    <p class="subtitle">You can shortlist multiple properties and room types for comparison, but you can select a maximum of <strong>2 options</strong>.</p>
+    <div class="notice">
+      <strong>Select up to 2 stays — compare them, visit them, then continue.</strong>
+      <p>You may keep multiple options in your shortlist. When you are ready, select up to two options below. After you click Continue, only the selected option(s) will be sent to Shift The Stay for your accommodation request.</p>
+      <p><strong>Selected: ${selectedIndexes.length} / ${MAX_SELECTED}</strong></p>
+    </div>
+    <div class="bag-list">${html}</div>
+    ${b.length>1?compareRows(b):""}
+    <div class="total">
+      <div>
+        <strong>${selectedIndexes.length ? `${selectedIndexes.length} option${selectedIndexes.length===1?"":"s"} selected` : "Select up to 2 options to continue"}</strong>
+        <small>${selectedIndexes.length ? "Only these selected options will be sent to Shift The Stay." : "You can select a maximum of 2 options."}</small>
+      </div>
+      <button class="primary" ${selectedIndexes.length?"":"disabled"} onclick="showRequestForm()">CONTINUE</button>
+    </div>
+    <div id="formMount"></div>`;
+}
+
+function showRequestForm(){
+  const b=bag();
+  const selectedItems=selectedIndexes
+    .filter(i=>i>=0 && i<b.length)
+    .map(i=>b[i]);
+
+  if(!selectedItems.length){
+    showMessage("Please select at least one option.");
+    return;
+  }
+
+  document.getElementById("formMount").innerHTML=requestForm(selectedItems);
+  initCountryPicker();
+  initCoursePicker();
+  document.getElementById("requestForm").scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+const countries=[
+["Afghanistan","+93","🇦🇫"],["Albania","+355","🇦🇱"],["Algeria","+213","🇩🇿"],["Andorra","+376","🇦🇩"],["Angola","+244","🇦🇴"],["Antigua and Barbuda","+1","🇦🇬"],["Argentina","+54","🇦🇷"],["Armenia","+374","🇦🇲"],["Australia","+61","🇦🇺"],["Austria","+43","🇦🇹"],["Azerbaijan","+994","🇦🇿"],["Bahamas","+1","🇧🇸"],["Bahrain","+973","🇧🇭"],["Bangladesh","+880","🇧🇩"],["Barbados","+1","🇧🇧"],["Belarus","+375","🇧🇾"],["Belgium","+32","🇧🇪"],["Belize","+501","🇧🇿"],["Benin","+229","🇧🇯"],["Bhutan","+975","🇧🇹"],["Bolivia","+591","🇧🇴"],["Bosnia and Herzegovina","+387","🇧🇦"],["Botswana","+267","🇧🇼"],["Brazil","+55","🇧🇷"],["Brunei","+673","🇧🇳"],["Bulgaria","+359","🇧🇬"],["Burkina Faso","+226","🇧🇫"],["Burundi","+257","🇧🇮"],["Cambodia","+855","🇰🇭"],["Cameroon","+237","🇨🇲"],["Canada","+1","🇨🇦"],["Cape Verde","+238","🇨🇻"],["Central African Republic","+236","🇨🇫"],["Chad","+235","🇹🇩"],["Chile","+56","🇨🇱"],["China","+86","🇨🇳"],["Colombia","+57","🇨🇴"],["Comoros","+269","🇰🇲"],["Congo","+242","🇨🇬"],["Costa Rica","+506","🇨🇷"],["Croatia","+385","🇭🇷"],["Cuba","+53","🇨🇺"],["Cyprus","+357","🇨🇾"],["Czech Republic","+420","🇨🇿"],["Denmark","+45","🇩🇰"],["Djibouti","+253","🇩🇯"],["Dominica","+1","🇩🇲"],["Dominican Republic","+1","🇩🇴"],["Ecuador","+593","🇪🇨"],["Egypt","+20","🇪🇬"],["El Salvador","+503","🇸🇻"],["Estonia","+372","🇪🇪"],["Eswatini","+268","🇸🇿"],["Ethiopia","+251","🇪🇹"],["Fiji","+679","🇫🇯"],["Finland","+358","🇫🇮"],["France","+33","🇫🇷"],["Gabon","+241","🇬🇦"],["Gambia","+220","🇬🇲"],["Georgia","+995","🇬🇪"],["Germany","+49","🇩🇪"],["Ghana","+233","🇬🇭"],["Greece","+30","🇬🇷"],["Grenada","+1","🇬🇩"],["Guatemala","+502","🇬🇹"],["Guinea","+224","🇬🇳"],["Guyana","+592","🇬🇾"],["Haiti","+509","🇭🇹"],["Honduras","+504","🇭🇳"],["Hungary","+36","🇭🇺"],["Iceland","+354","🇮🇸"],["India","+91","🇮🇳"],["Indonesia","+62","🇮🇩"],["Iran","+98","🇮🇷"],["Iraq","+964","🇮🇶"],["Ireland","+353","🇮🇪"],["Israel","+972","🇮🇱"],["Italy","+39","🇮🇹"],["Jamaica","+1","🇯🇲"],["Japan","+81","🇯🇵"],["Jordan","+962","🇯🇴"],["Kazakhstan","+7","🇰🇿"],["Kenya","+254","🇰🇪"],["Kiribati","+686","🇰🇮"],["Kuwait","+965","🇰🇼"],["Kyrgyzstan","+996","🇰🇬"],["Laos","+856","🇱🇦"],["Latvia","+371","🇱🇻"],["Lebanon","+961","🇱🇧"],["Lesotho","+266","🇱🇸"],["Liberia","+231","🇱🇷"],["Libya","+218","🇱🇾"],["Liechtenstein","+423","🇱🇮"],["Lithuania","+370","🇱🇹"],["Luxembourg","+352","🇱🇺"],["Madagascar","+261","🇲🇬"],["Malawi","+265","🇲🇼"],["Malaysia","+60","🇲🇾"],["Maldives","+960","🇲🇻"],["Mali","+223","🇲🇱"],["Malta","+356","🇲🇹"],["Marshall Islands","+692","🇲🇭"],["Mauritania","+222","🇲🇷"],["Mauritius","+230","🇲🇺"],["Mexico","+52","🇲🇽"],["Micronesia","+691","🇫🇲"],["Moldova","+373","🇲🇩"],["Monaco","+377","🇲🇨"],["Mongolia","+976","🇲🇳"],["Montenegro","+382","🇲🇪"],["Morocco","+212","🇲🇦"],["Mozambique","+258","🇲🇿"],["Myanmar","+95","🇲🇲"],["Namibia","+264","🇳🇦"],["Nauru","+674","🇳🇷"],["Nepal","+977","🇳🇵"],["Netherlands","+31","🇳🇱"],["New Zealand","+64","🇳🇿"],["Nicaragua","+505","🇳🇮"],["Niger","+227","🇳🇪"],["Nigeria","+234","🇳🇬"],["North Korea","+850","🇰🇵"],["North Macedonia","+389","🇲🇰"],["Norway","+47","🇳🇴"],["Oman","+968","🇴🇲"],["Pakistan","+92","🇵🇰"],["Palau","+680","🇵🇼"],["Palestine","+970","🇵🇸"],["Panama","+507","🇵🇦"],["Papua New Guinea","+675","🇵🇬"],["Paraguay","+595","🇵🇾"],["Peru","+51","🇵🇪"],["Philippines","+63","🇵🇭"],["Poland","+48","🇵🇱"],["Portugal","+351","🇵🇹"],["Qatar","+974","🇶🇦"],["Romania","+40","🇷🇴"],["Russia","+7","🇷🇺"],["Rwanda","+250","🇷🇼"],["Saint Kitts and Nevis","+1","🇰🇳"],["Saint Lucia","+1","🇱🇨"],["Saint Vincent and the Grenadines","+1","🇻🇨"],["Samoa","+685","🇼🇸"],["San Marino","+378","🇸🇲"],["Saudi Arabia","+966","🇸🇦"],["Senegal","+221","🇸🇳"],["Serbia","+381","🇷🇸"],["Seychelles","+248","🇸🇨"],["Sierra Leone","+232","🇸🇱"],["Singapore","+65","🇸🇬"],["Slovakia","+421","🇸🇰"],["Slovenia","+386","🇸🇮"],["Solomon Islands","+677","🇸🇧"],["Somalia","+252","🇸🇴"],["South Africa","+27","🇿🇦"],["South Korea","+82","🇰🇷"],["South Sudan","+211","🇸🇸"],["Spain","+34","🇪🇸"],["Sri Lanka","+94","🇱🇰"],["Sudan","+249","🇸🇩"],["Suriname","+597","🇸🇷"],["Sweden","+46","🇸🇪"],["Switzerland","+41","🇨🇭"],["Syria","+963","🇸🇾"],["Taiwan","+886","🇹🇼"],["Tajikistan","+992","🇹🇯"],["Tanzania","+255","🇹🇿"],["Thailand","+66","🇹🇭"],["Timor-Leste","+670","🇹🇱"],["Togo","+228","🇹🇬"],["Tonga","+676","🇹🇴"],["Trinidad and Tobago","+1","🇹🇹"],["Tunisia","+216","🇹🇳"],["Turkey","+90","🇹🇷"],["Turkmenistan","+993","🇹🇲"],["Tuvalu","+688","🇹🇻"],["Uganda","+256","🇺🇬"],["Ukraine","+380","🇺🇦"],["United Arab Emirates","+971","🇦🇪"],["United Kingdom","+44","🇬🇧"],["United States","+1","🇺🇸"],["Uruguay","+598","🇺🇾"],["Uzbekistan","+998","🇺🇿"],["Vanuatu","+678","🇻🇺"],["Vatican City","+39","🇻🇦"],["Venezuela","+58","🇻🇪"],["Vietnam","+84","🇻🇳"],["Yemen","+967","🇾🇪"],["Zambia","+260","🇿🇲"],["Zimbabwe","+263","🇿🇼"]
+];
+let selectedCountry=countries.find(c=>c[0]==="India")||countries[0];
+function renderCountryList(query=""){
+  const q=query.trim().toLowerCase(), list=document.getElementById("countryList");
+  const filtered=countries.filter(c=>c[0].toLowerCase().includes(q)||c[1].includes(q));
+  list.innerHTML=filtered.length?filtered.map(c=>`<button type="button" class="country-option" data-name="${esc(c[0])}" data-code="${esc(c[1])}" data-flag="${esc(c[2])}"><span>${esc(c[2])} ${esc(c[0])}</span><span class="dial">${esc(c[1])}</span></button>`).join(""):'<div style="padding:12px;color:#526048">No country found</div>';
+  list.querySelectorAll(".country-option").forEach(btn=>btn.addEventListener("click",()=>{
+    selectedCountry=[btn.dataset.name,btn.dataset.code,btn.dataset.flag];
+    document.getElementById("countrySelected").textContent=`${selectedCountry[2]} ${selectedCountry[1]}`;
+    document.getElementById("fCountryCode").value=selectedCountry[1];
+    document.getElementById("countryMenu").classList.remove("open");
+    document.getElementById("countrySelected").setAttribute("aria-expanded","false");
+    document.getElementById("countrySearch").value=""; renderCountryList(""); document.getElementById("fPhone").focus();
+  }));
+}
+function initCountryPicker(){
+  renderCountryList("");
+  const trigger=document.getElementById("countrySelected"), menu=document.getElementById("countryMenu"), search=document.getElementById("countrySearch");
+  trigger?.addEventListener("click",()=>{const open=menu.classList.toggle("open");trigger.setAttribute("aria-expanded",String(open));if(open){search.value="";renderCountryList("");setTimeout(()=>search.focus(),0);}});
+  search?.addEventListener("input",()=>renderCountryList(search.value));
+  document.getElementById("fPhone")?.addEventListener("input",()=>clearFieldInvalid("fPhone"));
+  document.addEventListener("click",e=>{const picker=document.getElementById("countryPicker");if(picker&&!picker.contains(e.target)){menu.classList.remove("open");trigger.setAttribute("aria-expanded","false");}});
+}
+
+const COURSE_OPTIONS=[
+  "B.Tech / B.E.","B.Arch","B.Des","B.Sc.","B.A.","B.Com.","BBA","BCA","BJMC","B.Ed.","B.Pharm","BPT","BHM","MBBS","BDS","LLB",
+  "M.Tech / M.E.","M.Arch","M.Des","M.Sc.","M.A.","M.Com.","MBA","MCA","MJMC","M.Ed.","M.Pharm","MPT","MHM","MD","MS (Medical)","MDS","LLM",
+  "Ph.D.","Diploma / Polytechnic","CA","CS","CMA","Other"
+];
+let selectedCourse="";
+
+function renderCourseList(query="") {
+  const list=document.getElementById("courseList");
+  if(!list)return;
+  const q=String(query||"").trim().toLowerCase();
+  const filtered=COURSE_OPTIONS.filter(c=>c.toLowerCase().includes(q));
+  list.innerHTML=filtered.length
+    ? filtered.map(c=>`<button type="button" class="course-option ${c==="Other"?"other":""}" data-course="${esc(c)}" role="option">${esc(c)}${c==="Other"?"<span>+</span>":""}</button>`).join("")
+    : '<div class="course-empty">No matching course. Choose <strong>Other</strong> to enter it manually.</div>';
+  list.querySelectorAll(".course-option").forEach(btn=>btn.addEventListener("click",()=>chooseCourse(btn.dataset.course)));
+}
+
+function chooseCourse(course){
+  selectedCourse=course||"";
+  const menu=document.getElementById("courseMenu"),trigger=document.getElementById("courseSelected"),label=document.getElementById("courseSelectedLabel");
+  const hidden=document.getElementById("fCourse"), otherWrap=document.getElementById("otherCourseWrap"), otherInput=document.getElementById("fOtherCourse");
+  hidden.value=selectedCourse;
+  label.textContent=selectedCourse||"Select your degree / course";
+  trigger.classList.toggle("has-value",!!selectedCourse);
+  clearFieldInvalid("courseSelected");
+  menu.classList.remove("open");
+  trigger.setAttribute("aria-expanded","false");
+  document.getElementById("courseSearch").value="";
+  renderCourseList("");
+  if(selectedCourse==="Other"){
+    otherWrap.hidden=false;
+    setTimeout(()=>otherInput?.focus(),0);
+  }else{
+    otherWrap.hidden=true;
+    if(otherInput)otherInput.value="";
+  }
+}
+
+function initCoursePicker(){
+  const picker=document.getElementById("coursePicker"), trigger=document.getElementById("courseSelected"), menu=document.getElementById("courseMenu"), search=document.getElementById("courseSearch");
+  if(!picker||!trigger||!menu||!search)return;
+  renderCourseList("");
+  trigger.addEventListener("click",()=>{
+    const open=menu.classList.toggle("open");
+    trigger.setAttribute("aria-expanded",String(open));
+    if(open){search.value="";renderCourseList("");setTimeout(()=>search.focus(),0);}
+  });
+  search.addEventListener("input",()=>renderCourseList(search.value));
+  document.addEventListener("click",e=>{
+    if(!picker.contains(e.target)){
+      menu.classList.remove("open");
+      trigger.setAttribute("aria-expanded","false");
+    }
+  });
+  search.addEventListener("keydown",e=>{
+    if(e.key==="Escape"){menu.classList.remove("open");trigger.setAttribute("aria-expanded","false");trigger.focus();}
+  });
+  document.getElementById("fOtherCourse")?.addEventListener("input",()=>clearFieldInvalid("fOtherCourse"));
+}
+
+function markFieldInvalid(id, message){
+  const el=document.getElementById(id);
+  const field=el?.closest(".field");
+  if(!field)return;
+  let err=field.querySelector(".field-error");
+  if(!err){err=document.createElement("div");err.className="field-error";field.appendChild(err);}
+  err.textContent=message;
+  field.classList.add("invalid");
+}
+
+function clearFieldInvalid(id){
+  const el=document.getElementById(id);
+  const field=el?.closest(".field");
+  field?.classList.remove("invalid");
+}
+
+async function submitRequest(){
+  const session=getStudentSession();
+  const b=bag();
+  const selectedItems=selectedIndexes
+    .filter(i=>i>=0 && i<b.length)
+    .map(i=>b[i]);
+
+  if(!session||!session.session_token||!session.student?.student_id){
+    showMessage("Please sign in again.");
+    return;
+  }
+  if(!selectedItems.length){
+    showMessage("Please select at least one option.");
+    return;
+  }
+  if(selectedItems.length>MAX_SELECTED){
+    showMessage("You can select a maximum of 2 options.");
+    return;
+  }
+
+  const phoneNumber=document.getElementById("fPhone").value.replace(/\D/g,"").trim();
+  const selectedCourseValue=document.getElementById("fCourse").value.trim();
+  const otherCourseValue=document.getElementById("fOtherCourse")?.value.trim()||"";
+  const finalCourse=selectedCourseValue==="Other"?otherCourseValue:selectedCourseValue;
+
+  const fields={
+    name:document.getElementById("fName").value.trim(),
+    phone:(document.getElementById("fCountryCode").value||"+91")+" "+phoneNumber,
+    university:document.getElementById("fUniversity").value.trim(),
+    admissionId:document.getElementById("fAdmissionId").value.trim(),
+    course:finalCourse,
+    year:document.getElementById("fYear").value.trim()
+  };
+
+  ["fName","fUniversity","fAdmissionId","fYear"].forEach(clearFieldInvalid);
+  clearFieldInvalid("fPhone");
+  clearFieldInvalid("courseSelected");
+  clearFieldInvalid("fOtherCourse");
+
+  if(!fields.name){markFieldInvalid("fName","Please enter your full name.");document.getElementById("fName").focus();showMessage("Please enter your full name.");return;}
+  if(!phoneNumber){markFieldInvalid("fPhone","Phone number is required.");document.getElementById("fPhone").focus();showMessage("Phone number is required.");return;}
+  if(phoneNumber.length<7||phoneNumber.length>15){markFieldInvalid("fPhone","Enter a valid phone number.");document.getElementById("fPhone").focus();showMessage("Enter a valid phone number.");return;}
+  if(!fields.university){markFieldInvalid("fUniversity","Please enter your university or college.");document.getElementById("fUniversity").focus();showMessage("Please enter your university or college.");return;}
+  if(!fields.admissionId){markFieldInvalid("fAdmissionId","Admission / applicant ID is required.");document.getElementById("fAdmissionId").focus();showMessage("Admission / applicant ID is required.");return;}
+  if(!selectedCourseValue){markFieldInvalid("courseSelected","Please choose a degree / course.");document.getElementById("courseSelected").focus();showMessage("Please choose a degree / course.");return;}
+  if(selectedCourseValue==="Other"&&!otherCourseValue){markFieldInvalid("fOtherCourse","Please enter your degree / course name.");document.getElementById("fOtherCourse").focus();showMessage("Please enter your degree / course name.");return;}
+  if(!fields.year){markFieldInvalid("fYear","Please select your year.");document.getElementById("fYear").focus();showMessage("Please select your year.");return;}
+
+  const button=document.getElementById("receiptBtn");
+  button.disabled=true;
+  button.textContent="CREATING RECEIPT...";
+
+  const first=selectedItems[0];
+
+  try{
+    const payload=new URLSearchParams({
+      action:"createBookingRequest",
+      session_token:session.session_token,
+      name:fields.name,
+      phone:fields.phone,
+      university:fields.university,
+      admissionId:fields.admissionId,
+      course:fields.course,
+      year:fields.year,
+
+      /* Kept for compatibility with the existing backend/sheet. */
+      selected_property_id:String(first.propertyId||""),
+      selected_property_name:String(first.propertyName||""),
+      selected_room_type_id:String(first.roomTypeId||""),
+      selected_room_type_name:String(first.roomTypeName||""),
+      selected_room_price:String(Number(first.roomPrice||0)),
+      selected_addons:JSON.stringify(first.addons||[]),
+
+      /* These are the options the student actually selected.
+         The backend will store each selected option in RequestSelections. */
+      selected_items:JSON.stringify(selectedItems),
+
+      /* Keep the full shortlist available to the backend as context. */
+      shortlisted_items:JSON.stringify(b)
+    });
+
+    const response=await fetch(API_URL,{
+      method:"POST",
+      body:payload
+    });
+
+    if(!response.ok)throw new Error("Request failed ("+response.status+")");
+
+    const data=await response.json();
+    if(!data.success)throw new Error(data.error||"Could not create booking request.");
+
+    save([]);
+    selectedIndexes=[];
+    renderReceipt(data);
+  }catch(e){
+    button.disabled=false;
+    button.textContent="GET BOOKING RECEIPT";
+    showMessage(e.message||"Something went wrong.");
+  }
+}
+
+const currentSession=getStudentSession();
+
+if(!currentSession||!currentSession.session_token||!currentSession.student||!currentSession.student.student_id){
+  document.getElementById("content").innerHTML=`
+    <div class="empty">
+      <h2>Sign in to view your shortlist.</h2>
+      <p>Your shortlisted accommodations are saved to your student account.</p>
+      <button class="primary" onclick="location.href='index.html?loginRequired=1&returnTo=bag.html'">SIGN IN</button>
+    </div>`;
+}else{
+  render();
+}
+</script>
+
+<script id="sts-award-v5-bag-motion">
+(() => {
+  const progress = document.createElement('div'); progress.className='sts-progress'; document.body.appendChild(progress);
+  const update=()=>{const max=Math.max(1,document.documentElement.scrollHeight-innerHeight);progress.style.width=Math.min(100,scrollY/max*100)+'%'}; addEventListener('scroll',update,{passive:true});update();
+  const paint=()=>document.querySelectorAll('.item,.notice,.compare,.total,.form-card,.receipt').forEach((el,i)=>{el.style.transitionDelay=Math.min(i*45,180)+'ms';el.classList.add('reveal','is-in')});
+  const style=document.createElement('style'); style.textContent='.reveal{opacity:0;transform:translateY(18px);transition:opacity .7s cubic-bezier(.2,.8,.2,1),transform .7s cubic-bezier(.2,.8,.2,1)}.reveal.is-in{opacity:1;transform:none}';document.head.appendChild(style);setTimeout(paint,60);
+})();
+</script>
+
+</body>
+</html>
