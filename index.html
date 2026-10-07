@@ -7,6 +7,7 @@
 <link rel="icon" type="image/png" href="./favicon.png">
 <link rel="shortcut icon" href="./favicon.ico">
 <link rel="apple-touch-icon" href="./apple-touch-icon.png">
+
 <style>
 :root{
   --green:#3d5630;
@@ -1775,6 +1776,179 @@ body:after{color:rgba(42,48,39,.46)!important}
 }
 
 </style>
+
+<style id="sts-mobile-perfect">
+/* =====================================================
+   MOBILE PERFECT PASS — tuned for 360–480px phones
+   Layout only; no API/auth/data logic changes.
+===================================================== */
+html,body{max-width:100%;overflow-x:hidden!important}
+img,svg,video{max-width:100%}
+
+@media (max-width:700px){
+  #authButton{
+    top:10px!important;right:10px!important;
+    padding:9px 12px!important;font-size:11.5px!important;
+    max-width:calc(100vw - 20px)!important;white-space:nowrap!important;
+  }
+
+  .hero{
+    width:100%!important;min-height:auto!important;
+    grid-template-columns:1fr!important;
+    padding:70px 12px 18px!important;
+    overflow:visible!important;
+  }
+  .hero-left{
+    width:100%!important;min-width:0!important;min-height:auto!important;
+    padding:14px 6px 12px!important;
+    display:flex!important;flex-direction:column!important;align-items:stretch!important;
+  }
+  .hero-left .title,.title{
+    width:100%!important;max-width:100%!important;
+    text-align:center!important;
+    font-size:clamp(3rem,14vw,4.35rem)!important;
+    line-height:.9!important;
+    letter-spacing:-.075em!important;
+    margin:4px auto 0!important;
+    top:0!important;
+  }
+  .search-position{
+    width:100%!important;max-width:520px!important;
+    margin:34px auto 0!important;
+  }
+  .search-wrap{
+    width:100%!important;min-width:0!important;
+    height:56px!important;border-radius:18px!important;
+  }
+  .search-icon-box{width:46px!important;flex:0 0 46px!important}
+  .search-wrap input{
+    min-width:0!important;width:100%!important;
+    padding:0 7px!important;font-size:14px!important;
+    white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;
+  }
+  .search-btn{
+    min-width:74px!important;width:74px!important;flex:0 0 74px!important;
+    padding:0 9px!important;font-size:13px!important;
+  }
+  .suggestions{
+    top:62px!important;left:0!important;right:0!important;
+    max-height:280px!important;overflow:auto!important;
+  }
+
+  .brand-block{
+    position:static!important;width:100%!important;
+    margin:22px auto 0!important;padding:0 6px!important;
+    display:flex!important;align-items:center!important;justify-content:center!important;
+    gap:11px!important;
+  }
+  .hero-logo{width:68px!important;height:74px!important;border-radius:18px!important}
+  .tagline{font-size:14px!important;line-height:1.22!important;margin:0!important}
+  .about-btn{
+    min-width:106px!important;margin-top:8px!important;
+    padding:8px 10px 8px 13px!important;font-size:12px!important;
+  }
+  .about-btn b{width:22px!important;height:22px!important;font-size:12px!important}
+
+  .hero-photo.hero-visual{
+    width:100%!important;max-width:520px!important;
+    height:360px!important;min-height:360px!important;
+    margin:18px auto 10px!important;
+    padding:8px!important;border-radius:26px!important;
+    overflow:hidden!important;
+  }
+  .atelier-shell{width:100%!important;max-width:100%!important}
+  .atelier-topline,.atelier-bottomline{font-size:6.5px!important;letter-spacing:.12em!important}
+  .atelier-stage{
+    height:328px!important;margin-top:9px!important;border-radius:24px!important;
+  }
+  .atelier-room{
+    left:9%!important;right:8%!important;top:13%!important;bottom:12%!important;
+    transform:none!important;
+  }
+  .room-window{border-width:7px!important}
+  .room-desk i{height:58px!important}
+  .atelier-sun{width:190px!important;height:190px!important;right:-75px!important;top:34px!important}
+  .atelier-grid:before{width:78%!important;height:78%!important;box-shadow:0 0 0 22px rgba(208,183,127,.07),0 0 0 54px rgba(184,127,104,.055)!important}
+  .atelier-label{padding:7px 8px!important;border-radius:11px!important}
+  .atelier-label strong{font-size:14px!important}.atelier-label span{font-size:6.5px!important}
+  .atelier-label-a{left:4%!important;top:7%!important}.atelier-label-b{right:4%!important;bottom:8%!important}.atelier-label-c{right:5%!important;top:53%!important}
+  .atelier-vertical{left:6px!important;bottom:66px!important;font-size:6px!important}
+
+  .hero-roommate-spot{
+    top:53%!important;gap:8px!important;
+    max-width:calc(100% - 20px)!important;
+  }
+  .hero-roommate-kicker{font-size:6px!important;letter-spacing:.20em!important}
+  .roommate-profile-box{
+    width:128px!important;height:128px!important;padding:8px!important;border-radius:15px!important;
+  }
+  .roommate-profile-box:before{left:8px!important;right:8px!important;top:29px!important;bottom:24px!important;border-radius:11px!important}
+  .roommate-avatar-shell{width:96px!important;height:72px!important;border-radius:10px!important}
+  .roommate-profile-meta,.roommate-profile-foot{font-size:6px!important}
+  .roommate-profile-dot{width:6px!important;height:6px!important}
+  .hero-roommate-btn{
+    min-width:180px!important;width:auto!important;max-width:calc(100vw - 54px)!important;
+    padding:9px 9px 9px 8px!important;gap:7px!important;
+  }
+  .hero-roommate-copy{font-size:9.4px!important;white-space:nowrap!important}
+  .hero-roommate-ai{width:27px!important;height:27px!important;flex-basis:27px!important}
+  .hero-roommate-arrow{width:24px!important;height:24px!important;font-size:12px!important}
+
+  .home-ecosystem{padding:68px 16px!important}
+  .ecosystem-head{grid-template-columns:1fr!important;gap:16px!important}
+  .ecosystem-head h2{font-size:clamp(2.65rem,11vw,3.45rem)!important;line-height:.88!important}
+  .ecosystem-head p{font-size:14px!important;line-height:1.55!important}
+  .ecosystem-grid{grid-template-columns:1fr!important;gap:12px!important}
+  .ecosystem-card,.ecosystem-card-large{min-height:235px!important;padding:20px!important;border-radius:24px!important}
+  .ecosystem-card h3{font-size:clamp(1.45rem,7vw,2rem)!important;line-height:.96!important}
+  .ecosystem-card p{font-size:13px!important}
+  .ecosystem-footer{grid-template-columns:1fr!important;gap:8px!important;font-size:8px!important}
+  .ecosystem-footer span:nth-child(2),.ecosystem-footer span:last-child{text-align:left!important}
+
+  .view{padding:74px 14px 60px!important;min-height:100svh!important}
+  .topbar{gap:10px!important;margin-bottom:17px!important}
+  .topbar-right{width:100%!important;display:flex!important;flex-wrap:wrap!important}
+  .view-title{font-size:clamp(2.8rem,13vw,4rem)!important;line-height:.9!important;letter-spacing:-.075em!important;word-break:normal!important}
+  .filters{padding:11px!important;gap:8px!important;border-radius:18px!important}
+  .filter-label{font-size:11px!important}
+  .seg{width:100%!important;overflow-x:auto!important;scrollbar-width:none!important}
+  .seg::-webkit-scrollbar{display:none}
+  .seg button{flex:0 0 auto!important;padding:8px 11px!important;font-size:12px!important}
+  .sort-control{width:100%!important;margin-left:0!important;justify-content:space-between!important;gap:8px!important}
+  .sort-control select{max-width:64vw!important;padding:9px 30px 9px 12px!important;font-size:12px!important}
+  .listing-grid{grid-template-columns:1fr!important;gap:16px!important}
+  .card{border-radius:22px!important}
+  .card-image{height:auto!important;aspect-ratio:1.35/1!important;object-fit:cover!important}
+  .card-body{padding:16px!important}.card h3{font-size:24px!important}.address{font-size:14px!important}.chip{font-size:11px!important;padding:6px 9px!important}
+  .price{font-size:22px!important}.availability{font-size:11px!important}
+  .match-grid{grid-template-columns:1fr!important}
+  .form-shell{padding:18px!important;border-radius:24px!important}
+  .form-shell .field{min-width:0!important}.roommate-promise{padding:15px!important}.roommate-promise-main strong{font-size:20px!important}.roommate-promise-steps{grid-template-columns:1fr!important;gap:7px!important}
+  .roommate-next-grid{grid-template-columns:1fr!important}.roommate-confirmation{padding:18px!important}.roommate-confirmation h3{font-size:31px!important}
+  .footer{padding:65px 16px 28px!important}.footer-grid{grid-template-columns:1fr!important;gap:36px!important}
+}
+
+@media (max-width:390px){
+  #authButton{font-size:10.5px!important;padding:8px 10px!important}
+  .hero{padding-left:10px!important;padding-right:10px!important}
+  .hero-left{padding-left:4px!important;padding-right:4px!important}
+  .hero-left .title{font-size:clamp(2.72rem,14.4vw,3.85rem)!important}
+  .search-btn{min-width:68px!important;width:68px!important;flex-basis:68px!important}
+  .search-wrap input{font-size:13px!important}
+  .hero-logo{width:60px!important;height:66px!important}
+  .tagline{font-size:13px!important}
+  .hero-photo.hero-visual{height:338px!important;min-height:338px!important}
+  .atelier-stage{height:306px!important}
+  .roommate-profile-box{width:118px!important;height:118px!important}.roommate-avatar-shell{width:88px!important;height:66px!important}
+  .hero-roommate-btn{min-width:168px!important;max-width:calc(100vw - 44px)!important}.hero-roommate-copy{font-size:9px!important}
+  .view-title{font-size:clamp(2.6rem,13.5vw,3.6rem)!important}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .hero-photo.hero-visual,.ecosystem-card,.card,.room{scroll-behavior:auto!important}
+}
+</style>
+
 </head>
 
 <body>
