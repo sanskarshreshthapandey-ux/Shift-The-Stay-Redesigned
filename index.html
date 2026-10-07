@@ -2812,10 +2812,9 @@ img,svg,video{max-width:100%}
       <p>
         +91 7906984114 (Whatsapp/Call)
       </p>
-      
 
       <p>
-        shiftthestay@gmail.com
+        shiftthestay.com
       </p>
 
     </section>
@@ -2831,27 +2830,25 @@ img,svg,video{max-width:100%}
 
         <a
           href="#"
-          data-placeholder="Hostel listings link coming soon"
+          id="footerHostelLink"
         >
           HOSTEL
 
           <span class="coming-soon">
-            → listing link coming soon
+            → view all hostels
           </span>
-
         </a>
 
 
         <a
           href="#"
-          data-placeholder="Flat listings link coming soon"
+          id="footerFlatLink"
         >
           FLATS
 
           <span class="coming-soon">
-            → listing link coming soon
+            → view all flats
           </span>
-
         </a>
 
       </div>
@@ -4040,13 +4037,17 @@ function renderListingRows(rows){
     const availabilityText=booked?"Currently fully booked":availableBeds+" bed"+(availableBeds===1?"":"s")+" available";
     const bookedBanner=booked?`<div class="booked-banner">🔒 Currently Fully Booked</div>`:"";
     const startingPrice=Number(x.starting_price??0);
+    const distanceValue=Number(x.distance_km);
+    const distanceText=selectedUniversity && Number.isFinite(distanceValue)
+      ? distanceValue.toFixed(1) + " km"
+      : "Multiple campuses";
     const priceSection=`<div class="price-box"><div class="price-label">Starting from</div><div class="price">${startingPrice>0?`₹${startingPrice.toLocaleString("en-IN")}`:"Price unavailable"}${startingPrice>0?`<span>/ month</span>`:""}</div><div class="availability">${escapeHtml(availabilityText)}</div></div>`;
     return `<article class="${cardClass}" data-property="${escapeHtml(x.property_id)}">
       <img class="card-image" loading="lazy" decoding="async" src="${escapeHtml(x.image_url||"building.jpg")}" onerror="this.src='building.jpg'" alt="${escapeHtml(x.property_name)}">
       ${bookedBanner}
       <div class="card-body">
         <span class="badge">${escapeHtml(x.property_type)}</span>
-        <span class="distance">${Number(x.distance_km).toFixed(1)} km</span>
+        <span class="distance">${escapeHtml(distanceText)}</span>
         <h3>${escapeHtml(x.property_name)}</h3>
         <div class="address">${escapeHtml(x.address)}, ${escapeHtml(x.city)}</div>
         <div class="chips">${(x.amenities||[]).slice(0,6).map(a=>`<span class="chip">✓ ${escapeHtml(a)}</span>`).join("")}</div>
@@ -4118,13 +4119,18 @@ async function renderListings(){
   }
 
   try{
-    const d=await apiGet({
-      action:"listings",
-      universityId:selectedUniversity.university_id,
-      type:currentType,
-      gender:currentGender,
-      sort:currentSort
-    });
+    const listingParams = {
+      action: "listings",
+      type: currentType,
+      gender: currentGender,
+      sort: currentSort
+    };
+
+    if (selectedUniversity?.university_id) {
+      listingParams.universityId = selectedUniversity.university_id;
+    }
+
+    const d = await apiGet(listingParams);
 
     const rows=Array.isArray(d.listings)?d.listings:[];
     try{sessionStorage.setItem(cacheKey,JSON.stringify({savedAt:Date.now(),rows}));}catch(e){}
@@ -4232,11 +4238,71 @@ $("sortSelect")
    NAVIGATION
 ===================================================== */
 
-$("listingBack").onclick =
-  () =>
-    showView(
-      "homeView"
-    );
+$("listingBack").onclick = () => {
+  showView("homeView");
+};
+
+$("roommateBack").onclick =
+() =>
+  showView(
+    "homeView"
+  );
+
+
+// ===== FOOTER LISTING NAVIGATION =====
+
+function openFooterListings(type) {
+
+  currentType = type;
+  currentGender = "all";
+  currentSort = "price_asc";
+
+  // Remove university restriction
+  selectedUniversity = null;
+
+  if ($("universityInput")) {
+    $("universityInput").value = "";
+  }
+
+  if ($("selectedUniversity")) {
+    $("selectedUniversity").textContent = "All Universities";
+  }
+
+  // Reset type buttons
+  document
+    .querySelectorAll("#typeFilter button")
+    .forEach(btn => {
+      btn.classList.toggle(
+        "active",
+        btn.dataset.value === type
+      );
+    });
+
+  // Reset gender buttons
+  document
+    .querySelectorAll("#genderFilter button")
+    .forEach(btn => {
+      btn.classList.toggle(
+        "active",
+        btn.dataset.value === "all"
+      );
+    });
+
+  if ($("sortSelect")) {
+    $("sortSelect").value = "price_asc";
+  }
+
+  showView("listingView");
+
+  renderListings();
+}
+
+
+// ===== EXISTING BAG BUTTON =====
+
+$("listingBagBtn").onclick =
+  goBag;
+
 
 
 $("roommateBack").onclick =
@@ -4288,6 +4354,21 @@ $("aboutBtn").onclick =
     }
 
   };
+
+
+/* =====================================================
+   FOOTER ACCOMMODATION NAVIGATION
+===================================================== */
+
+$("footerHostelLink")?.addEventListener("click", e => {
+  e.preventDefault();
+  openFooterListings("Hostel");
+});
+
+$("footerFlatLink")?.addEventListener("click", e => {
+  e.preventDefault();
+  openFooterListings("Flat");
+});
 
 
 /* =====================================================
