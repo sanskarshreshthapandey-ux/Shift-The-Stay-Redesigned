@@ -315,6 +315,35 @@ async function apiGet(p){
   if(data&&data.success){try{sessionStorage.setItem(cacheKey,JSON.stringify({savedAt:Date.now(),data}))}catch(e){}}
   return data;
 }
+async function apiPost(params){
+  if(!apiReady()){
+    throw new Error(
+      "Put your Apps Script /exec URL in index.html."
+    );
+  }
+  const r =
+    await fetch(
+      API_URL,
+      {
+        method:"POST",
+        headers:{
+          "Content-Type":
+            "application/x-www-form-urlencoded;charset=UTF-8"
+        },
+        body:
+          new URLSearchParams(params)
+      }
+    );
+  if(!r.ok){
+    throw new Error(
+      "API request failed (" +
+      r.status +
+      ")"
+    );
+  }
+  return r.json();
+}
+
 function money(n){return "₹"+Number(n||0).toLocaleString("en-IN")}
 function fallbackImg(url){return url||"building.jpg"}
 function render(){
